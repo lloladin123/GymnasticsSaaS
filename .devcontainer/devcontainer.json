@@ -6,5 +6,13 @@
   "postCreateCommand": "npm install",
   "settings": {
     "terminal.integrated.defaultProfile.linux": "bash"
-  }
+  },
+  "containerEnv": {
+    "CHOKIDAR_USEPOLLING": "true",
+    "CHOKIDAR_INTERVAL": "100",  // optional: slower = fewer false reloads
+    "WATCHPACK_POLLING": "true"
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached"
+  ]
 }

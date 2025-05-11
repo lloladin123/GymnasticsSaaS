@@ -1,25 +1,21 @@
-FROM node:18-alpine
-
-# Add git and other useful tools
-RUN apk add --no-cache git
+# Use Debian-based Node image for working file watchers
+FROM node:18
 
 # Set working directory
 WORKDIR /app
 
-# Copy dependency definitions
-COPY package.json package-lock.json* ./
+# Install Git
+RUN apt-get update && apt-get install -y git
 
 # Install dependencies
+COPY package.json package-lock.json* ./
 RUN npm install
 
-# Copy all files
+# Copy source code
 COPY . .
 
-# Build Next.js app
-RUN npm run build
-
-# Expose the port
+# Expose port
 EXPOSE 3000
 
-# Start app
-CMD ["npm", "start"]
+# Start in dev mode (with hot reload)
+CMD ["npm", "run", "dev"]
