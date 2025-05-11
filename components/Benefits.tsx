@@ -54,7 +54,7 @@ const Benefits = () => {
           and comaraderie
         </p>
       </div>
-      <div className="w-full flex flex-row flex-wrap items-center space-y-8 justify-center">
+      <div className="w-full flex flex-row flex-wrap items-start gap-y-8 justify-center">
         {benefits.map((label, index) => (
           <div
             key={index}
@@ -66,8 +66,10 @@ const Benefits = () => {
           </div>
         ))}
       </div>
-      <div className="flex flex-row space-x-8">
-        <Link href="#">Join</Link>
+      <div className="flex flex-row items-center justify-center space-x-8">
+        <Link className="p-2 border-solid border-1" href="#">
+          Join
+        </Link>
         <Link href="#">Learn more &gt;</Link>
       </div>
     </section>
