@@ -4,6 +4,7 @@ import Logo from "@/components/Logo";
 import NavBar from "@/components/NavBar";
 import HeaderSideContent from "@/components/HeaderSideContent";
 import CtaJoin from "@/components/CtaJoin";
+import Benefits from "@/components/Benefits";
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
             Your browser does not support your video tag.
           </video>
         </div>
+        <Benefits></Benefits>
       </main>
     </>
   );
