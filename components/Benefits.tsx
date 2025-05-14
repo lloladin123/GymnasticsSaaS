@@ -1,14 +1,10 @@
 import Link from "next/link";
 import React, { JSX } from "react";
 import { GraduationCap, Users, Building2 } from "lucide-react";
+import ValuePoint from "./ValuePoint";
+import { IValuePoint } from "@/Interfaces/IValuePoint";
 
-interface benefitsProp {
-  icon: JSX.Element;
-  header: string;
-  description: string;
-}
-
-const benefits: benefitsProp[] = [
+const benefits: IValuePoint[] = [
   {
     icon: <GraduationCap className="" />,
     header: "Expert guidance from Professional Instructors",
@@ -56,14 +52,7 @@ const Benefits = () => {
       </div>
       <div className="w-full flex flex-row flex-wrap items-start gap-y-8 justify-center">
         {benefits.map((label, index) => (
-          <div
-            key={index}
-            className="w-1/3 flex flex-col justify-center items-center space-y-2 text-center"
-          >
-            <div className="w-10 h-10">{label.icon}</div>
-            <h2 className="text-2xl font-black">{label.header}</h2>
-            <p>{label.description}</p>
-          </div>
+          <ValuePoint key={index} data={label} />
         ))}
       </div>
       <div className="flex flex-row items-center justify-center space-x-8">
