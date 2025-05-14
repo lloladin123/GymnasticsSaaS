@@ -5,6 +5,7 @@ import CtaJoin from "@/components/CtaJoin";
 import Benefits from "@/components/Benefits";
 import Services from "@/components/Services";
 import CommunityHightligt from "@/components/CommunityHightligt";
+import Testimonial from "@/components/Testimonial";
 
 export default function Home() {
   return (
@@ -39,6 +40,7 @@ export default function Home() {
         <Benefits></Benefits>
         <Services></Services>
         <CommunityHightligt></CommunityHightligt>
+        <Testimonial></Testimonial>
       </main>
     </>
   );
