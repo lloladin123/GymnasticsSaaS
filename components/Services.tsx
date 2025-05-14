@@ -32,7 +32,7 @@ const Services = () => {
         <div className="flex flex-row justify-between w-full">
           <div className="flex w-4/12 flex-col space-y-4 ">
             <p>Empower</p>
-            <h2 className="text-3xl font-black">
+            <h2 className="text-4xl font-black">
               Explore our diverse range of Services
             </h2>
           </div>

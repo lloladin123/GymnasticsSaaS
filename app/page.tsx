@@ -1,11 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
 import Logo from "@/components/Logo";
 import NavBar from "@/components/NavBar";
 import HeaderSideContent from "@/components/HeaderSideContent";
 import CtaJoin from "@/components/CtaJoin";
 import Benefits from "@/components/Benefits";
 import Services from "@/components/Services";
+import CommunityHightligt from "@/components/CommunityHightligt";
 
 export default function Home() {
   return (
@@ -39,6 +38,7 @@ export default function Home() {
         </div>
         <Benefits></Benefits>
         <Services></Services>
+        <CommunityHightligt></CommunityHightligt>
       </main>
     </>
   );
