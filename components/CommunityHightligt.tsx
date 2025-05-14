@@ -1,11 +1,16 @@
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 const CommunityHightligt = () => {
   return (
     <section className="mt-20 flex flex-row space-x-8 justify-start items-start">
       <div className="w-6/12 h-128 flex justify-center items-center">
-        <div className="w-10/12 h-10/12 bg-red-900"></div>
+        <Image
+          src="/images/SpringHallen.PNG"
+          alt="CommunityHightlight Image"
+          className="w-10/12 h-10/12 bg-red-900"
+        ></Image>
       </div>
       <div className="flex flex-col space-y-6 w-6/12 justify-center items-start pt-12 pr-16">
         <p>Building Strength, Confidence, and Community</p>
