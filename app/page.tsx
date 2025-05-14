@@ -41,6 +41,7 @@ export default function Home() {
         <Services></Services>
         <CommunityHightligt></CommunityHightligt>
         <Testimonial></Testimonial>
+        <CtaJoin variants="card"></CtaJoin>
       </main>
     </>
   );
