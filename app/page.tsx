@@ -5,6 +5,7 @@ import NavBar from "@/components/NavBar";
 import HeaderSideContent from "@/components/HeaderSideContent";
 import CtaJoin from "@/components/CtaJoin";
 import Benefits from "@/components/Benefits";
+import Services from "@/components/Services";
 
 export default function Home() {
   return (
@@ -37,6 +38,7 @@ export default function Home() {
           </video>
         </div>
         <Benefits></Benefits>
+        <Services></Services>
       </main>
     </>
   );

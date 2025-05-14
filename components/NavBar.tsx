@@ -2,8 +2,8 @@ import Link from "next/link";
 import React from "react";
 
 interface navItemsProp {
-  link: string;
   href: string;
+  link: string;
 }
 
 const navItems: navItemsProp[] = [
