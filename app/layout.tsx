@@ -7,6 +7,7 @@ import NavBar from "@/components/NavBar";
 import HeaderSideContent from "@/components/HeaderSideContent";
 import "./Styles/components/buttons.scss";
 import "./Styles/components/forms.scss";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,9 +36,12 @@ export default function RootLayout({
       >
         <header className="flex flex-row h-20">
           <h1 className="sr-only">Your Brand</h1>
-          <div className="Logo w-20 h-full flex items-center justify-center">
+          <Link
+            href="/"
+            className="w-20 h-full flex items-center justify-center hover-scale-150 hover:opacity-80"
+          >
             <Logo></Logo>
-          </div>
+          </Link>
           <NavBar></NavBar>
           <HeaderSideContent></HeaderSideContent>
         </header>

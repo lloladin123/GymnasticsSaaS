@@ -7,8 +7,8 @@ interface navItemsProp {
 }
 
 const navItems: navItemsProp[] = [
-  { link: "Home Page", href: "#" },
-  { link: "About Us", href: "#" },
+  { link: "Home Page", href: "/" },
+  { link: "About Us", href: "aboutUs" },
   { link: "Instructor Info", href: "#" },
   { link: "More Links", href: "#" },
 ];
