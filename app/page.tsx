@@ -6,18 +6,11 @@ import Benefits from "@/components/Benefits";
 import Services from "@/components/Services";
 import CommunityHightligt from "@/components/CommunityHightligt";
 import Testimonial from "@/components/Testimonial";
+import ContactForm from "@/components/ContactForm";
 
 export default function Home() {
   return (
     <>
-      <header className="flex flex-row h-20">
-        <h1 className="sr-only">Your Brand</h1>
-        <div className="Logo w-20 h-full flex items-center justify-center">
-          <Logo></Logo>
-        </div>
-        <NavBar></NavBar>
-        <HeaderSideContent></HeaderSideContent>
-      </header>
       <main className="p-4">
         <CtaJoin variants="hero"></CtaJoin>
         <div className="w-full max-h-screen overflow-hidden">
@@ -42,6 +35,7 @@ export default function Home() {
         <CommunityHightligt></CommunityHightligt>
         <Testimonial></Testimonial>
         <CtaJoin variants="card"></CtaJoin>
+        <ContactForm></ContactForm>
       </main>
     </>
   );

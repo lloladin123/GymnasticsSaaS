@@ -1,6 +1,7 @@
 import { Image } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import BackgroundOverlay from "./Backgroundoverlay";
 
 interface CtaJoinProps {
   variants: "hero" | "card" | "footer";
@@ -35,27 +36,21 @@ const CtaJoin = ({ variants = "hero" }: CtaJoinProps) => {
       );
     case "card":
       return (
-        <section className="relative w-screen -mx-4 h-72 overflow-hidden">
-          <Image className="absolute w-48 h-48 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 opacity-20" />
-
-          <div className="absolute inset-0 bg-black opacity-70 z-20" />
-
-          <div className="relative z-30 p-4 flex flex-col space-y-2 text-white 4 p-16">
-            <h2 className="text-4xl">Join us</h2>
-            <p>
-              Experience the joy of movement with our classes designed for all
-              ages and skill levels.
-            </p>
-            <div className="mt-4 flex flex-row space-x-4">
-              <Link href="#" className="bg-white p-2 text-black">
-                Sign Up
-              </Link>
-              <Link href="#" className="border p-2">
-                Learn more
-              </Link>
-            </div>
+        <BackgroundOverlay backgroundIcon={<Image className="w-full h-full" />}>
+          <h2 className="text-4xl">Join us</h2>
+          <p>
+            Experience the joy of movement with our classes designed for all
+            ages and skill levels.
+          </p>
+          <div className="mt-4 flex flex-row space-x-4">
+            <Link href="#" className="bg-white p-2 text-black">
+              Sign Up
+            </Link>
+            <Link href="#" className="border p-2">
+              Learn more
+            </Link>
           </div>
-        </section>
+        </BackgroundOverlay>
       );
     case "footer":
       return <section>hi</section>;
