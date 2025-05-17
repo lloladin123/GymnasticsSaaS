@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import Discover from "./Discover";
 import OurTeam from "./OurTeam";
+import Trusted from "./Trusted";
 
 const aboutUs = () => {
   return (
@@ -29,6 +30,7 @@ const aboutUs = () => {
       </BackgroundOverlay>
       <Discover></Discover>
       <OurTeam></OurTeam>
+      <Trusted></Trusted>
     </>
   );
 };
