@@ -5,11 +5,9 @@ import Link from "next/link";
 const Logo = () => {
   return (
     <div>
-      <Link
-        href="#"
-        className="bg-red-900 hover:opacity-80 duration-300 ease-in-out"
-      >
+      <Link href="#">
         <Image
+          className="hover-scale-150 hover:opacity-80"
           src="/images/logo-placeholder-image.png"
           width={100}
           height={100}
