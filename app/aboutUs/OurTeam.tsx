@@ -14,61 +14,51 @@ const Teammembers: ITeamMember[] = [
     image: <Image />,
     name: "John Doe",
     title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
+    description: "With over 10 years of experience in gymnastics coaching.",
   },
   {
     image: <Image />,
-    name: "John Doe",
-    title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
+    name: "Jane Smith",
+    title: "Fitness Instructor",
+    description:
+      "Specializing in senior fitness and adaptive training programs.",
   },
   {
     image: <Image />,
-    name: "John Doe",
-    title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
+    name: "Mark Johnson",
+    title: "Cycling Coach",
+    description: "Expert in uni cycling with a passion for teaching.",
   },
   {
     image: <Image />,
-    name: "John Doe",
-    title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
+    name: "Emily Davis",
+    title: "Step Instructor",
+    description: "Bringing energy and enthusiasm to every step class.",
   },
   {
     image: <Image />,
-    name: "John Doe",
-    title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
+    name: "Michael Brown",
+    title: "Gymnastics Coach",
+    description: "Dedicated to nurturing young talent in gymnastics.",
   },
   {
     image: <Image />,
-    name: "John Doe",
-    title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
+    name: "Sarah Wilson",
+    title: "Wellness Coach",
+    description: "Focused on holistic health and wellness for all ages.",
   },
   {
     image: <Image />,
-    name: "John Doe",
-    title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
+    name: "Laura Taylor",
+    title: "Youth Instructor",
+    description: "Passionate about inspring the next generation of atheletes",
   },
   {
     image: <Image />,
-    name: "John Doe",
-    title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
-  },
-  {
-    image: <Image />,
-    name: "John Doe",
-    title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
-  },
-  {
-    image: <Image />,
-    name: "John Doe",
-    title: "Head Coach",
-    description: "With over 10 years of experience in gymnastics coaching",
+    name: "Chris Lee",
+    title: "Training Coordinator",
+    description:
+      "Ensuring our programs meet the highest standard of excellence",
   },
 ];
 
@@ -82,7 +72,7 @@ const OurTeam = () => {
       </div>
       <div className="flex flex-row flex-wrap gap-y-16">
         {Teammembers.map((label, index) => (
-          <div className="grid grid-rows w-1/4 place-items-center">
+          <div key={index} className="grid grid-rows w-1/4 place-items-center">
             <div className="grid grid-rows place-items-center gap-4 text-center">
               <div className="bg-gray-200 w-20 h-20  rounded-4xl flex items-center justify-center">
                 {label.image}
@@ -93,9 +83,9 @@ const OurTeam = () => {
               </div>
               <p>{label.description}</p>
               <div className="flex flex-row space-x-4">
-                <Linkedin></Linkedin>
-                <X></X>
-                <Instagram></Instagram>
+                <Linkedin className="hover-scale-150"></Linkedin>
+                <X className="hover-scale-150"></X>
+                <Instagram className="hover-scale-150"></Instagram>
               </div>
             </div>
           </div>
@@ -104,7 +94,7 @@ const OurTeam = () => {
       <div className="grid gap-y-4 place-items-center">
         <h2 className="text-3xl font-black">We're Hiring!</h2>
         <p>Join our dynamic team and make a difference</p>
-        <Link className="p-2 border-solid border-1" href="#">
+        <Link className="btn btn--ghost-black btn--positive" href="#">
           Open Positions
         </Link>
       </div>

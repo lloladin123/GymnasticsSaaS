@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #ededed;
+    --foreground: #0a0a0a;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.hover-scale-125 {
+  @apply transition-transform duration-300 ease-in-out hover:scale-125;
+}
+
+.hover-scale-150 {
+  @apply transition-transform duration-300 ease-in-out hover:scale-150;
+}
+
+
+/* styles/buttons.scss */
+
+.btn {
+  @apply px-4 py-2 rounded-md font-semibold transition-all duration-200;
+
+  &--positive {
+  @apply hover:!bg-green-400 hover:!text-white;
+  }
+
+  &--black {
+    @apply bg-black text-white;
+
+    &:hover {
+      @apply bg-neutral-800;
+    }
+  }
+
+  &--white {
+    @apply bg-white text-black p-2 border border-black;
+
+    &:hover {
+      @apply bg-gray-400;
+    }
+  }
+
+  &--ghost-white {
+    @apply bg-transparent text-white border border-white;
+
+    &:hover {
+      @apply bg-white text-black;
+    }
+  }
+
+  &--ghost-black {
+    @apply bg-transparent text-black border border-black;
+
+    &:hover {
+      @apply bg-black text-white border border-black;
+    }
+  }
+}
+
