@@ -52,55 +52,59 @@ export const socialLinks: ISocialLink[] = [
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col space-y-4 p-8">
-      <div className="border-solid border-1 flex flex-row space-x-16 p-8 mt-20">
-        <div className="flex flex-col w-5/12 space-y-2">
-          <div className="flex flex-row space-x-2 items-center justify-start">
+    <footer className="flex flex-col space-y-4 p-2 md:p-8">
+      <div className="border-solid border-1 flex flex-col md:flex-row space-x-16 p-0 md:p-8 mt-20">
+        <div className="flex flex-col w-full md:w-5/12 space-y-2">
+          <div className="flex flex-col md:flex-row space-x-2 items-center justify-start">
             <div className="w-20 h-20">
               <Logo />
             </div>
             <p>Brand name</p>
           </div>
-          <p>
+          <p className="flex text-center">
             Join a team to stay informed about our latest activities and events.
           </p>
-          <div className="flex flex-row space-x-2">
+          <div className="flex flex-col md:flex-row p-2 md:p-0 space-x-2">
             <input
-              className="form-control p-2 w-80"
+              className="form-control p-2 w-full md:w-80"
               placeholder="Your name here"
             />
             <Link href="#" className="btn btn--ghost-black btn--positive">
               Join
             </Link>
           </div>
-          <p>
+          <p className="flex text-center md:text-right">
             By joining you agree to our Privacy Policy and consent to receive
             updates.
           </p>
         </div>
 
-        <div className="flex flex-row space-x-32">
+        <div className="flex flex-wrap md:flex-nowrap flex-row items-center justify-between md:items-start md:justify-start px-8 md:px-0 md:space-x-32">
           <FooterColumn title="Quick Links" links={quickLinks} />
           <FooterColumn title="Connect With Us" links={connectLinks} />
-          <div className="flex flex-col space-y-2">
-            <h2>Stay Updated</h2>
-            {socialLinks.map(({ href, icon: Icon, label }) => (
-              <Link
-                key={label}
-                href={href}
-                className="flex flex-row space-x-2 items-center group"
-              >
-                <Icon className="duration-300 group-hover:scale-125" />
-                <span>{label}</span>
-              </Link>
-            ))}
+          <div className="flex flex-col justify-center items-center">
+            <h2 className="font-black">Stay Updated</h2>
+            <div className="md:mt-4 items-center justify-center flex flex-wrap md:flex-nowrap flex-row md:flex-col space-x-4 md:space-y-2">
+              {socialLinks.map(({ href, icon: Icon, label }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  className="flex flex-row space-x-2 md:items-center group"
+                >
+                  <Icon className="duration-300 group-hover:scale-125" />
+                  <span>{label}</span>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-row justify-between">
-        <p>&copy; 2025 Org name. All rights reserved</p>
-        <div className="flex flex-row space-x-4">
+      <div className="flex flex-col  md:flex-row justify-between">
+        <span className="order-2 md:order-1">
+          &copy; 2025 Org name. All rights reserved
+        </span>
+        <div className="flex flex-row space-x-2 md:space-x-4">
           <Link href="#">Privacy Policy</Link>
           <Link href="#">Terms of Service</Link>
           <Link href="#">Cookie Settings</Link>
@@ -117,9 +121,9 @@ const FooterColumn = ({
   title: string;
   links: IFooterLink[];
 }) => (
-  <div className="flex flex-col space-y-2">
-    <h2>{title}</h2>
-    <ul className="flex flex-col space-y-4">
+  <div className="flex flex-col space-y-0 md:space-y-2">
+    <h2 className="font-black">{title}</h2>
+    <ul className="flex flex-col spacce-y-2 md:space-y-4">
       {links.map(({ label, href }) => (
         <li key={label}>
           <Link href={href}>{label}</Link>

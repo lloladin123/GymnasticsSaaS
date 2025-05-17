@@ -38,10 +38,10 @@ const benefits: IValuePoint[] = [
 
 const Benefits = () => {
   return (
-    <section className="mt-4 flex flex-col space-y-16 justify-center items-center">
-      <div className="flex flex-col space-y-2 items-center justify-center w-7/12 text-center">
+    <section className="mt-4 flex flex-col space-y-2 md:space-y-16 justify-center items-center">
+      <div className="flex flex-col space-y-2 items-center justify-center w-full md:w-7/12 text-center">
         <p>Welcome</p>
-        <h2 className="text-4xl font-black">
+        <h2 className="text-2xl md:text-4xl font-black">
           Discover the benefits of joining Us
         </h2>
         <p>
@@ -50,7 +50,7 @@ const Benefits = () => {
           and comaraderie
         </p>
       </div>
-      <div className="w-full flex flex-row flex-wrap items-start gap-y-8 justify-center">
+      <div className="w-full flex flex-row flex-wrap items-start gap-y-2 md:gap-y-8 justify-center">
         {benefits.map((label, index) => (
           <ValuePoint key={index} data={label} />
         ))}

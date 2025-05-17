@@ -10,7 +10,7 @@ const ValuePoint = ({ data, align = "center" }: ValuePointProps) => {
   const isLeft = align === "left";
   return (
     <div
-      className={`w-1/3 flex flex-col justify-center  space-y-2 ${
+      className={`w-full md:w-1/3 flex flex-col justify-center space-y-2 ${
         isLeft ? "items-start text-left" : "items-center text-center"
       }`}
     >
