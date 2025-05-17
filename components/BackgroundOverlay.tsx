@@ -21,7 +21,7 @@ const BackgroundOverlay: React.FC<BackgroundOverlayProps> = ({
 
       <div className="absolute inset-0 bg-black opacity-70 z-20" />
 
-      <div className="relative z-30 h-full p-4 flex justify-center flex-col space-y-2 text-white 4 p-16">
+      <div className="relative z-30 h-full p-4 flex justify-center flex-col space-y-2 text-white 4 md:p-16">
         {children}
       </div>
     </section>

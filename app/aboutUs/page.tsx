@@ -15,7 +15,9 @@ const aboutUs = () => {
         backgroundIcon={<Image className="w-full h-full" />}
       >
         <span>Dedicated to Strength, Grace & Community</span>
-        <h1 className="font-black text-4xl">Empowering Movement Together</h1>
+        <h1 className="font-black text-3xl md:text-4xl">
+          Empowering Movement Together
+        </h1>
         <p>
           Our mission is to inspire and nuture a love for gymnastic and diverse
           physical activies
