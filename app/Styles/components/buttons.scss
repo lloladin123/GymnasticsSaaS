@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+.btn {
+  @apply px-4 py-2 rounded-md font-semibold transition-all duration-200;
+
+  &--hover-underline {
+      @apply relative inline-flex items-center font-semibold transition-all duration-500;
+
+      &::before {
+        content: "";
+        @apply absolute bottom-0 left-0 w-0 h-[1px] bg-current transition-all duration-500;
+      }
+
+      &:hover::before {
+        @apply w-full;
+      }
+    }
+
+    &--arrow {
+    @apply inline-flex items-center gap-1 font-semibold transition-all duration-500 relative;
+
+    &::after {
+      content: ">";
+      @apply text-inherit transition-transform duration-500 ease-in-out;
+    }
+
+    &:hover::after {
+      @apply translate-x-1;
+    }
+    
+
+    &:not(.btn--positive)::before {
+      content: "";
+      @apply absolute bottom-0 left-0 w-0 h-[1px] bg-current transition-all duration-500;
+    }
+
+    &:hover::before {
+      @apply w-full;
+    }
+  }
+
+  &--positive {
+  @apply hover:!bg-green-400 hover:!text-white;
+  }
+
+  &--black {
+    @apply bg-black text-white;
+
+    &:hover {
+      @apply bg-neutral-800;
+    }
+  }
+
+  &--white {
+    @apply bg-white text-black p-2 border border-black;
+
+    &:hover {
+      @apply bg-gray-400;
+    }
+  }
+
+  &--ghost-white {
+    @apply bg-transparent text-white border border-white;
+
+    &:hover {
+      @apply bg-white text-black;
+    }
+  }
+
+  &--ghost-black {
+    @apply bg-transparent text-black border border-black;
+
+    &:hover {
+      @apply bg-black text-white border border-black;
+    }
+  }
+}
