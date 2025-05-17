@@ -13,9 +13,9 @@ const CtaJoin = ({ variants = "hero", height }: CtaJoinProps) => {
     case "hero":
       return (
         <section className="flex flex-row">
-          <h1 className="text-4xl font-black w-5/12 p-10">
+          <h2 className="text-4xl font-black w-5/12 p-10">
             Join Our Thriving Gymnastics Community Today!
-          </h1>
+          </h2>
           <div className="flex flex-col space-y-4 w-7/12 p-10">
             <p>
               At our gymnastics assciation, we offer a diverse range of activies
@@ -24,13 +24,12 @@ const CtaJoin = ({ variants = "hero", height }: CtaJoinProps) => {
               something for everyone.
             </p>
             <div className="flex flex-row space-x-4 items-center">
-              <Link
-                className="bg-gray-900 p-2 text-white hover:bg-gray-700 duration-300 ease-in-out"
-                href="#"
-              >
+              <Link className="btn btn--black btn--positive" href="#">
                 Join
               </Link>
-              <Link href="#">Learn more</Link>
+              <Link className="btn btn--ghost-black" href="#">
+                Learn more
+              </Link>
             </div>
           </div>
         </section>

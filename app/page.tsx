@@ -12,6 +12,7 @@ export default function Home() {
   return (
     <>
       <main className="p-4">
+        <h1 className="sr-only">Welcome to Gymnastic brand name</h1>
         <CtaJoin variants="hero"></CtaJoin>
         <div className="w-full max-h-screen overflow-hidden">
           <video
