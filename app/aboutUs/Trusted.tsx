@@ -24,7 +24,7 @@ const TrustedIcons: ITrustedIcon[] = [
 
 const Trusted = () => {
   return (
-    <section className="mt-20 grid gap-y-4 place-items-center">
+    <section className="my-20 grid gap-y-4 place-items-center">
       <span className="font-black">
         Trusted by top brands and organizations worldwide
       </span>

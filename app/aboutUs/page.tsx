@@ -5,6 +5,7 @@ import React from "react";
 import Discover from "./Discover";
 import OurTeam from "./OurTeam";
 import Trusted from "./Trusted";
+import CtaJoin from "@/components/CtaJoin";
 
 const aboutUs = () => {
   return (
@@ -31,6 +32,7 @@ const aboutUs = () => {
       <Discover></Discover>
       <OurTeam></OurTeam>
       <Trusted></Trusted>
+      <CtaJoin height="92" variants="card"></CtaJoin>
     </>
   );
 };
