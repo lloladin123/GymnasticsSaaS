@@ -1,13 +1,14 @@
 import { Image } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import BackgroundOverlay from "./Backgroundoverlay";
+import BackgroundOverlay from "./BackgroundOverlay";
 
 interface CtaJoinProps {
   variants: "hero" | "card" | "footer";
+  height?: string;
 }
 
-const CtaJoin = ({ variants = "hero" }: CtaJoinProps) => {
+const CtaJoin = ({ variants = "hero", height }: CtaJoinProps) => {
   switch (variants) {
     case "hero":
       return (
@@ -36,7 +37,10 @@ const CtaJoin = ({ variants = "hero" }: CtaJoinProps) => {
       );
     case "card":
       return (
-        <BackgroundOverlay backgroundIcon={<Image className="w-full h-full" />}>
+        <BackgroundOverlay
+          height={height}
+          backgroundIcon={<Image className="w-full h-full" />}
+        >
           <h2 className="text-4xl">Join us</h2>
           <p>
             Experience the joy of movement with our classes designed for all
