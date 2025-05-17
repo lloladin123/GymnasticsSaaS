@@ -15,11 +15,6 @@ export interface IFooterLink {
   href: string;
 }
 
-export interface IFooterSection {
-  title: string;
-  links: IFooterLink[];
-}
-
 export interface ISocialLink {
   label: string;
   href: string;

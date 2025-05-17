@@ -1,6 +1,3 @@
-import Logo from "@/components/Logo";
-import NavBar from "@/components/NavBar";
-import HeaderSideContent from "@/components/HeaderSideContent";
 import CtaJoin from "@/components/CtaJoin";
 import Benefits from "@/components/Benefits";
 import Services from "@/components/Services";
