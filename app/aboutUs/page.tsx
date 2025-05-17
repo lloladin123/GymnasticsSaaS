@@ -21,10 +21,10 @@ const aboutUs = () => {
           physical activies
         </p>
         <div className="flex flex-row space-x-2">
-          <Link className="bg-white p-2 text-black" href="#">
+          <Link className="btn btn--white btn--positive" href="#">
             Join
           </Link>
-          <Link className="border-solid border-1 border-white p-2" href="#">
+          <Link className="btn btn--ghost-white" href="#">
             Explore
           </Link>
         </div>

@@ -83,9 +83,9 @@ const OurTeam = () => {
               </div>
               <p>{label.description}</p>
               <div className="flex flex-row space-x-4">
-                <Linkedin></Linkedin>
-                <X></X>
-                <Instagram></Instagram>
+                <Linkedin className="icon--hover-scale"></Linkedin>
+                <X className="icon--hover-scale"></X>
+                <Instagram className="icon--hover-scale"></Instagram>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@ const OurTeam = () => {
       <div className="grid gap-y-4 place-items-center">
         <h2 className="text-3xl font-black">We're Hiring!</h2>
         <p>Join our dynamic team and make a difference</p>
-        <Link className="p-2 border-solid border-1" href="#">
+        <Link className="btn btn--ghost-black btn--positive" href="#">
           Open Positions
         </Link>
       </div>

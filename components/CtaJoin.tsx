@@ -47,10 +47,10 @@ const CtaJoin = ({ variants = "hero", height }: CtaJoinProps) => {
             ages and skill levels.
           </p>
           <div className="mt-4 flex flex-row space-x-4">
-            <Link href="#" className="bg-white p-2 text-black">
+            <Link href="#" className="btn btn--white btn--positive">
               Sign Up
             </Link>
-            <Link href="#" className="border p-2">
+            <Link href="#" className="btn btn--ghost-white">
               Learn more
             </Link>
           </div>
