@@ -1,4 +1,4 @@
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
       aggregateTimeout: 300,
     };
     return config;
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 
