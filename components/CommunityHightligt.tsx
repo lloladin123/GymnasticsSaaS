@@ -4,18 +4,19 @@ import Image from "next/image";
 
 const CommunityHightligt = () => {
   return (
-    <section className="mt-20 flex flex-row space-x-8 justify-start items-start">
-      <div className="relative w-6/12 h-128 flex justify-center items-center">
+    <section className="mt-10 md:mt-20 flex flex-col md:flex-row space-y-2 md:space-x-8 justify-start items-start">
+      <div className="relative w-full md:w-6/12 h-64 md:h-128 bg-gray-100">
         <Image
           fill
           src="/images/SpringHallen.PNG"
           alt="CommunityHightlight Image"
           className="object-contain"
-        ></Image>
+        />
       </div>
-      <div className="flex flex-col space-y-6 w-6/12 justify-center items-start pt-12 pr-16">
+
+      <div className="flex flex-col space-y-2 md:space-y-6 w-full md:w-6/12 justify-center items-start pt-0 md:pt-12 pr-0 md:pr-16">
         <p>Building Strength, Confidence, and Community</p>
-        <h2 className="text-4xl font-black">
+        <h2 className="text-2xl md:text-4xl font-black">
           Join a Thriving Gymnastics Community
         </h2>
         <p>
@@ -24,7 +25,7 @@ const CommunityHightligt = () => {
           the talent, growth, and achievements of our members — making every
           moment count.
         </p>
-        <div className="flex flex-row justify-center items-center">
+        <div className="flex flex-row justify-center items-start">
           <div className="flex flex-col space-y-4">
             <h3 className="text-3xl font-black">3000</h3>
             <p>Active members engaged in diverse activities</p>

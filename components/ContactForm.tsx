@@ -35,8 +35,8 @@ const columnedOptions = Array.from({ length: columns }, (_, i) =>
 
 const ContactForm = () => {
   return (
-    <section className="flex flex-col space-y-8 justify-center items-center mt-20">
-      <div className="flex flex-col space-y-2 text-center px-80">
+    <section className="flex flex-col space-y-8 justify-center items-center mt-10 md:mt-20">
+      <div className="flex flex-col space-y-2 text-center px-0 md:px-80">
         <p>We're here to help. Let’s connect.</p>
         <h2 className="text-4xl font-black">Get in touch with our team</h2>
         <p>
@@ -44,9 +44,9 @@ const ContactForm = () => {
           want to say hello — we’d love to hear from you.
         </p>
       </div>
-      <form className="flex flex-col space-y-2 w-full px-64 items-center justify-center">
+      <form className="flex flex-col space-y-2 w-full px-0 md:px-64 items-center justify-center">
         <div className="w-full flex flex-col space-y-2">
-          <div className="w-full flex flex-row space-x-2">
+          <div className="w-full flex flex-col md:flex-row space-x-2">
             <div className="flex flex-col space-y-2 w-full">
               <label>First name</label>
               <input className="form-control"></input>
@@ -56,7 +56,7 @@ const ContactForm = () => {
               <input className="form-control"></input>
             </div>
           </div>
-          <div className="flex flex-row space-x-2">
+          <div className="flex flex-col md:flex-row space-x-2">
             <div className="flex flex-col space-y-2 w-full">
               <label>Email</label>
               <input className="form-control"></input>
@@ -85,17 +85,17 @@ const ContactForm = () => {
             </select>
           </div>
         </div>
-        <div className="w-full flex flex-col space-y-8">
+        <div className="w-full flex flex-col space-y-2 md:space-y-8">
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Which best describes you
             </label>
 
-            <div className="w-full flex justify-between w-full gap-x-6">
+            <div className="w-full flex flex-col md:flex-row justify-between w-full gap-x-6">
               {columnedOptions.map((column, colIndex) => (
                 <div
                   key={colIndex}
-                  className="w-full flex flex-col gap-y-4 w-1/3"
+                  className="w-full flex flex-col gap-0 md:gap-y-4"
                 >
                   {column.map((label, i) => (
                     <label

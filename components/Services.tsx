@@ -28,15 +28,15 @@ const services: IValuePoint[] = [
 const Services = () => {
   return (
     <>
-      <section className="mt-20 flex flex-col space-y-16 items-start justify-center">
-        <div className="flex flex-row justify-between w-full">
-          <div className="flex w-4/12 flex-col space-y-4 ">
+      <section className="mt-10 md:mt-20 flex flex-col space-y-2 md:space-y-16 items-start justify-center">
+        <div className="flex flex-col md:flex-row justify-between w-full">
+          <div className="flex w-full md:w-4/12 flex-col space-y-4 ">
             <p>Empower</p>
             <h2 className="text-4xl font-black">
               Explore our diverse range of Services
             </h2>
           </div>
-          <p className="w-5/12 ml auto">
+          <p className="w-full md:w-5/12 ml auto">
             From beginner classes to elite training, we offer gymnastics
             programs for all skill levels and age groups. Whether you're looking
             to build strength, flexibility, confidence, or competitive edge —
@@ -44,7 +44,7 @@ const Services = () => {
             thrive.
           </p>
         </div>
-        <div className="flex flex-row space-x-4">
+        <div className="flex flex-col md:flex-row space-y-2 md:space-x-4">
           {services.map((label, index) => (
             <ValuePoint key={index} align="left" data={label}></ValuePoint>
           ))}

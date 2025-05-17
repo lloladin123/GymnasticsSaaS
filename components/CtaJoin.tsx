@@ -12,11 +12,11 @@ const CtaJoin = ({ variants = "hero", height }: CtaJoinProps) => {
   switch (variants) {
     case "hero":
       return (
-        <section className="flex flex-row">
-          <h2 className="text-4xl font-black w-5/12 p-10">
+        <section className="flex flex-col md:flex-row space-y-2 md:space-y-10">
+          <h2 className="text-2xl md:text-4xl font-black w-full md:w-5/12 px-10">
             Join Our Thriving Gymnastics Community Today!
           </h2>
-          <div className="flex flex-col space-y-4 w-7/12 p-10">
+          <div className="flex flex-col space-y-4 w-full md:w-7/12 px-10">
             <p>
               At our gymnastics assciation, we offer a diverse range of activies
               for all ages and skill levels. Whether you're looking to improve

@@ -14,7 +14,7 @@ export default function Home() {
       <main className="p-4">
         <h1 className="sr-only">Welcome to Gymnastic brand name</h1>
         <CtaJoin variants="hero"></CtaJoin>
-        <div className="w-full max-h-screen overflow-hidden">
+        <div className="w-full mt-10 md:mt-0 max-h-screen overflow-hidden">
           <video
             width="100%"
             height="auto"

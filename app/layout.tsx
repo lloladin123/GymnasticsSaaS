@@ -42,8 +42,14 @@ export default function RootLayout({
           >
             <Logo></Logo>
           </Link>
-          <NavBar></NavBar>
-          <HeaderSideContent></HeaderSideContent>
+          <div className="flex flex-1 items-center h-full">
+            <div className="h-full w-full">
+              <NavBar></NavBar>
+            </div>
+            <div className="order-1 hidden md:block">
+              <HeaderSideContent></HeaderSideContent>
+            </div>
+          </div>
         </header>
         {children}
         <Footer></Footer>
