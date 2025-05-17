@@ -53,7 +53,7 @@ export const socialLinks: ISocialLink[] = [
 const Footer = () => {
   return (
     <footer className="flex flex-col space-y-4 p-2 md:p-8">
-      <div className="border-solid border-1 flex flex-col md:flex-row space-x-16 p-0 md:p-8 mt-20">
+      <div className="border-solid border-1 flex flex-col md:flex-row space-x-16 p-0 md:p-8 mt-0 md:mt-20">
         <div className="flex flex-col w-full md:w-5/12 space-y-2">
           <div className="flex flex-col md:flex-row space-x-2 items-center justify-start">
             <div className="w-20 h-20">
