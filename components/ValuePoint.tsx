@@ -1,5 +1,4 @@
 import { IValuePoint } from "@/Interfaces/IValuePoint";
-import React, { JSX } from "react";
 
 interface ValuePointProps {
   data: IValuePoint;

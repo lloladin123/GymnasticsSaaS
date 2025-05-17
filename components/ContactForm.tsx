@@ -37,7 +37,7 @@ const ContactForm = () => {
   return (
     <section className="flex flex-col space-y-8 justify-center items-center mt-10 md:mt-20">
       <div className="flex flex-col space-y-2 text-center px-0 md:px-80">
-        <p>We're here to help. Let’s connect.</p>
+        <p>We&apos;re here to help. Let’s connect.</p>
         <h2 className="text-4xl font-black">Get in touch with our team</h2>
         <p>
           Whether you have a question, need help choosing a program, or just

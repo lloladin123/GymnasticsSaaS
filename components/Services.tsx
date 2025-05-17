@@ -38,10 +38,10 @@ const Services = () => {
           </div>
           <p className="w-full md:w-5/12 ml auto">
             From beginner classes to elite training, we offer gymnastics
-            programs for all skill levels and age groups. Whether you're looking
-            to build strength, flexibility, confidence, or competitive edge —
-            our expert coaches and supportive community are here to help you
-            thrive.
+            programs for all skill levels and age groups. Whether you&apos;re
+            looking to build strength, flexibility, confidence, or competitive
+            edge — our expert coaches and supportive community are here to help
+            you thrive.
           </p>
         </div>
         <div className="flex flex-col md:flex-row space-y-2 md:space-x-4">

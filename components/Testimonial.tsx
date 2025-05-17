@@ -1,4 +1,4 @@
-import { Image, ImageDown, Star, User2 } from "lucide-react";
+import { Image as ImageIcon, Star, User2 } from "lucide-react";
 import React from "react";
 
 const Testimonial = () => {
@@ -12,13 +12,13 @@ const Testimonial = () => {
         <Star className="w-8 h-8"></Star>
       </div>
       <p className="font-black text-center">
-        "Joining this gym ahs been life-changing for me. The support and
-        encouragement are unmatched"!!!!
+        &quot;Joining this gym ahs been life-changing for me. The support and
+        encouragement are unmatched&quot;!!!!
       </p>
       <div className="flex flex-row space-x-2 justify-center items-center">
         <div className="flex flex-row space-x-2 justify-center items-center">
           <div className="w-16 h-16 flex justify-center items-center bg-gray-300 rounded-4xl">
-            <Image className="w-8 h-8"></Image>
+            <ImageIcon className="w-8 h-8"></ImageIcon>
           </div>
           <div className="flex flex-col space-y-1 ">
             <p>Emily Johnson</p>

@@ -1,4 +1,4 @@
-import { Image } from "lucide-react";
+import { Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import BackgroundOverlay from "./BackgroundOverlay";
@@ -19,9 +19,9 @@ const CtaJoin = ({ variants = "hero", height }: CtaJoinProps) => {
           <div className="flex flex-col space-y-4 w-full md:w-7/12 px-10">
             <p>
               At our gymnastics assciation, we offer a diverse range of activies
-              for all ages and skill levels. Whether you're looking to improve
-              your gymnastics skills or explore new fitness avenues, we have
-              something for everyone.
+              for all ages and skill levels. Whether you&apos;re looking to
+              improve your gymnastics skills or explore new fitness avenues, we
+              have something for everyone.
             </p>
             <div className="flex flex-row space-x-4 items-center">
               <Link className="btn btn--black btn--positive" href="#">
@@ -38,7 +38,7 @@ const CtaJoin = ({ variants = "hero", height }: CtaJoinProps) => {
       return (
         <BackgroundOverlay
           height={height}
-          backgroundIcon={<Image className="w-full h-full" />}
+          backgroundIcon={<ImageIcon className="w-full h-full" />}
         >
           <h2 className="text-4xl">Join us</h2>
           <p>

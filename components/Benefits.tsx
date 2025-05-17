@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React, { JSX } from "react";
 import { GraduationCap, Users, Building2 } from "lucide-react";
 import ValuePoint from "./ValuePoint";
 import { IValuePoint } from "@/Interfaces/IValuePoint";

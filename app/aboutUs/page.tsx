@@ -1,5 +1,5 @@
 import BackgroundOverlay from "@/components/BackgroundOverlay";
-import { Image } from "lucide-react";
+import { Image as ImageIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import Discover from "./Discover";
@@ -12,7 +12,7 @@ const aboutUs = () => {
     <>
       <BackgroundOverlay
         height="92"
-        backgroundIcon={<Image className="w-full h-full" />}
+        backgroundIcon={<ImageIcon className="w-full h-full" />}
       >
         <span>Dedicated to Strength, Grace & Community</span>
         <h1 className="font-black text-3xl md:text-4xl">
