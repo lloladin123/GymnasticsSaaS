@@ -1,7 +1,54 @@
-import { Facebook, Instagram, Linkedin, X, Youtube } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  LucideIcon,
+  X,
+  Youtube,
+} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import Logo from "./Logo";
+
+export interface IFooterLink {
+  label: string;
+  href: string;
+}
+
+export interface IFooterSection {
+  title: string;
+  links: IFooterLink[];
+}
+
+export interface ISocialLink {
+  label: string;
+  href: string;
+  icon: LucideIcon;
+}
+
+export const quickLinks: IFooterLink[] = [
+  { label: "Join us", href: "#" },
+  { label: "Our Classes", href: "#" },
+  { label: "Shop Now", href: "#" },
+  { label: "Gallery View", href: "#" },
+  { label: "Holiday Fun", href: "#" },
+];
+
+export const connectLinks: IFooterLink[] = [
+  { label: "Events Page", href: "#" },
+  { label: "Instructor Info", href: "#" },
+  { label: "Member Portal", href: "#" },
+  { label: "Contact Us", href: "#" },
+  { label: "Feedback Form", href: "#" },
+];
+
+export const socialLinks: ISocialLink[] = [
+  { label: "Facebook", href: "#", icon: Facebook },
+  { label: "Instagram", href: "#", icon: Instagram },
+  { label: "X", href: "#", icon: X },
+  { label: "Linkedin", href: "#", icon: Linkedin },
+  { label: "Youtube", href: "#", icon: Youtube },
+];
 
 const Footer = () => {
   return (
@@ -33,90 +80,20 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-row space-x-32">
-          <div className="flex flex-col space-y-2">
-            <h2>Quick Links</h2>
-            <ul className="flex flex-col space-y-4">
-              <li>
-                <Link href="#">Join us</Link>
-              </li>
-              <li>
-                <Link href="#">Our Classes</Link>
-              </li>
-              <li>
-                <Link href="#">Shop Now</Link>
-              </li>
-              <li>
-                <Link href="#">Gallery View</Link>
-              </li>
-              <li>
-                <Link href="#">Holiday Fun</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <h2>Connect With Us</h2>
-            <ul className="flex flex-col space-y-4">
-              <li>
-                <Link href="#">Events Page</Link>
-              </li>
-              <li>
-                <Link href="#">Instructor Info</Link>
-              </li>
-              <li>
-                <Link href="#">Member Portal</Link>
-              </li>
-              <li>
-                <Link href="#">Contact Us</Link>
-              </li>
-              <li>
-                <Link href="#">Feedback Form</Link>
-              </li>
-            </ul>
-          </div>
-
+          <FooterColumn title="Quick Links" links={quickLinks} />
+          <FooterColumn title="Connect With Us" links={connectLinks} />
           <div className="flex flex-col space-y-2">
             <h2>Stay Updated</h2>
-
-            <Link
-              href="#"
-              className="flex flex-row space-x-2 items-center group"
-            >
-              <Facebook className="duration-300 group-hover:scale-125" />
-              <span>Facebook</span>
-            </Link>
-
-            <Link
-              href="#"
-              className="flex flex-row space-x-2 items-center group"
-            >
-              <Instagram className="duration-300 group-hover:scale-125" />
-              <span>Instagram</span>
-            </Link>
-
-            <Link
-              href="#"
-              className="flex flex-row space-x-2 items-center group"
-            >
-              <X className="duration-300 group-hover:scale-125" />
-              <span>X</span>
-            </Link>
-
-            <Link
-              href="#"
-              className="flex flex-row space-x-2 items-center group"
-            >
-              <Linkedin className="duration-300 group-hover:scale-125" />
-              <span>Linkedin</span>
-            </Link>
-
-            <Link
-              href="#"
-              className="flex flex-row space-x-2 items-center group"
-            >
-              <Youtube className="duration-300 group-hover:scale-125" />
-              <span>Youtube</span>
-            </Link>
+            {socialLinks.map(({ href, icon: Icon, label }) => (
+              <Link
+                key={label}
+                href={href}
+                className="flex flex-row space-x-2 items-center group"
+              >
+                <Icon className="duration-300 group-hover:scale-125" />
+                <span>{label}</span>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
@@ -132,5 +109,24 @@ const Footer = () => {
     </footer>
   );
 };
+
+const FooterColumn = ({
+  title,
+  links,
+}: {
+  title: string;
+  links: IFooterLink[];
+}) => (
+  <div className="flex flex-col space-y-2">
+    <h2>{title}</h2>
+    <ul className="flex flex-col space-y-4">
+      {links.map(({ label, href }) => (
+        <li key={label}>
+          <Link href={href}>{label}</Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 export default Footer;
