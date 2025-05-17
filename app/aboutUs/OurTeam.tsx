@@ -83,9 +83,9 @@ const OurTeam = () => {
               </div>
               <p>{label.description}</p>
               <div className="flex flex-row space-x-4">
-                <Linkedin className="hover-scale"></Linkedin>
-                <X className="hover-scale"></X>
-                <Instagram className="hover-scale"></Instagram>
+                <Linkedin className="hover-scale-150"></Linkedin>
+                <X className="hover-scale-150"></X>
+                <Instagram className="hover-scale-150"></Instagram>
               </div>
             </div>
           </div>
