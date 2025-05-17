@@ -9,7 +9,7 @@
   },
   "containerEnv": {
     "CHOKIDAR_USEPOLLING": "true",
-    "CHOKIDAR_INTERVAL": "100",  // optional: slower = fewer false reloads
+    "CHOKIDAR_INTERVAL": "300",
     "WATCHPACK_POLLING": "true"
   },
   "mounts": [

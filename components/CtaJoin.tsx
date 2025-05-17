@@ -1,0 +1,60 @@
+import { Image } from "lucide-react";
+import Link from "next/link";
+import React from "react";
+import BackgroundOverlay from "./Backgroundoverlay";
+
+interface CtaJoinProps {
+  variants: "hero" | "card" | "footer";
+}
+
+const CtaJoin = ({ variants = "hero" }: CtaJoinProps) => {
+  switch (variants) {
+    case "hero":
+      return (
+        <section className="flex flex-row">
+          <h1 className="text-4xl font-black w-5/12 p-10">
+            Join Our Thriving Gymnastics Community Today!
+          </h1>
+          <div className="flex flex-col space-y-4 w-7/12 p-10">
+            <p>
+              At our gymnastics assciation, we offer a diverse range of activies
+              for all ages and skill levels. Whether you're looking to improve
+              your gymnastics skills or explore new fitness avenues, we have
+              something for everyone.
+            </p>
+            <div className="flex flex-row space-x-4 items-center">
+              <Link
+                className="bg-gray-900 p-2 text-white hover:bg-gray-700 duration-300 ease-in-out"
+                href="#"
+              >
+                Join
+              </Link>
+              <Link href="#">Learn more</Link>
+            </div>
+          </div>
+        </section>
+      );
+    case "card":
+      return (
+        <BackgroundOverlay backgroundIcon={<Image className="w-full h-full" />}>
+          <h2 className="text-4xl">Join us</h2>
+          <p>
+            Experience the joy of movement with our classes designed for all
+            ages and skill levels.
+          </p>
+          <div className="mt-4 flex flex-row space-x-4">
+            <Link href="#" className="bg-white p-2 text-black">
+              Sign Up
+            </Link>
+            <Link href="#" className="border p-2">
+              Learn more
+            </Link>
+          </div>
+        </BackgroundOverlay>
+      );
+    case "footer":
+      return <section>hi</section>;
+  }
+};
+
+export default CtaJoin;
