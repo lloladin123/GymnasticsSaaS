@@ -15,7 +15,7 @@ const BackgroundOverlay: React.FC<BackgroundOverlayProps> = ({
 }) => {
   return (
     <section
-      className={`w-screen -mx-4 ${height ? "h-" + height : "h-72"} overflow-hidden relative`}
+      className={` ${height ? "h-" + height : "h-72"} overflow-hidden relative`}
     >
       <div className="absolute w-48 h-48 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 opacity-20">
         {backgroundIcon}
