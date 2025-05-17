@@ -1,7 +1,7 @@
 import { Image } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import BackgroundOverlay from "./Backgroundoverlay";
+import BackgroundOverlay from "./BackgroundOverlay";
 
 interface CtaJoinProps {
   variants: "hero" | "card" | "footer";
