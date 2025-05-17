@@ -1,25 +1,24 @@
-import { Icon, UserCheck } from "lucide-react";
-import React, { JSX } from "react";
+import React from "react";
 
 interface ITrustedIcon {
-  icon: JSX.Element;
+  icon: string;
   name: string;
 }
 
 const TrustedIcons: ITrustedIcon[] = [
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
-  { icon: <UserCheck className="w-15 h-15"></UserCheck>, name: "BrandName" },
+  { icon: "🤸", name: "Gravity Gold" },
+  { icon: "🏆", name: "FlexForce" },
+  { icon: "🔥", name: "Apex Gymnastics" },
+  { icon: "⚡", name: "CoreMomentum" },
+  { icon: "🎯", name: "SkyTuck" },
+  { icon: "🎖️", name: "PivotPoint" },
+  { icon: "🌀", name: "FlightForm" },
+  { icon: "🚀", name: "BalanceBase" },
+  { icon: "🌟", name: "Springline" },
+  { icon: "💪", name: "Vaulted" },
+  { icon: "🪂", name: "AirArc" },
+  { icon: "🎪", name: "TumbleCore" },
+  { icon: "💥", name: "Elevate Athletics" },
 ];
 
 const Trusted = () => {
@@ -28,10 +27,13 @@ const Trusted = () => {
       <span className="font-black">
         Trusted by top brands and organizations worldwide
       </span>
-      <div className="flex flex-row justify-center items-center flex-wrap">
+      <div className="flex flex-row justify-center items-center flex-wrap gap-4">
         {TrustedIcons.map((label, index) => (
-          <div className="flex flex-row space-x-2 justify-center items-center">
-            {label.icon}
+          <div
+            key={index}
+            className="flex flex-row space-x-2 justify-center items-center"
+          >
+            <span className="text-4xl leading-none">{label.icon}</span>
             <span className="text-xl">{label.name}</span>
           </div>
         ))}

@@ -1,5 +1,3 @@
-import { Image } from "lucide-react";
-import Link from "next/link";
 import React, { JSX } from "react";
 
 interface BackgroundOverlayProps {
