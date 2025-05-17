@@ -2,8 +2,8 @@ import React from "react";
 
 const Discover = () => {
   return (
-    <section className="grid grid-cols-2 p-20 gap-28">
-      <h1 className="text-4xl font-black">
+    <section className="grid md:grid-cols-2 p-2 md:p-20 md:gap-28">
+      <h1 className="text-3xl md:text-4xl font-black">
         Discover Our Journey: From Humble beginnings to a Thriving Community
       </h1>
       <p>

@@ -73,7 +73,7 @@ const Footer = () => {
               Join
             </Link>
           </div>
-          <p className="flex text-center md:text-right">
+          <p className="flex text-center md:text-start">
             By joining you agree to our Privacy Policy and consent to receive
             updates.
           </p>
@@ -82,17 +82,17 @@ const Footer = () => {
         <div className="flex flex-wrap md:flex-nowrap flex-row items-center justify-between md:items-start md:justify-start px-8 md:px-0 md:space-x-32">
           <FooterColumn title="Quick Links" links={quickLinks} />
           <FooterColumn title="Connect With Us" links={connectLinks} />
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col w-full md:w-auto p-2 justify-center items-center">
             <h2 className="font-black">Stay Updated</h2>
-            <div className="md:mt-4 items-center justify-center flex flex-wrap md:flex-nowrap flex-row md:flex-col space-x-4 md:space-y-2">
+            <div className="md:mt-4  items-center justify-center flex flex-wrap md:flex-nowrap flex-row md:flex-col space-x-4 md:space-y-2">
               {socialLinks.map(({ href, icon: Icon, label }) => (
                 <Link
                   key={label}
                   href={href}
-                  className="flex flex-row space-x-2 md:items-center group"
+                  className="flex flex-row space-x-2 items-center justify-center group"
                 >
                   <Icon className="duration-300 group-hover:scale-125" />
-                  <span>{label}</span>
+                  <span className="hidden md:inline">{label}</span>
                 </Link>
               ))}
             </div>
