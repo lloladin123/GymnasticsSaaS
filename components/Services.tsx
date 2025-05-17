@@ -50,10 +50,12 @@ const Services = () => {
           ))}
         </div>
         <div className="flex flex-row space-x-4 items-center justify-center">
-          <Link href="#" className="border-solid border-1 p-2">
+          <Link href="#" className="btn btn--ghost-black">
             Learn more
           </Link>
-          <Link href="#">Sign up &gt;</Link>
+          <Link className="btn btn--arrow btn--positive" href="#">
+            Sign up
+          </Link>
         </div>
       </section>
     </>

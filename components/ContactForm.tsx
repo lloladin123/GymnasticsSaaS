@@ -1,4 +1,37 @@
+import Link from "next/link";
 import React from "react";
+
+interface IRadioOptions {
+  option: string;
+}
+
+const radioOptions: IRadioOptions[] = [
+  { option: "Parent of a student" },
+  { option: "Current member" },
+  { option: "First-time visitor" },
+  { option: "Local organization" },
+  { option: "Coach or trainer" },
+  { option: "Just exploring" },
+];
+
+interface ITopics {
+  topic: string;
+}
+
+const topics: ITopics[] = [
+  { topic: "General Inquiry" },
+  { topic: "Class Registration" },
+  { topic: "Billing & Membership" },
+  { topic: "Facility Access" },
+  { topic: "Feedback" },
+  { topic: "Other" },
+];
+
+const columns = 3;
+const perColumn = Math.ceil(radioOptions.length / columns);
+const columnedOptions = Array.from({ length: columns }, (_, i) =>
+  radioOptions.slice(i * perColumn, i * perColumn + perColumn)
+);
 
 const ContactForm = () => {
   return (
@@ -11,77 +44,70 @@ const ContactForm = () => {
           want to say hello — we’d love to hear from you.
         </p>
       </div>
-      <form className="flex flex-col space-y-2 w-full px-64">
-        <div className="flex flex-col space-y-2">
-          <div className="flex flex-row space-x-2">
+      <form className="flex flex-col space-y-2 w-full px-64 items-center justify-center">
+        <div className="w-full flex flex-col space-y-2">
+          <div className="w-full flex flex-row space-x-2">
             <div className="flex flex-col space-y-2 w-full">
               <label>First name</label>
-              <input className="border-solid border-1"></input>
+              <input className="form-control"></input>
             </div>
             <div className="flex flex-col space-y-2 w-full">
               <label>Last name</label>
-              <input className="border-solid border-1"></input>
+              <input className="form-control"></input>
             </div>
           </div>
           <div className="flex flex-row space-x-2">
             <div className="flex flex-col space-y-2 w-full">
               <label>Email</label>
-              <input className="border-solid border-1"></input>
+              <input className="form-control"></input>
             </div>
             <div className="flex flex-col space-y-2 w-full">
               <label>Phone number</label>
-              <input className="border-solid border-1"></input>
+              <input className="form-control"></input>
             </div>
           </div>
           <div className="flex flex-col space-y-2">
-            <label>Choose a topic</label>
-            <select className="border-solid border-1 p-2">
-              <option>Select one</option>
-              <option>General Inquiry</option>
-              <option>Class Registration</option>
-              <option>Billing & Membership</option>
-              <option>Facility Access </option>
-              <option>Feedback</option>
-              <option>Other</option>
+            <label htmlFor="topic">Choose a topic</label>
+            <select
+              id="topic"
+              defaultValue=""
+              name="topic"
+              className="form-control p-2"
+            >
+              <option disabled value="">
+                Select one
+              </option>
+              {topics.map((label, i) => (
+                <option key={i} value={label.topic}>
+                  {label.topic}
+                </option>
+              ))}
             </select>
           </div>
         </div>
-        <div className="flex flex-col space-x-2">
+        <div className="w-full flex flex-col space-y-8">
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
               Which best describes you
             </label>
 
-            <div className="flex flex-wrap justify-between w-full gap-y-4">
-              <label className="w-1/3 flex justify-start">
-                <input type="radio" name="userType" value="first" />
-                <span className="ml-2">Parent of a student</span>
-              </label>
-
-              <label className="w-1/3 flex justify-center">
-                <input type="radio" name="userType" value="second" />
-                <span className="ml-2">Current member</span>
-              </label>
-
-              <label className="w-1/3 flex justify-end">
-                <input type="radio" name="userType" value="third" />
-                <span className="ml-2">First-time visitor</span>
-              </label>
-
-              <label className="w-1/3 flex justify-start">
-                <input type="radio" name="userType" value="fourth" />
-                <span className="ml-2">Local organization</span>
-              </label>
-
-              <label className="w-1/3 flex justify-center">
-                <input type="radio" name="userType" value="fifth" />
-                <span className="ml-2">Coach or trainer</span>
-              </label>
-
-              <label className="w-1/3 flex justify-end">
-                <input type="radio" name="userType" value="sixth" />
-                <span className="ml-2">Just exploring</span>
-              </label>
+            <div className="w-full flex justify-between w-full gap-x-6">
+              {columnedOptions.map((column, colIndex) => (
+                <div
+                  key={colIndex}
+                  className="w-full flex flex-col gap-y-4 w-1/3"
+                >
+                  {column.map((label, i) => (
+                    <label
+                      key={i}
+                      className="custom-radio-label flex items-center justify-start gap-2"
+                    >
+                      <input type="radio" name="userType" className="" />
+                      <span>{label.option}</span>
+                    </label>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -89,14 +115,17 @@ const ContactForm = () => {
             <label>Message</label>
             <textarea
               placeholder="Type your message..."
-              className="h-48 border-solid border-1"
+              className="h-48 form-control"
             ></textarea>
-            <div className="flex flex-row space-x-2">
-              <input type="checkbox" className=""></input>
-              <label>I accept the Terms</label>
-            </div>
+            <label className="custom-checkbox-label">
+              <input type="checkbox" name="terms" />
+              <span>I accept the Terms</span>
+            </label>
           </div>
         </div>
+        <Link href="" type="submit" className="btn btn--black btn--positive">
+          Send Message
+        </Link>
       </form>
     </section>
   );

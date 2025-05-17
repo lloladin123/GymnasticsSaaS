@@ -34,11 +34,13 @@ const CommunityHightligt = () => {
             <p>Instructors dedicated to your fintess journey.</p>
           </div>
         </div>
-        <div className="flex flex-row space-x-4 items-center">
-          <Link href="#" className="border-solid border-1 p-2">
+        <div className="flex flex-row space-x-2 items-center">
+          <Link href="#" className="btn btn--ghost-black btn--positive">
             Join now
           </Link>
-          <Link href="#">Learn more &gt;</Link>
+          <Link className="btn btn--arrow" href="#">
+            Learn more
+          </Link>
         </div>
       </div>
     </section>
