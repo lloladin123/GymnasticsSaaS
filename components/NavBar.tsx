@@ -11,7 +11,7 @@ interface navItemsProp {
 const navItems: navItemsProp[] = [
   { link: "Home Page", href: "/" },
   { link: "About Us", href: "/aboutUs" },
-  { link: "Instructor Info", href: "#" },
+  { link: "Services", href: "/services" },
   { link: "More Links", href: "#" },
 ];
 
