@@ -36,18 +36,16 @@ const FQAs: IFQA[] = [
 
 const FAQ = () => {
   return (
-    <section className="flex flex-col space-y-8 items-center justify-center px-70">
+    <section className="flex flex-col space-y-8 items-center justify-center p-4 md:px-70">
       <h2 className="text-4xl font-black">FAQs</h2>
       <span>
         Find answers to your questions about our classes, memberships, and
         instrucotr qualifcations.
       </span>
       {FQAs.map((label, index) => (
-        <div>
-          <div>
-            <h3 className="font-black">{label.question}</h3>
-            <p>{label.answer}</p>
-          </div>
+        <div key={index}>
+          <h3 className="font-black">{label.question}</h3>
+          <p>{label.answer}</p>
         </div>
       ))}
       <div className="flex flex-col space-y-4 items-center justify-center">

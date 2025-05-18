@@ -15,7 +15,7 @@ const ServiceCard = ({ variants = "image" }: ServiceCardProps) => {
   switch (variants) {
     case "image":
       return (
-        <section className="grid p-10 grid-cols-2">
+        <section className="grid p-4 md:p-10 grid-rows-1 md:grid-cols-2">
           <div className="flex flex-col space-y-8">
             <span>Explore</span>
             <h2 className="text-4xl font-black">
@@ -59,7 +59,7 @@ const ServiceCard = ({ variants = "image" }: ServiceCardProps) => {
       );
     case "icon":
       return (
-        <section className="grid p-10 grid-cols-2">
+        <section className="grid p-4 md:p-10 grid-rows-1 md:grid-cols-2">
           <div className="flex flex-col space-y-8">
             <Activity></Activity>
             <h2 className="text-4xl font-black">
@@ -104,7 +104,7 @@ const ServiceCard = ({ variants = "image" }: ServiceCardProps) => {
     case "text-only":
       return (
         <section className="flex flex-col space-y-4 p-4">
-          <div className="flex flex-row space-x-4">
+          <div className="flex flex-col md:flex-row space-x-4">
             <div className="flex flex-col space-y-4">
               <span>Unicycling</span>
               <h2 className="text-4xl font-black">
@@ -145,7 +145,7 @@ const ServiceCard = ({ variants = "image" }: ServiceCardProps) => {
               </div>
             </div>
           </div>
-          <div className="w-full h-125 bg-gray-100">
+          <div className="w-full h-60 md:h-125 bg-gray-100">
             <ImageIcon className="w-full h-full"></ImageIcon>
           </div>
         </section>

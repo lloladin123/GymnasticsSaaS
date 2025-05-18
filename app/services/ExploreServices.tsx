@@ -32,7 +32,7 @@ const services: IExploreServices[] = [
 const ExploreServices = () => {
   return (
     <section className="flex flex-col space-y-8 items-center justify-center">
-      <div className="px-70 flex flex-col space-y-4 items-center justify-center text-center">
+      <div className="p-4 md:px-70 flex flex-col space-y-4 items-center justify-center text-center">
         <span>Explore</span>
         <h2 className="text-4xl font-black">
           Discover Our exciting Range of Services
@@ -47,7 +47,7 @@ const ExploreServices = () => {
         {services.map((label, index) => (
           <div
             key={index}
-            className="w-1/3 p-4 flex flex-col space-y-2 items-center"
+            className="w-full md:w-1/3 p-4 flex flex-col space-y-2 items-center"
           >
             {label.icon}
             <h3 className="font-black">{label.title}</h3>
