@@ -1,18 +1,10 @@
 import Link from "next/link";
 import React from "react";
-import Image from "next/image";
 
 const CommunityHightligt = () => {
   return (
     <section className="mt-10 md:mt-20 flex flex-col md:flex-row space-y-2 md:space-x-8 justify-start items-start">
-      <div className="relative w-full md:w-6/12 h-64 md:h-128 bg-gray-100">
-        <Image
-          fill
-          src="/images/springhallen.png"
-          alt="CommunityHightlight Image"
-          className="object-contain"
-        />
-      </div>
+      <div className="relative w-full md:w-6/12 h-64 md:h-128 bg-gray-100"></div>
 
       <div className="flex flex-col space-y-2 md:space-y-6 w-full md:w-6/12 justify-center items-start pt-0 md:pt-12 pr-0 md:pr-16">
         <p>Building Strength, Confidence, and Community</p>
