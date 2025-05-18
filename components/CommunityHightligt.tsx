@@ -8,7 +8,7 @@ const CommunityHightligt = () => {
       <div className="relative w-full md:w-6/12 h-64 md:h-128 bg-gray-100">
         <Image
           fill
-          src="/images/SpringHallen.PNG"
+          src="/images/SpringHallen.png"
           alt="CommunityHightlight Image"
           className="object-contain"
         />
