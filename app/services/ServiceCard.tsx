@@ -44,7 +44,10 @@ const ServiceCard = ({ variants = "image" }: ServiceCardProps) => {
               </div>
             </div>
             <div className="flex flex-row space-x-4">
-              <Link className="btn btn--hover-underline" href="#">
+              <Link
+                className="btn btn--hover-underline"
+                href="/services/gymnastics"
+              >
                 Learn more
               </Link>
               <Link className="btn btn--arrow" href="#">
