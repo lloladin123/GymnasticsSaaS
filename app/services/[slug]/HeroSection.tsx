@@ -1,9 +1,15 @@
 import Link from "next/link";
 import React from "react";
 
-const HeroSection = () => {
+interface HeroSectionProp {
+  variants: "cols" | "rows";
+}
+
+const HeroSection = ({ variants = "rows" }: HeroSectionProp) => {
   return (
-    <section className="grid grid-cols-2 p-10 py-20 place-items-center">
+    <section
+      className={`grid ${variants === "rows" ? "grid-rows-4 text-center" : "grid-cols-2"} p-10 py-20 place-items-center`}
+    >
       <div className="flex flex-col space-y-4">
         <span>Elevate</span>
         <h1 className="text-4xl font-black">
@@ -16,7 +22,9 @@ const HeroSection = () => {
           levels. Experience the joy of movment, build strength, and foster a
           sense of community
         </p>
-        <div className="flex flex-row space-x-4">
+        <div
+          className={`flex flex-row space-x-4 ${variants === "rows" ? "items-center justify-center" : ""}`}
+        >
           <Link className="btn btn--black" href="#">
             Learn more
           </Link>

@@ -22,7 +22,7 @@ const page = ({ params }: { params: { slug: string } }) => {
     return (
       <>
         {/* Hero section */}
-        <HeroSection></HeroSection>
+        <HeroSection variants="rows"></HeroSection>
         {/* Overview with image */}
         <Overview></Overview>
         {/* Class/gallery section */}
