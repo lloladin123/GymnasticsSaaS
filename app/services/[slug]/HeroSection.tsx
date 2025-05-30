@@ -8,7 +8,7 @@ interface HeroSectionProp {
 const HeroSection = ({ variants = "rows" }: HeroSectionProp) => {
   return (
     <section
-      className={`grid ${variants === "rows" ? "grid-rows-4 text-center" : "grid-cols-2"} p-10 py-20 place-items-center`}
+      className={`grid ${variants === "rows" ? "grid-rows-4 text-center py-10 p-60" : "grid-cols-2 p-10"}  place-items-center`}
     >
       <div className="flex flex-col space-y-4">
         <span>Elevate</span>
