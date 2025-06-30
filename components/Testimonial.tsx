@@ -1,7 +1,11 @@
 import { Image as ImageIcon, Star, User2 } from "lucide-react";
 import React from "react";
 
-const Testimonial = () => {
+interface TestimonialsProps {
+  variants: "stacked" | "unstacked";
+}
+
+const Testimonial = ({ variants = "stacked" }: TestimonialsProps) => {
   return (
     <section className="flex flex-col p-0 mt-10 md:mt-0 md:py-20 md:px-70 space-y-4 justify-center items-center">
       <div className="flex flex-row">
@@ -20,6 +24,7 @@ const Testimonial = () => {
           <div className="w-16 h-16 flex justify-center items-center bg-gray-300 rounded-4xl">
             <ImageIcon className="w-8 h-8"></ImageIcon>
           </div>
+
           <div className="flex flex-col space-y-1 ">
             <p>Emily Johnson</p>
             <p>Member, Fitness Enthusiast</p>

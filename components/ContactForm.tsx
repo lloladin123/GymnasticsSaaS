@@ -35,7 +35,7 @@ const columnedOptions = Array.from({ length: columns }, (_, i) =>
 
 const ContactForm = () => {
   return (
-    <section className="flex flex-col space-y-8 justify-center items-center mt-10 md:mt-20">
+    <section className="flex flex-col space-y-8 justify-center items-center mt-10 md:mt-20 p-10">
       <div className="flex flex-col space-y-2 text-center px-0 md:px-80">
         <p>We&apos;re here to help. Let’s connect.</p>
         <h2 className="text-4xl font-black">Get in touch with our team</h2>
@@ -46,7 +46,7 @@ const ContactForm = () => {
       </div>
       <form className="flex flex-col space-y-2 w-full px-0 md:px-64 items-center justify-center">
         <div className="w-full flex flex-col space-y-2">
-          <div className="w-full flex flex-col md:flex-row space-x-2">
+          <div className="w-full flex flwex-col md:flex-row space-x-2">
             <div className="flex flex-col space-y-2 w-full">
               <label>First name</label>
               <input className="form-control"></input>
