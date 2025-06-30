@@ -12,11 +12,14 @@ type ButtonVariant =
   | "arrow"
   | "plain";
 
+type HoverEffect = "positive" | undefined;
+
 interface BasicButtonProps {
   variant: ButtonVariant;
-  href: string; // required now, since it's always a link
+  href: string;
   children: React.ReactNode;
   className?: string;
+  hoverEffect?: HoverEffect;
 }
 
 const BasicButton: React.FC<BasicButtonProps> = ({
@@ -24,8 +27,9 @@ const BasicButton: React.FC<BasicButtonProps> = ({
   href,
   children,
   className = "",
+  hoverEffect,
 }) => {
-  const getButtonClass = () => {
+  const getVariantClass = () => {
     switch (variant) {
       case "black":
         return "btn btn--black";
@@ -44,12 +48,17 @@ const BasicButton: React.FC<BasicButtonProps> = ({
     }
   };
 
-  const combinedClasses = `${getButtonClass()} ${className}`.trim();
+  const classes = [
+    getVariantClass(),
+    hoverEffect === "positive" ? "btn--positive" : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <Link href={href} className={combinedClasses}>
+    <Link href={href} className={classes}>
       {children}
-      {variant === "arrow" && <ChevronRight size={16} />}
     </Link>
   );
 };
