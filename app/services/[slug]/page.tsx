@@ -10,7 +10,11 @@ import CtaJoin from "@/components/CtaJoin";
 import ContactForm from "@/components/ContactForm";
 import type { JSX } from "react";
 
-const page = ({ params }: { params: { slug: string } }): JSX.Element => {
+export default function Page({
+  params,
+}: {
+  params: { slug: string };
+}): JSX.Element {
   const { slug } = params;
   if (slug === "gymnastics") {
     return (
@@ -206,8 +210,4 @@ const page = ({ params }: { params: { slug: string } }): JSX.Element => {
     return <div>stepAerobics</div>;
   }
   return <div>Not Found</div>;
-};
-
-export default page satisfies (props: {
-  params: { slug: string };
-}) => JSX.Element;
+}
