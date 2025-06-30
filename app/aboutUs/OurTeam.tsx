@@ -62,14 +62,34 @@ const Teammembers: ITeamMember[] = [
   },
 ];
 
+interface IOurTeamText {
+  intro: string;
+  heading: string;
+  subheading: string;
+  hiringHeading: string;
+  hiringBody: string;
+  hiringButton: string;
+}
+
+const OurTeamText: IOurTeamText = {
+  intro: "Together",
+  heading: "Our Team",
+  subheading: "Meet the passionate Individuals behind our success",
+  hiringHeading: "We're Hiring!",
+  hiringBody: "Join our dynamic team and make a difference",
+  hiringButton: "Open Positions",
+};
+
 const OurTeam = () => {
   return (
     <section className="grid gap-y-2 md:gap-y-8 place-items-center">
+      {/* Intro */}
       <div className="grid md:grid-rows-3 gap-8 place-items-center">
-        <span>Together</span>
-        <h1 className="text-4xl font-black">Our Team</h1>
-        <p>Meet the passionate Individuals behind our succcess</p>
+        <span>{OurTeamText.intro}</span>
+        <h1 className="text-4xl font-black">{OurTeamText.heading}</h1>
+        <p>{OurTeamText.subheading}</p>
       </div>
+      {/* Teammember list */}
       <div className="flex flex-col md:flex-row flex-wrap gap-y-8 md:gap-y-16">
         {Teammembers.map((label, index) => (
           <div
@@ -77,28 +97,30 @@ const OurTeam = () => {
             className="grid grid-rows w-full md:w-1/4 place-items-center"
           >
             <div className="grid grid-rows place-items-center gap-4 text-center">
-              <div className="bg-gray-200 w-20 h-20  rounded-4xl flex items-center justify-center">
+              <div className="bg-gray-200 w-20 h-20 rounded-4xl flex items-center justify-center">
                 {label.icon}
               </div>
-              <div className="">
+              <div>
                 <p>{label.name}</p>
                 <span>{label.title}</span>
               </div>
               <p>{label.description}</p>
               <div className="flex flex-row space-x-4">
-                <Linkedin className="hover-scale-150"></Linkedin>
-                <X className="hover-scale-150"></X>
-                <Instagram className="hover-scale-150"></Instagram>
+                <Linkedin className="hover-scale-150" />
+                <X className="hover-scale-150" />
+                <Instagram className="hover-scale-150" />
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {/* we're Hiring! */}
       <div className="grid gap-y-4 place-items-center">
-        <h2 className="text-3xl font-black">We&apos;re Hiring!</h2>
-        <p>Join our dynamic team and make a difference</p>
+        <h2 className="text-3xl font-black">{OurTeamText.hiringHeading}</h2>
+        <p>{OurTeamText.hiringBody}</p>
         <Link className="btn btn--ghost-black btn--positive" href="#">
-          Open Positions
+          {OurTeamText.hiringButton}
         </Link>
       </div>
     </section>

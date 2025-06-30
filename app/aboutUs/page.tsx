@@ -10,27 +10,7 @@ import CtaJoin from "@/components/CtaJoin";
 const aboutUs = () => {
   return (
     <>
-      <BackgroundOverlay
-        height="92"
-        backgroundIcon={<ImageIcon className="w-full h-full" />}
-      >
-        <span>Dedicated to Strength, Grace & Community</span>
-        <h1 className="font-black text-3xl md:text-4xl">
-          Empowering Movement Together
-        </h1>
-        <p>
-          Our mission is to inspire and nuture a love for gymnastic and diverse
-          physical activies
-        </p>
-        <div className="flex flex-row space-x-2">
-          <Link className="btn btn--white btn--positive" href="#">
-            Join
-          </Link>
-          <Link className="btn btn--ghost-white" href="#">
-            Explore
-          </Link>
-        </div>
-      </BackgroundOverlay>
+      <CtaJoin variants="highlight"></CtaJoin>
       <Discover></Discover>
       <OurTeam></OurTeam>
       <Trusted></Trusted>

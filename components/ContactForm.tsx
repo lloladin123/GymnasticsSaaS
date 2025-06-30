@@ -1,23 +1,31 @@
 import Link from "next/link";
 import React from "react";
+import BasicButton from "./Buttons/BasicButton";
 
 interface IRadioOptions {
   option: string;
 }
 
-const radioOptions: IRadioOptions[] = [
-  { option: "Parent of a student" },
-  { option: "Current member" },
-  { option: "First-time visitor" },
-  { option: "Local organization" },
-  { option: "Coach or trainer" },
-  { option: "Just exploring" },
-];
-
 interface ITopics {
   topic: string;
 }
 
+// ✳️ Headings and paragraph text moved to constants
+const formText = {
+  tagline: "We're here to help. Let’s connect.",
+  heading: "Get in touch with our team",
+  description:
+    "Whether you have a question, need help choosing a program, or just want to say hello — we’d love to hear from you.",
+  userTypeLabel: "Which best describes you",
+  topicLabel: "Choose a topic",
+  topicPlaceholder: "Select one",
+  messageLabel: "Message",
+  messagePlaceholder: "Type your message...",
+  termsLabel: "I accept the Terms",
+  buttonText: "Send Message",
+};
+
+// ✳️ Select options
 const topics: ITopics[] = [
   { topic: "General Inquiry" },
   { topic: "Class Registration" },
@@ -27,6 +35,17 @@ const topics: ITopics[] = [
   { topic: "Other" },
 ];
 
+// ✳️ Radio options
+const radioOptions: IRadioOptions[] = [
+  { option: "Parent of a student" },
+  { option: "Current member" },
+  { option: "First-time visitor" },
+  { option: "Local organization" },
+  { option: "Coach or trainer" },
+  { option: "Just exploring" },
+];
+
+// ✳️ Organize into columns
 const columns = 3;
 const perColumn = Math.ceil(radioOptions.length / columns);
 const columnedOptions = Array.from({ length: columns }, (_, i) =>
@@ -36,38 +55,41 @@ const columnedOptions = Array.from({ length: columns }, (_, i) =>
 const ContactForm = () => {
   return (
     <section className="flex flex-col space-y-8 justify-center items-center mt-10 md:mt-20 p-10">
+      {/* Intro */}
       <div className="flex flex-col space-y-2 text-center px-0 md:px-80">
-        <p>We&apos;re here to help. Let’s connect.</p>
-        <h2 className="text-4xl font-black">Get in touch with our team</h2>
-        <p>
-          Whether you have a question, need help choosing a program, or just
-          want to say hello — we’d love to hear from you.
-        </p>
+        <p>{formText.tagline}</p>
+        <h2 className="text-4xl font-black">{formText.heading}</h2>
+        <p>{formText.description}</p>
       </div>
+      {/* Form */}
       <form className="flex flex-col space-y-2 w-full px-0 md:px-64 items-center justify-center">
+        {/* Input forms */}
         <div className="w-full flex flex-col space-y-2">
           <div className="w-full flex flwex-col md:flex-row space-x-2">
             <div className="flex flex-col space-y-2 w-full">
               <label>First name</label>
-              <input className="form-control"></input>
+              <input className="form-control" />
             </div>
             <div className="flex flex-col space-y-2 w-full">
               <label>Last name</label>
-              <input className="form-control"></input>
+              <input className="form-control" />
             </div>
           </div>
+
           <div className="flex flex-col md:flex-row space-x-2">
             <div className="flex flex-col space-y-2 w-full">
               <label>Email</label>
-              <input className="form-control"></input>
+              <input className="form-control" />
             </div>
             <div className="flex flex-col space-y-2 w-full">
               <label>Phone number</label>
-              <input className="form-control"></input>
+              <input className="form-control" />
             </div>
           </div>
+
+          {/* Dropdown */}
           <div className="flex flex-col space-y-2">
-            <label htmlFor="topic">Choose a topic</label>
+            <label htmlFor="topic">{formText.topicLabel}</label>
             <select
               id="topic"
               defaultValue=""
@@ -75,7 +97,7 @@ const ContactForm = () => {
               className="form-control p-2"
             >
               <option disabled value="">
-                Select one
+                {formText.topicPlaceholder}
               </option>
               {topics.map((label, i) => (
                 <option key={i} value={label.topic}>
@@ -85,13 +107,15 @@ const ContactForm = () => {
             </select>
           </div>
         </div>
+
+        {/* Radiobuttons */}
         <div className="w-full flex flex-col space-y-2 md:space-y-8">
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
-              Which best describes you
+              {formText.userTypeLabel}
             </label>
 
-            <div className="w-full flex flex-col md:flex-row justify-between w-full gap-x-6">
+            <div className="w-full flex flex-col md:flex-row justify-between gap-x-6">
               {columnedOptions.map((column, colIndex) => (
                 <div
                   key={colIndex}
@@ -110,22 +134,25 @@ const ContactForm = () => {
               ))}
             </div>
           </div>
-
           <div className="flex flex-col space-y-2">
-            <label>Message</label>
+            {/* Textfield */}
+            <label>{formText.messageLabel}</label>
             <textarea
-              placeholder="Type your message..."
+              placeholder={formText.messagePlaceholder}
               className="h-48 form-control"
-            ></textarea>
+            />
+            {/* Checkbox */}
             <label className="custom-checkbox-label">
               <input type="checkbox" name="terms" />
-              <span>I accept the Terms</span>
+              <span>{formText.termsLabel}</span>
             </label>
           </div>
         </div>
-        <Link href="" type="submit" className="btn btn--black btn--positive">
-          Send Message
-        </Link>
+
+        {/* Button */}
+        <BasicButton variant="black" hoverEffect="positive" href="#">
+          {formText.buttonText}
+        </BasicButton>
       </form>
     </section>
   );

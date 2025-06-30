@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
-interface navItemsProp {
+interface navItems {
   href: string;
   link: string;
 }
 
-const navItems: navItemsProp[] = [
+const navItems: navItems[] = [
   { link: "Home Page", href: "/" },
   { link: "About Us", href: "/aboutUs" },
   { link: "Services", href: "/services" },
@@ -29,7 +29,7 @@ const NavBar = () => {
         {open ? <X size={48} /> : <Menu size={48} />}
       </button>
 
-      {/* Desktop nav - untouched */}
+      {/* Desktop nav */}
       <nav
         aria-label="Main navigation"
         className="h-full w-full hidden md:block"
