@@ -1,8 +1,8 @@
 import CtaJoin from "@/components/CtaJoin";
-import Benefits from "@/components/Benefits";
-import Services from "@/components/Services";
-import CommunityHightligt from "@/components/CommunityHightligt";
-import Testimonial from "@/components/Testimonial";
+import Benefits from "@/components/Index/Benefits";
+import Services from "@/components/Index/Services";
+import CommunityHightligt from "@/components/Index/CommunityHightligt";
+import Testimonial from "@/components/Index/Testimonial";
 import ContactForm from "@/components/ContactForm";
 import RGVideo from "@/components/Videos/RGvideo";
 

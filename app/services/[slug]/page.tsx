@@ -6,7 +6,7 @@ import Classes from "./Classes";
 import InstructorTeaser from "./InstructorTeaser";
 import Link from "next/link";
 import { Activity, Brain, Dumbbell, Heart, ImageIcon } from "lucide-react";
-import Testimonial from "@/components/Testimonial";
+import Testimonial from "@/components/Index/Testimonial";
 import CtaJoin from "@/components/CtaJoin";
 import ContactForm from "@/components/ContactForm";
 

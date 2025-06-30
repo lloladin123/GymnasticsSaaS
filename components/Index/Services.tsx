@@ -1,8 +1,8 @@
 import React from "react";
-import ValuePoint from "./ValuePoint";
+import ValuePoint from "../ValuePoint";
 import { IValuePoint } from "@/Interfaces/IValuePoint";
 import { Activity, Dumbbell, HeartPulse } from "lucide-react";
-import BasicButton from "./Buttons/BasicButton";
+import BasicButton from "../Buttons/BasicButton";
 
 const services: IValuePoint[] = [
   {

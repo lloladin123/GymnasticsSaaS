@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import BasicButton from "./Buttons/BasicButton";
+import BasicButton from "../Buttons/BasicButton";
 
 const communityText = {
   image: {

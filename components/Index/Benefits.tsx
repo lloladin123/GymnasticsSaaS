@@ -1,7 +1,7 @@
 import { GraduationCap, Users, Building2 } from "lucide-react";
-import ValuePoint from "./ValuePoint";
+import ValuePoint from "../ValuePoint";
 import { IValuePoint } from "@/Interfaces/IValuePoint";
-import BasicButton from "./Buttons/BasicButton";
+import BasicButton from "../Buttons/BasicButton";
 
 const benefitText = {
   intro: "Welcome",
