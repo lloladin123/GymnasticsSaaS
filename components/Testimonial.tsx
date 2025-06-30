@@ -36,21 +36,24 @@ const Testimonial = ({ variants = "stacked" }: TestimonialsProps) => {
 
   return (
     <section className="flex flex-col p-0 mt-10 md:mt-0 md:py-20 md:px-70 space-y-4 justify-center items-center">
+      {/* Stars */}
       <div className="flex flex-row">{renderStars(rating)}</div>
-
+      {/* Text */}
       <p className="font-black text-center">{quote}</p>
-
+      {/* Reviewer */}
       <div className="flex flex-row space-x-4 justify-center items-center">
+        {/* avartar */}
         <div className="flex flex-row space-x-2 items-center">
           <div className="w-16 h-16 flex justify-center items-center bg-gray-300 rounded-4xl">
             {author.avatar}
           </div>
+          {/* Reviewer information */}
           <div className="flex flex-col space-y-1">
             <p>{author.name}</p>
             <p>{author.title}</p>
           </div>
         </div>
-
+        {/* Testimonial service */}
         <div className="h-12 flex flex-row space-x-1 justify-center items-center">
           {brand.icon}
           <p>{brand.name}</p>

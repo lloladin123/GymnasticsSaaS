@@ -55,13 +55,15 @@ const columnedOptions = Array.from({ length: columns }, (_, i) =>
 const ContactForm = () => {
   return (
     <section className="flex flex-col space-y-8 justify-center items-center mt-10 md:mt-20 p-10">
+      {/* Intro */}
       <div className="flex flex-col space-y-2 text-center px-0 md:px-80">
         <p>{formText.tagline}</p>
         <h2 className="text-4xl font-black">{formText.heading}</h2>
         <p>{formText.description}</p>
       </div>
-
+      {/* Form */}
       <form className="flex flex-col space-y-2 w-full px-0 md:px-64 items-center justify-center">
+        {/* Input forms */}
         <div className="w-full flex flex-col space-y-2">
           <div className="w-full flex flwex-col md:flex-row space-x-2">
             <div className="flex flex-col space-y-2 w-full">
@@ -85,6 +87,7 @@ const ContactForm = () => {
             </div>
           </div>
 
+          {/* Dropdown */}
           <div className="flex flex-col space-y-2">
             <label htmlFor="topic">{formText.topicLabel}</label>
             <select
@@ -105,6 +108,7 @@ const ContactForm = () => {
           </div>
         </div>
 
+        {/* Radiobuttons */}
         <div className="w-full flex flex-col space-y-2 md:space-y-8">
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -130,13 +134,14 @@ const ContactForm = () => {
               ))}
             </div>
           </div>
-
           <div className="flex flex-col space-y-2">
+            {/* Textfield */}
             <label>{formText.messageLabel}</label>
             <textarea
               placeholder={formText.messagePlaceholder}
               className="h-48 form-control"
             />
+            {/* Checkbox */}
             <label className="custom-checkbox-label">
               <input type="checkbox" name="terms" />
               <span>{formText.termsLabel}</span>
@@ -144,6 +149,7 @@ const ContactForm = () => {
           </div>
         </div>
 
+        {/* Button */}
         <BasicButton variant="black" hoverEffect="positive" href="#">
           {formText.buttonText}
         </BasicButton>

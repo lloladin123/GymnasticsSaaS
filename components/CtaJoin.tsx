@@ -52,8 +52,10 @@ const CtaJoin = ({
           <h2 className="text-2xl md:text-4xl font-black w-full md:w-5/12 px-10">
             {content.heading}
           </h2>
+          {/* Text */}
           <div className="flex flex-col space-y-4 w-full md:w-7/12 px-10">
             <p>{content.body}</p>
+            {/* Buttons */}
             <div className="flex flex-row space-x-4 items-center">
               <BasicButton variant="black" href="#" hoverEffect="positive">
                 {content.primaryLabel}
@@ -75,6 +77,7 @@ const CtaJoin = ({
         >
           <h2 className="text-4xl">{content.heading}</h2>
           <p>{content.body}</p>
+          {/* Buttons */}
           <div className="mt-4 flex flex-row space-x-4">
             <BasicButton variant="white" hoverEffect="positive" href="#">
               {content.primaryLabel}

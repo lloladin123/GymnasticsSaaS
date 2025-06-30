@@ -46,18 +46,21 @@ const benefitItems: IValuePoint[] = [
 const Benefits = () => {
   return (
     <section className="mt-4 flex flex-col space-y-2 md:space-y-16 justify-center items-center">
+      {/* Intro */}
       <div className="flex flex-col space-y-2 items-center justify-center w-full md:w-7/12 text-center">
         <p>{benefitText.intro}</p>
         <h2 className="text-2xl md:text-4xl font-black">{benefitText.title}</h2>
         <p>{benefitText.description}</p>
       </div>
 
+      {/* Benfit list */}
       <div className="w-full flex flex-row flex-wrap items-start gap-y-2 md:gap-y-8 justify-center">
         {benefitItems.map((item, index) => (
           <ValuePoint key={index} data={item} />
         ))}
       </div>
 
+      {/* Buttons */}
       <div className="flex flex-row items-center justify-center space-x-4">
         <BasicButton hoverEffect="positive" variant="ghost-black" href="#">
           {benefitText.ctaPrimary}

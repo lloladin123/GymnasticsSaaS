@@ -46,7 +46,6 @@ export const socialLinks: ISocialLink[] = [
   { label: "Youtube", href: "#", icon: Youtube },
 ];
 
-// ✅ All inline text extracted here
 const footerContent = {
   brandName: "Brand name",
   tagline:
@@ -68,6 +67,7 @@ const Footer = () => {
   return (
     <footer className="flex flex-col space-y-4 p-2 md:p-8">
       <div className="border-solid border-1 flex flex-col md:flex-row space-x-16 p-0 md:p-8 mt-0 md:mt-20">
+        {/* left side content */}
         <div className="flex flex-col w-full md:w-5/12 space-y-2">
           <div className="flex flex-col md:flex-row space-x-2 items-center justify-start">
             <div className="w-20 h-20">
@@ -89,10 +89,11 @@ const Footer = () => {
             {footerContent.disclaimer}
           </p>
         </div>
-
+        {/* Right side content */}
         <div className="flex flex-wrap md:flex-nowrap flex-row items-center justify-between md:items-start md:justify-start px-8 md:px-0 md:space-x-32">
           <FooterColumn title="Quick Links" links={quickLinks} />
           <FooterColumn title="Connect With Us" links={connectLinks} />
+          {/* Socials */}
           <div className="flex flex-col w-full md:w-auto p-2 justify-center items-center">
             <h2 className="font-black">{footerContent.socialTitle}</h2>
             <div className="md:mt-4 items-start justify-center flex flex-wrap md:flex-nowrap flex-row md:flex-col space-x-4 md:space-y-2">
@@ -110,7 +111,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
+      {/*footer base content */}
       <div className="flex flex-col md:flex-row justify-between">
         <span className="order-2 md:order-1">{footerContent.legal}</span>
         <div className="flex flex-row space-x-2 md:space-x-4">

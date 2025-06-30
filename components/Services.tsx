@@ -39,6 +39,7 @@ const servicesText = {
 const Services = () => {
   return (
     <section className="mt-10 md:mt-20 flex flex-col space-y-2 md:space-y-16 items-start justify-center">
+      {/* Intro */}
       <div className="flex flex-col md:flex-row justify-between w-full">
         <div className="flex w-full md:w-4/12 flex-col space-y-4">
           <p>{servicesText.label}</p>
@@ -47,12 +48,14 @@ const Services = () => {
         <p className="w-full md:w-5/12 ml-auto">{servicesText.description}</p>
       </div>
 
+      {/* Service list */}
       <div className="flex flex-col items-start justify-center md:flex-row space-y-2 md:space-x-4">
         {services.map((label, index) => (
           <ValuePoint key={index} align="left" data={label} />
         ))}
       </div>
 
+      {/* Buttons */}
       <div className="flex flex-row space-x-4 items-center justify-center">
         <BasicButton variant="ghost-black" href={servicesText.primaryHref}>
           {servicesText.primaryLabel}

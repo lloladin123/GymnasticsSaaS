@@ -37,6 +37,7 @@ const communityText = {
 const CommunityHightligt = () => {
   return (
     <section className="mt-10 md:mt-20 flex flex-col md:flex-row space-y-2 md:space-x-8 justify-start items-start">
+      {/* Image */}
       <div className="relative w-full md:w-6/12 h-64 md:h-128">
         <Image
           fill
@@ -46,13 +47,17 @@ const CommunityHightligt = () => {
         />
       </div>
 
+      {/* Content */}
       <div className="flex flex-col space-y-2 md:space-y-6 w-full md:w-6/12 justify-center items-start pt-0 md:pt-12 pr-0 md:pr-16">
-        <p>{communityText.label}</p>
-        <h2 className="text-2xl md:text-4xl font-black">
-          {communityText.heading}
-        </h2>
-        <p>{communityText.description}</p>
-
+        {/* Intro */}
+        <div className="flex flex-col space-y-2">
+          <p>{communityText.label}</p>
+          <h2 className="text-2xl md:text-4xl font-black">
+            {communityText.heading}
+          </h2>
+          <p>{communityText.description}</p>
+        </div>
+        {/* Stats */}
         <div className="flex flex-row justify-center items-start">
           {communityText.stats.map((stat, index) => (
             <div key={index} className="flex flex-col space-y-4 mr-8">
@@ -61,7 +66,7 @@ const CommunityHightligt = () => {
             </div>
           ))}
         </div>
-
+        {/* Buttons */}
         <div className="flex flex-row space-x-2 items-center">
           <BasicButton
             variant={communityText.primaryButton.variant as any}
