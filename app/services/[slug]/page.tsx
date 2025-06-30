@@ -15,14 +15,15 @@ import {
 import Testimonial from "@/components/Testimonial";
 import CtaJoin from "@/components/CtaJoin";
 import ContactForm from "@/components/ContactForm";
+import type { JSX } from "react";
 
-interface PageProps {
+type PageProps = {
   params: {
     slug: string;
   };
-}
+};
 
-const page = ({ params }: PageProps) => {
+const page: (props: PageProps) => JSX.Element = ({ params }) => {
   const { slug } = params;
   if (slug === "gymnastics") {
     return (
@@ -217,6 +218,7 @@ const page = ({ params }: PageProps) => {
   if (slug === "stepAerobics") {
     return <div>stepAerobics</div>;
   }
+  return <div>Not Found</div>;
 };
 
 export default page;
