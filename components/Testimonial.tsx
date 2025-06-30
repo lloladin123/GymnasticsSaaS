@@ -2,7 +2,7 @@ import { Image as ImageIcon, Star, User2 } from "lucide-react";
 import React from "react";
 
 interface TestimonialsProps {
-  variants: "stacked" | "unstacked";
+  variants?: "stacked" | "unstacked";
 }
 
 const Testimonial = ({ variants = "stacked" }: TestimonialsProps) => {
