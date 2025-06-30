@@ -11,14 +11,10 @@ import CtaJoin from "@/components/CtaJoin";
 import ContactForm from "@/components/ContactForm";
 import type { JSX } from "react";
 
-type Props = {
-  params: {
-    slug: string;
-  };
-};
+type tParams = Promise<{ slug: string }>;
 
-export default function Page({ params }: Props): JSX.Element {
-  const { slug } = params;
+export default async function Page({ params }: { params: tParams }) {
+  const { slug } = await params;
   if (slug === "gymnastics") {
     return (
       <>
