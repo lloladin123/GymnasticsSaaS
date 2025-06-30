@@ -1,10 +1,16 @@
 import { ImageIcon } from "lucide-react";
 import React from "react";
 
-const Overview = () => {
+interface OverviewProps {
+  variants: "rows" | "cols";
+}
+
+const Overview = ({ variants = "cols" }: OverviewProps) => {
   return (
-    <section className="grid grid-cols-2 place-items-center px-10">
-      <div>
+    <section
+      className={` ${variants === "rows" ? "flex flex-col space-y-4" : "grid grid-cols-2 place-items-center"}   px-10`}
+    >
+      <div className={`${variants === "rows" ? "text-center" : ""}`}>
         <h2 className="text-4xl font-black">
           Unlock Your Potential: Discover the Transformative Power of Gymnastics
         </h2>
@@ -15,7 +21,9 @@ const Overview = () => {
           achieve your fitness goals.
         </p>
       </div>
-      <div className="w-full h-100 bg-gray-200 flex justify-center items-center">
+      <div
+        className={`w-full ${variants === "rows" ? "h-120" : "h-100"}  bg-gray-200 flex justify-center items-center`}
+      >
         <ImageIcon className="w-2/4 h-2/4"></ImageIcon>
       </div>
     </section>

@@ -4,7 +4,9 @@ import React from "react";
 
 const Classes = () => {
   return (
-    <section className="flex flex-col space-y-8 items-center justify-center mt-20 px-10">
+    <section
+      className={`flex flex-col space-y-8 items-center justify-center mt-20 px-10`}
+    >
       <div className="grid grid-cols-2">
         <div className="flex flex-col space-y-4">
           <span>Explore</span>
