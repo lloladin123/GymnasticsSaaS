@@ -1,3 +1,4 @@
+"use cleint";
 import React from "react";
 import HeroSection from "./HeroSection";
 import Overview from "./Overview";
