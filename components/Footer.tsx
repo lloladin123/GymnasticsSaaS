@@ -9,6 +9,7 @@ import {
 import Link from "next/link";
 import React from "react";
 import Logo from "./Logo";
+import BasicButton from "./Buttons/BasicButton";
 
 export interface IFooterLink {
   label: string;
@@ -45,6 +46,24 @@ export const socialLinks: ISocialLink[] = [
   { label: "Youtube", href: "#", icon: Youtube },
 ];
 
+// ✅ All inline text extracted here
+const footerContent = {
+  brandName: "Brand name",
+  tagline:
+    "Join a team to stay informed about our latest activities and events.",
+  inputPlaceholder: "Your name here",
+  joinButton: "Join",
+  disclaimer:
+    "By joining you agree to our Privacy Policy and consent to receive updates.",
+  socialTitle: "Stay Updated",
+  legal: "© 2025 Org name. All rights reserved",
+  policyLinks: [
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms of Service", href: "#" },
+    { label: "Cookie Settings", href: "#" },
+  ],
+};
+
 const Footer = () => {
   return (
     <footer className="flex flex-col space-y-4 p-2 md:p-8">
@@ -54,23 +73,20 @@ const Footer = () => {
             <div className="w-20 h-20">
               <Logo />
             </div>
-            <p>Brand name</p>
+            <p>{footerContent.brandName}</p>
           </div>
-          <p className="flex text-center">
-            Join a team to stay informed about our latest activities and events.
-          </p>
+          <p className="flex text-center">{footerContent.tagline}</p>
           <div className="flex flex-col md:flex-row p-2 md:p-0 space-x-2">
             <input
               className="form-control p-2 w-full md:w-80"
-              placeholder="Your name here"
+              placeholder={footerContent.inputPlaceholder}
             />
-            <Link href="#" className="btn btn--ghost-black btn--positive">
-              Join
-            </Link>
+            <BasicButton variant="ghost-black" hoverEffect="positive" href="#">
+              {footerContent.joinButton}
+            </BasicButton>
           </div>
           <p className="flex text-center md:text-start">
-            By joining you agree to our Privacy Policy and consent to receive
-            updates.
+            {footerContent.disclaimer}
           </p>
         </div>
 
@@ -78,8 +94,8 @@ const Footer = () => {
           <FooterColumn title="Quick Links" links={quickLinks} />
           <FooterColumn title="Connect With Us" links={connectLinks} />
           <div className="flex flex-col w-full md:w-auto p-2 justify-center items-center">
-            <h2 className="font-black">Stay Updated</h2>
-            <div className="md:mt-4  items-center justify-center flex flex-wrap md:flex-nowrap flex-row md:flex-col space-x-4 md:space-y-2">
+            <h2 className="font-black">{footerContent.socialTitle}</h2>
+            <div className="md:mt-4 items-start justify-center flex flex-wrap md:flex-nowrap flex-row md:flex-col space-x-4 md:space-y-2">
               {socialLinks.map(({ href, icon: Icon, label }) => (
                 <Link
                   key={label}
@@ -95,14 +111,14 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="flex flex-col  md:flex-row justify-between">
-        <span className="order-2 md:order-1">
-          &copy; 2025 Org name. All rights reserved
-        </span>
+      <div className="flex flex-col md:flex-row justify-between">
+        <span className="order-2 md:order-1">{footerContent.legal}</span>
         <div className="flex flex-row space-x-2 md:space-x-4">
-          <Link href="#">Privacy Policy</Link>
-          <Link href="#">Terms of Service</Link>
-          <Link href="#">Cookie Settings</Link>
+          {footerContent.policyLinks.map(({ label, href }) => (
+            <Link key={label} href={href}>
+              {label}
+            </Link>
+          ))}
         </div>
       </div>
     </footer>
