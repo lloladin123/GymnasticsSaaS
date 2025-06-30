@@ -4,14 +4,7 @@ import Overview from "./Overview";
 import Classes from "./Classes";
 import InstructorTeaser from "./InstructorTeaser";
 import Link from "next/link";
-import {
-  Activity,
-  Brain,
-  Dumbbell,
-  Heart,
-  ImageIcon,
-  LucideIcon,
-} from "lucide-react";
+import { Activity, Brain, Dumbbell, Heart, ImageIcon } from "lucide-react";
 import Testimonial from "@/components/Testimonial";
 import CtaJoin from "@/components/CtaJoin";
 import ContactForm from "@/components/ContactForm";
@@ -215,4 +208,6 @@ const page = ({ params }: { params: { slug: string } }): JSX.Element => {
   return <div>Not Found</div>;
 };
 
-export default page;
+export default page satisfies (props: {
+  params: { slug: string };
+}) => JSX.Element;
