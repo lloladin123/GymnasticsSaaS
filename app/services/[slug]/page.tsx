@@ -16,7 +16,13 @@ import Testimonial from "@/components/Testimonial";
 import CtaJoin from "@/components/CtaJoin";
 import ContactForm from "@/components/ContactForm";
 
-const page = ({ params }: { params: { slug: string } }) => {
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+const page = ({ params }: PageProps) => {
   const { slug } = params;
   if (slug === "gymnastics") {
     return (
