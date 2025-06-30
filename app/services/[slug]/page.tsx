@@ -11,11 +11,13 @@ import CtaJoin from "@/components/CtaJoin";
 import ContactForm from "@/components/ContactForm";
 import type { JSX } from "react";
 
-export default function Page({
-  params,
-}: {
-  params: { slug: string };
-}): JSX.Element {
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+export default function Page({ params }: Props): JSX.Element {
   const { slug } = params;
   if (slug === "gymnastics") {
     return (
