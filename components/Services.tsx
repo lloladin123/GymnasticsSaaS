@@ -47,7 +47,7 @@ const Services = () => {
         <p className="w-full md:w-5/12 ml-auto">{servicesText.description}</p>
       </div>
 
-      <div className="flex flex-col md:flex-row space-y-2 md:space-x-4">
+      <div className="flex flex-col items-start justify-center md:flex-row space-y-2 md:space-x-4">
         {services.map((label, index) => (
           <ValuePoint key={index} align="left" data={label} />
         ))}
