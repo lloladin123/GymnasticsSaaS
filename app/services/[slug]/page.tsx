@@ -16,13 +16,8 @@ import Testimonial from "@/components/Testimonial";
 import CtaJoin from "@/components/CtaJoin";
 import ContactForm from "@/components/ContactForm";
 import type { JSX } from "react";
-import type { Metadata } from "next";
 
-type Props = {
-  params: { slug: string };
-};
-
-const page = ({ params }: Props): JSX.Element => {
+const page = ({ params }: { params: { slug: string } }): JSX.Element => {
   const { slug } = params;
   if (slug === "gymnastics") {
     return (
