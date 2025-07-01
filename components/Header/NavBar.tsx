@@ -13,6 +13,7 @@ const navItems: navItems[] = [
   { link: "About Us", href: "/aboutUs" },
   { link: "Services", href: "/services" },
   { link: "More Links", href: "#" },
+  { link: "3DPlannerTool", href: "/3DPlannerTool" },
 ];
 
 const NavBar = () => {
