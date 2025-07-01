@@ -52,7 +52,7 @@ const RotationControls: React.FC<Props> = ({
             }}
             className="px-1 py-0.5 bg-gray-700 text-white rounded"
           >
-            ⤺ Z
+            <span className="inline-block -rotate-90">↷</span> Z
           </button>
           <button
             onPointerDown={(e) => {
@@ -61,7 +61,7 @@ const RotationControls: React.FC<Props> = ({
             }}
             className="px-1 py-0.5 bg-gray-700 text-white rounded"
           >
-            ⤻ Z
+            <span className="inline-block rotate-90">↶</span> Z
           </button>
         </div>
         {/* Y-axis rotation */}
@@ -73,7 +73,7 @@ const RotationControls: React.FC<Props> = ({
             }}
             className="px-1 py-0.5 bg-gray-700 text-white rounded"
           >
-            ⤺ Y
+            <span className="inline-block scale-x-[-1]">⤻</span> Y
           </button>
           <button
             onPointerDown={(e) => {
@@ -95,7 +95,7 @@ const RotationControls: React.FC<Props> = ({
             }}
             className="px-1 py-0.5 bg-gray-700 text-white rounded"
           >
-            ↶ X
+            <span className="inline-block rotate-180">↷</span> X
           </button>
           <button
             onPointerDown={(e) => {
@@ -108,8 +108,12 @@ const RotationControls: React.FC<Props> = ({
           </button>
         </div>
 
-        <div className="mt-1 text-gray-300">
-          X: {degreesX}° Y: {degreesY}° Z: {degreesZ}Z
+        <div className="flex flex-col bg-gray-400 p-2 rounded-xl mt-1 text-xs text-gray-300">
+          <div className="flex gap-2 items-center justify-center w-full">
+            <span className="font-semibold text-white">X:</span> {degreesX}°
+            <span className="font-semibold text-white">Y:</span> {degreesY}°
+            <span className="font-semibold text-white">Z:</span> {degreesZ}°
+          </div>
         </div>
       </div>
     </Html>
