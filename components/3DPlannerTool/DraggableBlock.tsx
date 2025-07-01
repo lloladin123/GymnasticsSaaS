@@ -140,6 +140,7 @@ const DraggableBlock: React.FC<Props> = ({
           degreesX={degreesX}
           degreesY={degreesY}
           degreesZ={degreesZ}
+          hidden={isDragging}
         />
       )}
     </>

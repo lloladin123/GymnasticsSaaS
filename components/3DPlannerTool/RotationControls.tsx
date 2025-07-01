@@ -15,6 +15,7 @@ interface Props {
   degreesX: string;
   degreesY: string;
   degreesZ: string;
+  hidden?: boolean;
 }
 
 const RotationControls: React.FC<Props> = ({
@@ -22,6 +23,8 @@ const RotationControls: React.FC<Props> = ({
   onRotate,
   degreesX,
   degreesY,
+  degreesZ,
+  hidden,
 }) => {
   const [position, setPosition] = useState<[number, number, number]>([0, 0, 0]);
   const amount = Math.PI / 36;
@@ -36,7 +39,10 @@ const RotationControls: React.FC<Props> = ({
 
   return (
     <Html position={position} center zIndexRange={[10, 0]}>
-      <div className="flex flex-col items-center gap-1 text-xs">
+      <div
+        style={{ display: hidden ? "none" : "flex" }} // fully removes it from layout
+        className="flex-col items-center gap-1 text-xs"
+      >
         {/* Z-axis rotation */}
         <div className="flex gap-2 mt-1">
           <button
@@ -103,7 +109,7 @@ const RotationControls: React.FC<Props> = ({
         </div>
 
         <div className="mt-1 text-gray-300">
-          X: {degreesX}° Y: {degreesY}°
+          X: {degreesX}° Y: {degreesY}° Z: {degreesZ}Z
         </div>
       </div>
     </Html>
