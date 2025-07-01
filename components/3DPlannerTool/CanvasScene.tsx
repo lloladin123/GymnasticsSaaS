@@ -39,16 +39,21 @@ const CanvasScene: React.FC = () => {
 
   const handleRotate = (
     id: number,
+    axis: "x" | "y" | "z",
     direction: "left" | "right",
     amount: number
   ) => {
     setBlocks((prev) =>
       prev.map((block) => {
         if (block.id !== id) return block;
-        const currentY = block.rotation?.[1] || 0;
-        const newY =
-          direction === "left" ? currentY - amount : currentY + amount;
-        return { ...block, rotation: [0, newY, 0] };
+        const rotation = [...(block.rotation || [0, 0, 0])] as [
+          number,
+          number,
+          number,
+        ];
+        const i = axis === "x" ? 0 : axis === "y" ? 1 : 2;
+        rotation[i] += direction === "left" ? -amount : amount;
+        return { ...block, rotation };
       })
     );
   };

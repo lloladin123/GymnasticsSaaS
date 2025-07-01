@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useRef, useState } from "react";
-import { useThree, useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Mesh, Euler } from "three";
 import { Text } from "@react-three/drei";
 import RotationControls from "./RotationControls";
@@ -13,7 +15,12 @@ interface Props {
   onDragStart: (id: number) => void;
   onDragEnd: () => void;
   onDrag: (id: number, newPos: [number, number, number]) => void;
-  onRotate: (id: number, direction: "left" | "right", amount: number) => void;
+  onRotate: (
+    id: number,
+    axis: "x" | "y" | "z",
+    direction: "left" | "right",
+    amount: number
+  ) => void;
   setSelectedId: (id: number) => void;
   setOrbitEnabled: (enabled: boolean) => void;
 }
@@ -31,32 +38,40 @@ const DraggableBlock: React.FC<Props> = ({
   setSelectedId,
   setOrbitEnabled,
 }) => {
+  const ref = useRef<Mesh>(null);
+  const [blockPos, setBlockPos] = useState(position);
   const [pointerDownPos, setPointerDownPos] = useState<{
     x: number;
     y: number;
   } | null>(null);
   const [didDrag, setDidDrag] = useState(false);
-  const ref = useRef<Mesh | null>(null);
-  const [blockPos, setBlockPos] = useState(position);
   const { mouse, viewport } = useThree();
 
   useFrame(() => {
     if (isDragging) {
       const x = (mouse.x * viewport.width) / 2;
       const z = (-mouse.y * viewport.height) / 2;
-      const snappedX = Math.round(x);
-      const snappedZ = Math.round(z);
-      const newPos: [number, number, number] = [snappedX, 0.1, snappedZ];
+      const newPos: [number, number, number] = [
+        Math.round(x),
+        0.1,
+        Math.round(z),
+      ];
       setBlockPos(newPos);
       onDrag(id, newPos);
     }
   });
 
-  const handleRotate = (direction: "left" | "right", amount: number) => {
-    onRotate(id, direction, amount);
+  const handleRotate = (
+    axis: "x" | "y" | "z",
+    direction: "left" | "right",
+    amount: number
+  ) => {
+    onRotate(id, axis, direction, amount);
   };
 
-  const degrees = ((rotation[1] * 180) / Math.PI).toFixed(1);
+  const degreesX = ((rotation[0] * 180) / Math.PI).toFixed(1);
+  const degreesY = ((rotation[1] * 180) / Math.PI).toFixed(1);
+  const degreesZ = ((rotation[2] * 180) / Math.PI).toFixed(1);
 
   return (
     <>
@@ -122,7 +137,9 @@ const DraggableBlock: React.FC<Props> = ({
         <RotationControls
           targetRef={ref}
           onRotate={handleRotate}
-          degrees={degrees}
+          degreesX={degreesX}
+          degreesY={degreesY}
+          degreesZ={degreesZ}
         />
       )}
     </>
