@@ -5,6 +5,7 @@ import { Mesh } from "three";
 import Draggable from "./behaviors/Draggable";
 import Rotatable from "./behaviors/Rotatable";
 import MeshRepresentation from "./MeshRepresentation";
+import Deletable from "./behaviors/Deletable";
 
 interface BlockProps {
   id: number;
@@ -23,8 +24,9 @@ interface BlockProps {
     direction: "left" | "right",
     amount: number
   ) => void;
-  setSelectedId: (id: number) => void;
+  setSelectedId: (id: number | null) => void;
   setOrbitEnabled: (enabled: boolean) => void;
+  setBlocks: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const Block: React.FC<BlockProps> = ({
@@ -41,10 +43,24 @@ const Block: React.FC<BlockProps> = ({
   onRotate,
   setSelectedId,
   setOrbitEnabled,
+  setBlocks,
 }) => {
   const ref = useRef<Mesh>(null);
 
   let content = <MeshRepresentation type={type} isSelected={isSelected} />;
+
+  if (behaviors.includes("deletable")) {
+    content = (
+      <Deletable
+        id={id}
+        selectedId={isSelected ? id : null}
+        setSelectedId={setSelectedId}
+        setBlocks={setBlocks}
+      >
+        {content}
+      </Deletable>
+    );
+  }
 
   if (behaviors.includes("rotatable")) {
     content = (

@@ -14,20 +14,6 @@ const CanvasScene: React.FC = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const orbitRef = useRef<any>(null);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Delete" && selectedId !== null) {
-        setBlocks((prev: BlockType[]) =>
-          prev.filter((block) => block.id !== selectedId)
-        );
-        setSelectedId(null);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedId]);
-
   const setOrbitEnabled = (enabled: boolean) => {
     if (orbitRef.current) {
       orbitRef.current.enabled = enabled;
@@ -37,8 +23,8 @@ const CanvasScene: React.FC = () => {
   const addBlock = () => {
     const newBlock: BlockType = {
       id: Date.now(),
-      type: "airtrack", // ✅ required for MeshRepresentation
-      behaviors: ["draggable", "rotatable"], // ✅ defines capabilities
+      type: "airtrack",
+      behaviors: ["draggable", "rotatable", "deletable"],
       position: [0, 0.1, 0],
       rotation: [0, 0, 0],
     };
@@ -110,6 +96,7 @@ const CanvasScene: React.FC = () => {
               isSelected={selectedId === block.id}
               setSelectedId={setSelectedId}
               setOrbitEnabled={setOrbitEnabled}
+              setBlocks={setBlocks}
               onDragStart={(id) => {
                 setDraggingId(id);
                 setSelectedId(id);

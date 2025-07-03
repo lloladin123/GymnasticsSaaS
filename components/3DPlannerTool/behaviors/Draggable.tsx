@@ -17,7 +17,7 @@ interface DraggableProps {
   onDragStart: (id: number) => void;
   onDragEnd: () => void;
   onDrag: (id: number, newPos: [number, number, number]) => void;
-  setSelectedId: (id: number) => void;
+  setSelectedId: (id: number | null) => void;
   setOrbitEnabled: (enabled: boolean) => void;
   children: React.ReactNode;
 }
