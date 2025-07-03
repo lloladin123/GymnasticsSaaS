@@ -1,18 +1,32 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Grid } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { Block } from "./types";
-import DraggableBlock from "./DraggableBlock";
+import { Block as BlockType } from "./types";
+import Block from "./Block";
 import OrbitToggle from "./OrbitToggle";
 
 const CanvasScene: React.FC = () => {
-  const [blocks, setBlocks] = useState<Block[]>([]);
+  const [blocks, setBlocks] = useState<BlockType[]>([]);
   const [draggingId, setDraggingId] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const orbitRef = useRef<any>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Delete" && selectedId !== null) {
+        setBlocks((prev: BlockType[]) =>
+          prev.filter((block) => block.id !== selectedId)
+        );
+        setSelectedId(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedId]);
 
   const setOrbitEnabled = (enabled: boolean) => {
     if (orbitRef.current) {
@@ -21,8 +35,10 @@ const CanvasScene: React.FC = () => {
   };
 
   const addBlock = () => {
-    const newBlock: Block = {
+    const newBlock: BlockType = {
       id: Date.now(),
+      type: "airtrack", // ✅ required for MeshRepresentation
+      behaviors: ["draggable", "rotatable"], // ✅ defines capabilities
       position: [0, 0.1, 0],
       rotation: [0, 0, 0],
     };
@@ -61,7 +77,7 @@ const CanvasScene: React.FC = () => {
   const handlePointerMissed = () => setSelectedId(null);
   const handlePointerUp = () => {
     setDraggingId(null);
-    if (orbitRef.current) orbitRef.current.enabled = true;
+    setOrbitEnabled(true);
   };
 
   return (
@@ -87,7 +103,7 @@ const CanvasScene: React.FC = () => {
           <Grid args={[20, 20]} cellSize={1} cellThickness={0.5} />
           <OrbitToggle orbitRef={orbitRef} />
           {blocks.map((block) => (
-            <DraggableBlock
+            <Block
               key={block.id}
               {...block}
               isDragging={draggingId === block.id}
@@ -97,11 +113,11 @@ const CanvasScene: React.FC = () => {
               onDragStart={(id) => {
                 setDraggingId(id);
                 setSelectedId(id);
-                if (orbitRef.current) orbitRef.current.enabled = false;
+                setOrbitEnabled(false);
               }}
               onDragEnd={() => {
                 setDraggingId(null);
-                if (orbitRef.current) orbitRef.current.enabled = true;
+                setOrbitEnabled(true);
               }}
               onDrag={handleDrag}
               onRotate={handleRotate}

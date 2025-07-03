@@ -12,22 +12,23 @@ interface Props {
     direction: "left" | "right",
     amount: number
   ) => void;
-  degreesX: string;
-  degreesY: string;
-  degreesZ: string;
+  rotation: [number, number, number];
   hidden?: boolean;
 }
 
 const RotationControls: React.FC<Props> = ({
   targetRef,
   onRotate,
-  degreesX,
-  degreesY,
-  degreesZ,
+  rotation,
   hidden,
 }) => {
   const [position, setPosition] = useState<[number, number, number]>([0, 0, 0]);
   const amount = Math.PI / 36;
+
+  const [x, y, z] = rotation;
+  const degreesX = ((x * 180) / Math.PI).toFixed(1);
+  const degreesY = ((y * 180) / Math.PI).toFixed(1);
+  const degreesZ = ((z * 180) / Math.PI).toFixed(1);
 
   useFrame(() => {
     if (targetRef.current) {
@@ -40,10 +41,10 @@ const RotationControls: React.FC<Props> = ({
   return (
     <Html position={position} center zIndexRange={[10, 0]}>
       <div
-        style={{ display: hidden ? "none" : "flex" }} // fully removes it from layout
+        style={{ display: hidden ? "none" : "flex" }}
         className="flex-col items-center gap-1 text-xs"
       >
-        {/* Z-axis rotation */}
+        {/* Z-axis */}
         <div className="flex gap-2 mt-1">
           <button
             onPointerDown={(e) => {
@@ -64,7 +65,8 @@ const RotationControls: React.FC<Props> = ({
             <span className="inline-block rotate-90">↶</span> Z
           </button>
         </div>
-        {/* Y-axis rotation */}
+
+        {/* Y-axis */}
         <div className="flex gap-2">
           <button
             onPointerDown={(e) => {
@@ -86,7 +88,7 @@ const RotationControls: React.FC<Props> = ({
           </button>
         </div>
 
-        {/* X-axis rotation */}
+        {/* X-axis */}
         <div className="flex gap-2 mt-1">
           <button
             onPointerDown={(e) => {
@@ -108,6 +110,7 @@ const RotationControls: React.FC<Props> = ({
           </button>
         </div>
 
+        {/* Rotation display */}
         <div className="flex flex-col bg-gray-400 p-2 rounded-xl mt-1 text-xs text-gray-300">
           <div className="flex gap-2 items-center justify-center w-full">
             <span className="font-semibold text-white">X:</span> {degreesX}°
