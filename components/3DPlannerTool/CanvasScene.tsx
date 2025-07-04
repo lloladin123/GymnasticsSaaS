@@ -7,6 +7,7 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { Block as BlockType } from "./types";
 import Block from "./Block";
 import OrbitToggle from "./OrbitToggle";
+import Undoable from "./behaviors/Undoable";
 
 const CanvasScene: React.FC = () => {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
@@ -88,28 +89,30 @@ const CanvasScene: React.FC = () => {
           <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
           <Grid args={[20, 20]} cellSize={1} cellThickness={0.5} />
           <OrbitToggle orbitRef={orbitRef} />
-          {blocks.map((block) => (
-            <Block
-              key={block.id}
-              {...block}
-              isDragging={draggingId === block.id}
-              isSelected={selectedId === block.id}
-              setSelectedId={setSelectedId}
-              setOrbitEnabled={setOrbitEnabled}
-              setBlocks={setBlocks}
-              onDragStart={(id) => {
-                setDraggingId(id);
-                setSelectedId(id);
-                setOrbitEnabled(false);
-              }}
-              onDragEnd={() => {
-                setDraggingId(null);
-                setOrbitEnabled(true);
-              }}
-              onDrag={handleDrag}
-              onRotate={handleRotate}
-            />
-          ))}
+          <Undoable blocks={blocks} setBlocks={setBlocks}>
+            {blocks.map((block) => (
+              <Block
+                key={block.id}
+                {...block}
+                isDragging={draggingId === block.id}
+                isSelected={selectedId === block.id}
+                setSelectedId={setSelectedId}
+                setOrbitEnabled={setOrbitEnabled}
+                setBlocks={setBlocks}
+                onDragStart={(id) => {
+                  setDraggingId(id);
+                  setSelectedId(id);
+                  setOrbitEnabled(false);
+                }}
+                onDragEnd={() => {
+                  setDraggingId(null);
+                  setOrbitEnabled(true);
+                }}
+                onDrag={handleDrag}
+                onRotate={handleRotate}
+              />
+            ))}
+          </Undoable>
           <EffectComposer>
             <Bloom
               intensity={0.1}
