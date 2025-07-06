@@ -6,6 +6,7 @@ import Draggable from "./behaviors/Draggable";
 import Rotatable from "./behaviors/Rotatable";
 import MeshRepresentation from "./MeshRepresentation";
 import Deletable from "./behaviors/Deletable";
+import Selectable from "./behaviors/Selectable";
 
 interface BlockProps {
   id: number;
@@ -47,7 +48,16 @@ const Block: React.FC<BlockProps> = ({
 }) => {
   const ref = useRef<Mesh>(null);
 
-  let content = <MeshRepresentation type={type} isSelected={isSelected} />;
+  // ✅ Start with innermost: Selectable
+  let content = (
+    <Selectable
+      id={id}
+      selectedId={isSelected ? id : null}
+      setSelectedId={setSelectedId}
+    >
+      <MeshRepresentation type={type} isSelected={isSelected} />
+    </Selectable>
+  );
 
   if (behaviors.includes("deletable")) {
     content = (
@@ -81,13 +91,13 @@ const Block: React.FC<BlockProps> = ({
       <Draggable
         ref={ref}
         id={id}
+        selectedId={isSelected ? id : null}
         initialPosition={position}
         isDragging={isDragging}
-        setSelectedId={setSelectedId}
-        setOrbitEnabled={setOrbitEnabled}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDrag={onDrag}
+        setOrbitEnabled={setOrbitEnabled}
       >
         {content}
       </Draggable>

@@ -25,7 +25,7 @@ const CanvasScene: React.FC = () => {
     const newBlock: BlockType = {
       id: Date.now(),
       type: "airtrack",
-      behaviors: ["draggable", "rotatable", "deletable"],
+      behaviors: ["selectable", "draggable", "rotatable", "deletable"],
       position: [0, 0.1, 0],
       rotation: [0, 0, 0],
     };
@@ -68,7 +68,8 @@ const CanvasScene: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-1">
+    <div className="flex flex-1 min-h-screen">
+      {/* Left Toolbox */}
       <div className="w-56 bg-gray-100 p-4 shadow-md z-10">
         <h3 className="text-lg font-semibold mb-4">Toolbox</h3>
         <button
@@ -78,7 +79,9 @@ const CanvasScene: React.FC = () => {
           Add Airtrack
         </button>
       </div>
-      <div className="flex-1">
+
+      {/* Center Canvas */}
+      <div className="flex-1 relative">
         <Canvas
           shadows
           camera={{ position: [0, 5, 10], fov: 50 }}
@@ -121,6 +124,59 @@ const CanvasScene: React.FC = () => {
             />
           </EffectComposer>
         </Canvas>
+      </div>
+
+      {/* Right Guide Panel */}
+      <div className="w-64 bg-gray-100 p-4 border-l border-gray-300 text-sm z-10 overflow-y-auto max-h-screen">
+        <h3 className="text-lg font-semibold mb-4">Guide</h3>
+
+        <div className="mb-4">
+          <h4 className="font-medium">➕ Adding Blocks</h4>
+          <p>
+            Use the “Add Airtrack” button in the left toolbox to add a new block
+            to the scene.
+          </p>
+        </div>
+
+        <div className="mb-4">
+          <h4 className="font-medium">🖱️ Selecting</h4>
+          <p>Click on a block to select it. Click empty space to deselect.</p>
+        </div>
+
+        <div className="mb-4">
+          <h4 className="font-medium">📦 Moving</h4>
+          <ul className="list-disc list-inside ml-2">
+            <li>
+              <b>Drag</b> a block with your mouse
+            </li>
+            <li>
+              <b>Arrow keys</b>: Move the selected block on the X/Z plane
+            </li>
+          </ul>
+        </div>
+
+        <div className="mb-4">
+          <h4 className="font-medium">🔄 Rotating</h4>
+          <ul className="list-disc list-inside ml-2">
+            <li>
+              <b>Q / E</b>: Rotate around Y-axis
+            </li>
+            <li>
+              <b>W / S</b>: Rotate around X-axis
+            </li>
+            <li>
+              <b>A / D</b>: Rotate around Z-axis
+            </li>
+            <li>Use the on-screen buttons when a block is selected</li>
+          </ul>
+        </div>
+
+        <div className="mb-4">
+          <h4 className="font-medium">🗑️ Deleting</h4>
+          <p>
+            Press the <b>Delete</b> key while a block is selected to remove it.
+          </p>
+        </div>
       </div>
     </div>
   );
