@@ -7,7 +7,7 @@ import React, {
   forwardRef,
 } from "react";
 import { useThree } from "@react-three/fiber";
-import { Mesh } from "three";
+import { Mesh, Raycaster, Vector2, Vector3, Plane } from "three";
 
 interface DraggableProps {
   id: number;
@@ -36,65 +36,86 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
     },
     forwardedRef
   ) => {
-    const localRef = useRef<Mesh>(null);
-    const pointerDownRef = useRef<{ x: number; y: number } | null>(null);
-    const [didDrag, setDidDrag] = useState(false);
+    const meshRef = useRef<Mesh>(null);
+    useImperativeHandle(forwardedRef, () => meshRef.current!, []);
+
+    const { gl, camera } = useThree();
+    const raycaster = useRef(new Raycaster());
+    const plane = useRef(new Plane(new Vector3(0, 1, 0), -0.1));
+    const intersection = new Vector3();
+
     const [blockPos, setBlockPos] = useState(initialPosition);
+    const dragging = useRef(false);
+    const pointerStart = useRef<{ x: number; y: number } | null>(null);
+    const dragThreshold = 3; // px
 
-    const { gl, viewport } = useThree();
-
-    const getCanvasRelativePosition = (e: PointerEvent) => {
+    const getRaycastPosition = (clientX: number, clientY: number) => {
       const rect = gl.domElement.getBoundingClientRect();
-      const xNdc = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const yNdc = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      const ndc = new Vector2(
+        ((clientX - rect.left) / rect.width) * 2 - 1,
+        -((clientY - rect.top) / rect.height) * 2 + 1
+      );
 
-      const x = (xNdc * viewport.width) / 2;
-      const z = (-yNdc * viewport.height) / 2;
-
-      return [Math.round(x), 0.1, Math.round(z)] as [number, number, number];
+      raycaster.current.setFromCamera(ndc, camera);
+      if (raycaster.current.ray.intersectPlane(plane.current, intersection)) {
+        return [
+          Math.round(intersection.x),
+          0.1,
+          Math.round(intersection.z),
+        ] as [number, number, number];
+      }
+      return blockPos;
     };
-
-    useImperativeHandle(forwardedRef, () => localRef.current!, []);
 
     const handlePointerMove = (e: PointerEvent) => {
-      if (!pointerDownRef.current) return;
+      const { clientX, clientY } = e;
 
-      const dx = Math.abs(e.clientX - pointerDownRef.current.x);
-      const dy = Math.abs(e.clientY - pointerDownRef.current.y);
+      if (!pointerStart.current) return;
 
-      if (!didDrag && (dx > 2 || dy > 2)) {
+      // Check if drag should begin
+      if (!dragging.current) {
+        const dx = clientX - pointerStart.current.x;
+        const dy = clientY - pointerStart.current.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < dragThreshold) return;
+
+        // Start drag officially
         onDragStart(id);
-        setDidDrag(true);
         setOrbitEnabled(false);
+        dragging.current = true;
+        console.log("🟡 Drag started after movement");
       }
 
-      if (didDrag) {
-        const newPos = getCanvasRelativePosition(e);
-        setBlockPos(newPos);
-        onDrag(id, newPos);
-      }
+      const newPos = getRaycastPosition(clientX, clientY);
+      setBlockPos(newPos);
+      onDrag(id, newPos);
     };
 
-    const handlePointerUp = (e: PointerEvent) => {
-      if (didDrag) {
+    const handlePointerUp = () => {
+      if (dragging.current) {
         onDrag(id, blockPos);
         onDragEnd();
-        setDidDrag(false);
         setOrbitEnabled(true);
+        dragging.current = false;
+        console.log("🔴 Drag ended");
       }
-      pointerDownRef.current = null;
+
+      pointerStart.current = null;
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerup", handlePointerUp);
     };
 
     return (
       <group
-        ref={localRef}
+        ref={meshRef}
         position={blockPos}
         onPointerDown={(e) => {
           e.stopPropagation();
-          pointerDownRef.current = { x: e.clientX, y: e.clientY };
           setSelectedId(id);
+
+          // Just store the initial click, do NOT start drag yet
+          pointerStart.current = { x: e.clientX, y: e.clientY };
 
           window.addEventListener("pointermove", handlePointerMove);
           window.addEventListener("pointerup", handlePointerUp);
