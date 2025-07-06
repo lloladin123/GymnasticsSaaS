@@ -8,6 +8,7 @@ interface UndoableProps {
   setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
   children: React.ReactNode;
   maxHistory?: number;
+  batchDelay?: number; // time window (ms) to batch rapid changes
 }
 
 const Undoable: React.FC<UndoableProps> = ({
@@ -15,18 +16,14 @@ const Undoable: React.FC<UndoableProps> = ({
   setBlocks,
   children,
   maxHistory = 20,
+  batchDelay = 300,
 }) => {
   const historyRef = useRef<Block[][]>([]);
   const prevSerialized = useRef<string>("");
   const skipNextTrack = useRef<boolean>(false);
+  const batchTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  // Track changes unless skip flag is set
-  useEffect(() => {
-    if (skipNextTrack.current) {
-      skipNextTrack.current = false;
-      return;
-    }
-
+  const pushToHistory = () => {
     const current = JSON.stringify(blocks);
     if (current !== prevSerialized.current) {
       prevSerialized.current = current;
@@ -35,7 +32,30 @@ const Undoable: React.FC<UndoableProps> = ({
         historyRef.current.shift();
       }
     }
-  }, [blocks, maxHistory]);
+  };
+
+  // Track changes with batching
+  useEffect(() => {
+    if (skipNextTrack.current) {
+      skipNextTrack.current = false;
+      return;
+    }
+
+    // Clear previous batch timer and set a new one
+    if (batchTimeout.current) clearTimeout(batchTimeout.current);
+    batchTimeout.current = setTimeout(() => {
+      pushToHistory();
+      batchTimeout.current = null;
+    }, batchDelay);
+
+    // Also, optionally, push immediately if no batch delay wanted
+    // pushToHistory();
+
+    // Cleanup on unmount
+    return () => {
+      if (batchTimeout.current) clearTimeout(batchTimeout.current);
+    };
+  }, [blocks, maxHistory, batchDelay]);
 
   // Undo handler
   useEffect(() => {
