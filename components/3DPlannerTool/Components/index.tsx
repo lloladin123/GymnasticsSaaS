@@ -1,5 +1,5 @@
 "use client";
-import CanvasScene from "./CanvasScene";
+import CanvasScene from "../Scenes/CanvasScene";
 
 const ThreeDPlannerTool = () => {
   return (
