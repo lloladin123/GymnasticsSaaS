@@ -54,6 +54,14 @@ const GuidePanel: React.FC = () => {
           Press the <b>Delete</b> key while a block is selected to remove it.
         </p>
       </div>
+
+      <div className="mb-4">
+        <h4 className="font-medium">↩️ Undo / ↪️ Redo</h4>
+        <p>
+          Use <b>Ctrl + Z</b> to undo your last action and{" "}
+          <b>Ctrl + Shift + Z</b> to redo it.
+        </p>
+      </div>
     </div>
   );
 };
