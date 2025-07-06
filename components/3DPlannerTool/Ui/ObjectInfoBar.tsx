@@ -11,9 +11,16 @@ const ObjectInfoBar: React.FC<Props> = ({ rotation, position }) => {
   const [x, y, z] = rotation;
   const [px, py, pz] = position;
 
-  const degreesX = ((x * 180) / Math.PI).toFixed(1);
-  const degreesY = ((y * 180) / Math.PI).toFixed(1);
-  const degreesZ = ((z * 180) / Math.PI).toFixed(1);
+  // Normalize radians to 0-360 degrees
+  const toDegreesNormalized = (rad: number) => {
+    let deg = (rad * 180) / Math.PI;
+    deg = ((deg % 360) + 360) % 360;
+    return deg.toFixed(1);
+  };
+
+  const degreesX = toDegreesNormalized(x);
+  const degreesY = toDegreesNormalized(y);
+  const degreesZ = toDegreesNormalized(z);
 
   return (
     <div className="bg-gray-800 text-white px-4 py-2 w-7/12 text-sm flex justify-between">
