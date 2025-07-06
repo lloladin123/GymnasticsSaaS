@@ -12,6 +12,7 @@ import GuidePanel from "../Ui/GuidePanel";
 import Toolbox from "../Ui/Toolbox";
 import UndoController from "../Controllers/UndoController ";
 import DragController from "../Controllers/DragController";
+import RotationController from "../Controllers/RotationController ";
 
 const CanvasScene: React.FC = () => {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
@@ -120,6 +121,15 @@ const CanvasScene: React.FC = () => {
           </EffectComposer>
         </Canvas>
       </div>
+
+      <RotationController
+        isActive={selectedId !== null}
+        onRotate={(axis, direction, amount) => {
+          if (selectedId !== null) {
+            handleRotate(selectedId, axis, direction, amount);
+          }
+        }}
+      />
 
       {/* Undo/Redo controller handling keybindings */}
       <UndoController
