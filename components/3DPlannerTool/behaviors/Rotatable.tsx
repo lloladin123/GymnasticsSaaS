@@ -2,7 +2,6 @@
 
 import React, { forwardRef, useEffect } from "react";
 import { Mesh, Euler } from "three";
-import RotationControls from "../RotationControls";
 
 interface RotatableProps {
   rotation: [number, number, number];
@@ -57,14 +56,6 @@ const Rotatable = forwardRef<Mesh, RotatableProps>(
     return (
       <group ref={ref} rotation={new Euler(...rotation)}>
         {children}
-        {isSelected && (
-          <RotationControls
-            targetRef={ref as React.RefObject<Mesh>}
-            rotation={rotation}
-            onRotate={onRotate}
-            hidden={isDragging}
-          />
-        )}
       </group>
     );
   }
