@@ -74,13 +74,7 @@ const Block: React.FC<BlockProps> = ({
 
   if (behaviors.includes("rotatable")) {
     content = (
-      <Rotatable
-        ref={ref}
-        rotation={rotation}
-        isSelected={isSelected}
-        isDragging={isDragging}
-        onRotate={(axis, dir, amt) => onRotate(id, axis, dir, amt)}
-      >
+      <Rotatable ref={ref} rotation={rotation}>
         {content}
       </Rotatable>
     );
