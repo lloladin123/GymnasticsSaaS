@@ -19,6 +19,7 @@ const Undoable: React.FC<UndoableProps> = ({
   batchDelay = 300,
 }) => {
   const historyRef = useRef<Block[][]>([]);
+  const redoStackRef = useRef<Block[][]>([]);
   const prevSerialized = useRef<string>("");
   const skipNextTrack = useRef<boolean>(false);
   const batchTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -31,6 +32,8 @@ const Undoable: React.FC<UndoableProps> = ({
       if (historyRef.current.length > maxHistory) {
         historyRef.current.shift();
       }
+      // Clear redo stack on new action
+      redoStackRef.current = [];
     }
   };
 
@@ -41,32 +44,39 @@ const Undoable: React.FC<UndoableProps> = ({
       return;
     }
 
-    // Clear previous batch timer and set a new one
     if (batchTimeout.current) clearTimeout(batchTimeout.current);
     batchTimeout.current = setTimeout(() => {
       pushToHistory();
       batchTimeout.current = null;
     }, batchDelay);
 
-    // Also, optionally, push immediately if no batch delay wanted
-    // pushToHistory();
-
-    // Cleanup on unmount
     return () => {
       if (batchTimeout.current) clearTimeout(batchTimeout.current);
     };
   }, [blocks, maxHistory, batchDelay]);
 
-  // Undo handler
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key.toLowerCase() === "z") {
+      // Undo: Ctrl+Z or Cmd+Z (without Shift)
+      if (e.ctrlKey && !e.shiftKey && e.key.toLowerCase() === "z") {
         e.preventDefault();
         if (historyRef.current.length > 1) {
-          historyRef.current.pop(); // remove current
+          const current = historyRef.current.pop()!;
+          redoStackRef.current.push(current);
           const prev = historyRef.current[historyRef.current.length - 1];
-          skipNextTrack.current = true; // skip tracking this update
+          skipNextTrack.current = true;
           setBlocks(prev.map((b) => ({ ...b })));
+        }
+      }
+
+      // Redo: Ctrl+Shift+Z or Cmd+Shift+Z
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "z") {
+        e.preventDefault();
+        if (redoStackRef.current.length > 0) {
+          const redo = redoStackRef.current.pop()!;
+          historyRef.current.push(redo);
+          skipNextTrack.current = true;
+          setBlocks(redo.map((b) => ({ ...b })));
         }
       }
     };
