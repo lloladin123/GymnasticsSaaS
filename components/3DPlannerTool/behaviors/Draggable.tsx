@@ -5,18 +5,19 @@ import React, {
   useState,
   useImperativeHandle,
   forwardRef,
+  useEffect,
 } from "react";
 import { useThree } from "@react-three/fiber";
 import { Mesh, Raycaster, Vector2, Vector3, Plane } from "three";
 
 interface DraggableProps {
   id: number;
+  selectedId: number | null;
   initialPosition: [number, number, number];
   isDragging: boolean;
   onDragStart: (id: number) => void;
   onDragEnd: () => void;
   onDrag: (id: number, newPos: [number, number, number]) => void;
-  setSelectedId: (id: number | null) => void;
   setOrbitEnabled: (enabled: boolean) => void;
   children: React.ReactNode;
 }
@@ -25,12 +26,12 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
   (
     {
       id,
+      selectedId,
       initialPosition,
       isDragging,
       onDragStart,
       onDragEnd,
       onDrag,
-      setSelectedId,
       setOrbitEnabled,
       children,
     },
@@ -47,7 +48,7 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
     const [blockPos, setBlockPos] = useState(initialPosition);
     const dragging = useRef(false);
     const pointerStart = useRef<{ x: number; y: number } | null>(null);
-    const dragThreshold = 3; // px
+    const dragThreshold = 3;
 
     const getRaycastPosition = (clientX: number, clientY: number) => {
       const rect = gl.domElement.getBoundingClientRect();
@@ -72,7 +73,6 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
 
       if (!pointerStart.current) return;
 
-      // Check if drag should begin
       if (!dragging.current) {
         const dx = clientX - pointerStart.current.x;
         const dy = clientY - pointerStart.current.y;
@@ -80,11 +80,9 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
 
         if (dist < dragThreshold) return;
 
-        // Start drag officially
         onDragStart(id);
         setOrbitEnabled(false);
         dragging.current = true;
-        console.log("🟡 Drag started after movement");
       }
 
       const newPos = getRaycastPosition(clientX, clientY);
@@ -98,7 +96,6 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
         onDragEnd();
         setOrbitEnabled(true);
         dragging.current = false;
-        console.log("🔴 Drag ended");
       }
 
       pointerStart.current = null;
@@ -106,17 +103,52 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
       window.removeEventListener("pointerup", handlePointerUp);
     };
 
+    useEffect(() => {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (selectedId !== id) return;
+
+        const delta: [number, number, number] = [0, 0, 0];
+
+        switch (e.key) {
+          case "ArrowUp":
+            delta[2] = -1;
+            break;
+          case "ArrowDown":
+            delta[2] = 1;
+            break;
+          case "ArrowLeft":
+            delta[0] = -1;
+            break;
+          case "ArrowRight":
+            delta[0] = 1;
+            break;
+          default:
+            return;
+        }
+
+        e.preventDefault();
+
+        const newPos: [number, number, number] = [
+          blockPos[0] + delta[0],
+          blockPos[1],
+          blockPos[2] + delta[2],
+        ];
+
+        setBlockPos(newPos);
+        onDrag(id, newPos);
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [selectedId, id, blockPos, onDrag]);
+
     return (
       <group
         ref={meshRef}
         position={blockPos}
         onPointerDown={(e) => {
           e.stopPropagation();
-          setSelectedId(id);
-
-          // Just store the initial click, do NOT start drag yet
           pointerStart.current = { x: e.clientX, y: e.clientY };
-
           window.addEventListener("pointermove", handlePointerMove);
           window.addEventListener("pointerup", handlePointerUp);
         }}

@@ -25,7 +25,7 @@ const CanvasScene: React.FC = () => {
     const newBlock: BlockType = {
       id: Date.now(),
       type: "airtrack",
-      behaviors: ["draggable", "rotatable", "deletable"],
+      behaviors: ["selectable", "draggable", "rotatable", "deletable"],
       position: [0, 0.1, 0],
       rotation: [0, 0, 0],
     };
