@@ -148,6 +148,7 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
         position={blockPos}
         onPointerDown={(e) => {
           e.stopPropagation();
+          setOrbitEnabled(false);
           pointerStart.current = { x: e.clientX, y: e.clientY };
           window.addEventListener("pointermove", handlePointerMove);
           window.addEventListener("pointerup", handlePointerUp);
