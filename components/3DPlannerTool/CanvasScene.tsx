@@ -127,7 +127,7 @@ const CanvasScene: React.FC = () => {
       </div>
 
       {/* Right Guide Panel */}
-      <div className="w-64 bg-white p-4 border-l border-gray-300 text-sm z-10 overflow-y-auto max-h-screen">
+      <div className="w-64 bg-gray-100 p-4 border-l border-gray-300 text-sm z-10 overflow-y-auto max-h-screen">
         <h3 className="text-lg font-semibold mb-4">Guide</h3>
 
         <div className="mb-4">
