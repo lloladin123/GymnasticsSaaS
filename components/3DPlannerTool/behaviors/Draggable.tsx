@@ -1,11 +1,6 @@
 "use client";
 
-import React, {
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-  useEffect,
-} from "react";
+import React, { useRef, useImperativeHandle, forwardRef } from "react";
 import { useThree } from "@react-three/fiber";
 import { Mesh, Raycaster, Vector2, Vector3, Plane } from "three";
 
@@ -98,44 +93,6 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerup", handlePointerUp);
     };
-
-    useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (selectedId !== id) return;
-
-        const delta: [number, number, number] = [0, 0, 0];
-
-        switch (e.key) {
-          case "ArrowUp":
-            delta[2] = -1;
-            break;
-          case "ArrowDown":
-            delta[2] = 1;
-            break;
-          case "ArrowLeft":
-            delta[0] = -1;
-            break;
-          case "ArrowRight":
-            delta[0] = 1;
-            break;
-          default:
-            return;
-        }
-
-        e.preventDefault();
-
-        const newPos: [number, number, number] = [
-          initialPosition[0] + delta[0],
-          initialPosition[1],
-          initialPosition[2] + delta[2],
-        ];
-
-        onDrag(id, newPos);
-      };
-
-      window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [selectedId, id, initialPosition, onDrag]);
 
     return (
       <group

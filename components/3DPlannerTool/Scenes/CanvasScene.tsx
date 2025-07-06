@@ -11,6 +11,7 @@ import ObjectInfoBar from "../Ui/ObjectInfoBar";
 import GuidePanel from "../Ui/GuidePanel";
 import Toolbox from "../Ui/Toolbox";
 import UndoController from "../Controllers/UndoController ";
+import DragController from "../Controllers/DragController";
 
 const CanvasScene: React.FC = () => {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
@@ -124,6 +125,22 @@ const CanvasScene: React.FC = () => {
       <UndoController
         onUndo={() => undoableRef.current?.undo()}
         onRedo={() => undoableRef.current?.redo()}
+      />
+      <DragController
+        selectedId={selectedId}
+        onMove={(id, newPos) => {
+          setBlocks((blocks) =>
+            blocks.map((b) =>
+              b.id === id
+                ? {
+                    ...b,
+                    position: newPos,
+                  }
+                : b
+            )
+          );
+        }}
+        getPosition={(id) => blocks.find((b) => b.id === id)?.position}
       />
 
       {/* Bottompanel */}
