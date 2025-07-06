@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ToolCanvas from "../../components/3DPlannerTool/index";
+import ToolCanvas from "../../components/3DPlannerTool/Components/index";
 
 const Page = () => {
   return (

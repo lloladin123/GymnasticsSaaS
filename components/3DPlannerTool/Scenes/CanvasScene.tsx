@@ -4,12 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Grid } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { Block as BlockType } from "./types";
-import Block from "./Block";
-import Undoable from "./behaviors/Undoable";
-import ObjectInfoBar from "./ObjectInfoBar";
-import GuidePanel from "./GuidePanel";
-import Toolbox from "./Toolbox";
+import { Block as BlockType } from "../types";
+import Block from "../Components/Block";
+import Undoable from "../behaviors/Undoable";
+import ObjectInfoBar from "../Ui/ObjectInfoBar";
+import GuidePanel from "../Ui/GuidePanel";
+import Toolbox from "../Ui/Toolbox";
 
 const CanvasScene: React.FC = () => {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
