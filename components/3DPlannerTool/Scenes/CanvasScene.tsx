@@ -6,10 +6,11 @@ import { OrbitControls, Grid } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { Block as BlockType } from "../types";
 import Block from "../Components/Block";
-import Undoable from "../behaviors/Undoable";
+import Undoable, { UndoableRef } from "../behaviors/Undoable";
 import ObjectInfoBar from "../Ui/ObjectInfoBar";
 import GuidePanel from "../Ui/GuidePanel";
 import Toolbox from "../Ui/Toolbox";
+import UndoController from "../Controllers/UndoController ";
 
 const CanvasScene: React.FC = () => {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
@@ -17,6 +18,8 @@ const CanvasScene: React.FC = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const orbitRef = useRef<any>(null);
   const [orbitEnabled, setOrbitEnabled] = useState(true);
+
+  const undoableRef = useRef<UndoableRef>(null); // ref for Undoable
 
   const addBlock = () => {
     const newBlock: BlockType = {
@@ -80,7 +83,7 @@ const CanvasScene: React.FC = () => {
           <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
           <Grid args={[20, 20]} cellSize={1} cellThickness={0.5} />
           <OrbitControls ref={orbitRef} enabled={orbitEnabled} />
-          <Undoable blocks={blocks} setBlocks={setBlocks}>
+          <Undoable ref={undoableRef} blocks={blocks} setBlocks={setBlocks}>
             {blocks.map((block) => (
               <Block
                 key={block.id}
@@ -98,10 +101,9 @@ const CanvasScene: React.FC = () => {
                 onDragEnd={() => {
                   setDraggingId(null);
 
-                  // Delay orbit re-enable to avoid picking up residual mouse movement
                   setTimeout(() => {
                     setOrbitEnabled(true);
-                  }, 500); // 100ms delay (adjust as needed)
+                  }, 500);
                 }}
                 onDrag={handleDrag}
                 onRotate={handleRotate}
@@ -118,6 +120,12 @@ const CanvasScene: React.FC = () => {
         </Canvas>
       </div>
 
+      {/* Undo/Redo controller handling keybindings */}
+      <UndoController
+        onUndo={() => undoableRef.current?.undo()}
+        onRedo={() => undoableRef.current?.redo()}
+      />
+
       {/* Bottompanel */}
       {selectedId !== null && (
         <div className="absolute bottom-0 left-56 right-64 flex justify-center z-20 pb-2">
@@ -132,7 +140,7 @@ const CanvasScene: React.FC = () => {
         </div>
       )}
 
-      <GuidePanel></GuidePanel>
+      <GuidePanel />
     </div>
   );
 };
