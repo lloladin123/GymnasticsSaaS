@@ -2,10 +2,10 @@
 
 import React, {
   useRef,
-  useState,
   useImperativeHandle,
   forwardRef,
   useEffect,
+  useState,
 } from "react";
 import { useThree } from "@react-three/fiber";
 import { Mesh, Raycaster, Vector2, Vector3, Plane } from "three";
@@ -49,6 +49,13 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
     const dragging = useRef(false);
     const pointerStart = useRef<{ x: number; y: number } | null>(null);
     const dragThreshold = 3;
+
+    // Sync local position if initialPosition changes (e.g., undo)
+    useEffect(() => {
+      if (!dragging.current) {
+        setBlockPos(initialPosition);
+      }
+    }, [initialPosition]);
 
     const getRaycastPosition = (clientX: number, clientY: number) => {
       const rect = gl.domElement.getBoundingClientRect();
