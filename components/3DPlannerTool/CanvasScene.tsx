@@ -91,6 +91,7 @@ const CanvasScene: React.FC = () => {
           <ambientLight intensity={0.4} />
           <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
           <Grid args={[20, 20]} cellSize={1} cellThickness={0.5} />
+          <OrbitControls ref={orbitRef} />
           <OrbitToggle orbitRef={orbitRef} />
           <Undoable blocks={blocks} setBlocks={setBlocks}>
             {blocks.map((block) => (
