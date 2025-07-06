@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useRef,
-  useState,
-  useImperativeHandle,
-  forwardRef,
-  useEffect,
-} from "react";
+import React, { useRef, useImperativeHandle, forwardRef } from "react";
 import { useThree } from "@react-three/fiber";
 import { Mesh, Raycaster, Vector2, Vector3, Plane } from "three";
 
@@ -45,7 +39,6 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
     const plane = useRef(new Plane(new Vector3(0, 1, 0), -0.1));
     const intersection = new Vector3();
 
-    const [blockPos, setBlockPos] = useState(initialPosition);
     const dragging = useRef(false);
     const pointerStart = useRef<{ x: number; y: number } | null>(null);
     const dragThreshold = 3;
@@ -65,7 +58,7 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
           Math.round(intersection.z),
         ] as [number, number, number];
       }
-      return blockPos;
+      return initialPosition;
     };
 
     const handlePointerMove = (e: PointerEvent) => {
@@ -86,13 +79,11 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
       }
 
       const newPos = getRaycastPosition(clientX, clientY);
-      setBlockPos(newPos);
       onDrag(id, newPos);
     };
 
     const handlePointerUp = () => {
       if (dragging.current) {
-        onDrag(id, blockPos);
         onDragEnd();
         setOrbitEnabled(true);
         dragging.current = false;
@@ -103,49 +94,10 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
       window.removeEventListener("pointerup", handlePointerUp);
     };
 
-    useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (selectedId !== id) return;
-
-        const delta: [number, number, number] = [0, 0, 0];
-
-        switch (e.key) {
-          case "ArrowUp":
-            delta[2] = -1;
-            break;
-          case "ArrowDown":
-            delta[2] = 1;
-            break;
-          case "ArrowLeft":
-            delta[0] = -1;
-            break;
-          case "ArrowRight":
-            delta[0] = 1;
-            break;
-          default:
-            return;
-        }
-
-        e.preventDefault();
-
-        const newPos: [number, number, number] = [
-          blockPos[0] + delta[0],
-          blockPos[1],
-          blockPos[2] + delta[2],
-        ];
-
-        setBlockPos(newPos);
-        onDrag(id, newPos);
-      };
-
-      window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [selectedId, id, blockPos, onDrag]);
-
     return (
       <group
         ref={meshRef}
-        position={blockPos}
+        position={initialPosition}
         onPointerDown={(e) => {
           e.stopPropagation();
           setOrbitEnabled(false);
