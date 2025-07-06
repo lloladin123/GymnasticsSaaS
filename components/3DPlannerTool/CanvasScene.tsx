@@ -14,12 +14,7 @@ const CanvasScene: React.FC = () => {
   const [draggingId, setDraggingId] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const orbitRef = useRef<any>(null);
-
-  const setOrbitEnabled = (enabled: boolean) => {
-    if (orbitRef.current) {
-      orbitRef.current.enabled = enabled;
-    }
-  };
+  const [orbitEnabled, setOrbitEnabled] = useState(true);
 
   const addBlock = () => {
     const newBlock: BlockType = {
@@ -91,8 +86,7 @@ const CanvasScene: React.FC = () => {
           <ambientLight intensity={0.4} />
           <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
           <Grid args={[20, 20]} cellSize={1} cellThickness={0.5} />
-          <OrbitControls ref={orbitRef} />
-          <OrbitToggle orbitRef={orbitRef} />
+          <OrbitControls ref={orbitRef} enabled={orbitEnabled} />
           <Undoable blocks={blocks} setBlocks={setBlocks}>
             {blocks.map((block) => (
               <Block
@@ -110,7 +104,11 @@ const CanvasScene: React.FC = () => {
                 }}
                 onDragEnd={() => {
                   setDraggingId(null);
-                  setOrbitEnabled(true);
+
+                  // Delay orbit re-enable to avoid picking up residual mouse movement
+                  setTimeout(() => {
+                    setOrbitEnabled(true);
+                  }, 500); // 100ms delay (adjust as needed)
                 }}
                 onDrag={handleDrag}
                 onRotate={handleRotate}
