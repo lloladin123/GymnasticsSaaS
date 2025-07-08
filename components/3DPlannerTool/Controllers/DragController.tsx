@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 interface DragControllerProps {
   selectedId: number | null;
-  onMove: (id: number, delta: [number, number, number]) => void;
+  onMove: (id: number, newPos: [number, number, number]) => void;
   getPosition: (id: number) => [number, number, number] | undefined;
 }
 
@@ -20,40 +20,50 @@ const DragController: React.FC<DragControllerProps> = ({
       const moveKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
       if (!moveKeys.includes(e.key)) return;
 
-      const delta: [number, number, number] = [0, 0, 0];
-
-      switch (e.key) {
-        case "ArrowUp":
-          delta[2] = -1;
-          break;
-        case "ArrowDown":
-          delta[2] = 1;
-          break;
-        case "ArrowLeft":
-          delta[0] = -1;
-          break;
-        case "ArrowRight":
-          delta[0] = 1;
-          break;
-      }
-
       const pos = getPosition(selectedId);
       if (!pos) return;
 
+      // Default delta for X and Z
+      let delta: [number, number, number] = [0, 0, 0];
+
+      if (e.shiftKey) {
+        // Move up/down on Y axis when Shift + Up/Down
+        if (e.key === "ArrowUp") delta = [0, 1, 0];
+        else if (e.key === "ArrowDown") delta = [0, -1, 0];
+        else return; // Ignore left/right with shift
+      } else {
+        // Move on X/Z plane
+        switch (e.key) {
+          case "ArrowUp":
+            delta = [0, 0, -1];
+            break;
+          case "ArrowDown":
+            delta = [0, 0, 1];
+            break;
+          case "ArrowLeft":
+            delta = [-1, 0, 0];
+            break;
+          case "ArrowRight":
+            delta = [1, 0, 0];
+            break;
+        }
+      }
+
       const newPos: [number, number, number] = [
         pos[0] + delta[0],
-        pos[1],
+        pos[1] + delta[1],
         pos[2] + delta[2],
       ];
 
       onMove(selectedId, newPos);
+      e.preventDefault();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedId, onMove, getPosition]);
 
-  return null; // no UI
+  return null;
 };
 
 export default DragController;

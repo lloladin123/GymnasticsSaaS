@@ -28,6 +28,10 @@ const sections = [
         <li>
           <b>Arrow keys</b>: Move the selected block on the X/Z plane
         </li>
+        <li>
+          <b>Shift + Arrow Up/Down</b>: Move the selected block up/down on the Y
+          axis
+        </li>
       </ul>
     ),
   },
