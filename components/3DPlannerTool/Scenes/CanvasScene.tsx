@@ -16,28 +16,32 @@ const CanvasScene: React.FC = () => {
 
   const undoableRef = useRef<any>(null);
 
-  // Add block here
+  // Add block function
   const addBlock = () => {
     const newBlock: BlockType = {
       id: Date.now(),
       type: "airtrack",
-      behaviors: ["selectable", "draggable", "rotatable", "deletable"],
+      behaviors: [
+        "selectable",
+        "draggable",
+        "rotatable",
+        "deletable",
+        "duplicatable",
+      ],
       position: [0, 0.1, 0],
       rotation: [0, 0, 0],
     };
     setBlocks((prev) => [...prev, newBlock]);
   };
 
-  // Drag and rotate handlers passed to BlocksManager
+  // Drag handlers
   const onDragStart = (id: number) => {
     setOrbitEnabled(false);
     setSelectedId(id);
   };
-
   const onDragEnd = () => {
     setOrbitEnabled(true);
   };
-
   const onDrag = (id: number, pos: [number, number, number]) => {
     setBlocks((prev) =>
       prev.map((block) =>
@@ -46,6 +50,7 @@ const CanvasScene: React.FC = () => {
     );
   };
 
+  // Rotate handler
   const onRotate = (
     id: number,
     axis: "x" | "y" | "z",
@@ -67,12 +72,29 @@ const CanvasScene: React.FC = () => {
     );
   };
 
+  // Duplicate handler - receives id, finds block internally
+  const handleDuplicate = (id: number) => {
+    const blockToDuplicate = blocks.find((b) => b.id === id);
+    if (!blockToDuplicate) return;
+    const newBlock: BlockType = {
+      ...blockToDuplicate,
+      id: Date.now(),
+      position: [
+        blockToDuplicate.position[0] + 0.5,
+        blockToDuplicate.position[1],
+        blockToDuplicate.position[2] + 0.5,
+      ],
+    };
+    setBlocks((prev) => [...prev, newBlock]);
+    setSelectedId(newBlock.id);
+  };
+
   return (
     <div className="flex flex-1 min-h-screen">
-      {/* Toolbox on left */}
+      {/* Toolbox */}
       <Toolbox onAddBlock={addBlock} />
 
-      {/* BlocksManager takes full available remaining space */}
+      {/* BlocksManager */}
       <div className="flex-1 relative">
         <BlocksManager
           blocks={blocks}
@@ -88,6 +110,7 @@ const CanvasScene: React.FC = () => {
         />
       </div>
 
+      {/* GlobalControllers */}
       <GlobalControllers
         selectedId={selectedId}
         onUndo={() => undoableRef.current?.undo()}
@@ -99,9 +122,11 @@ const CanvasScene: React.FC = () => {
             onRotate(selectedId, axis, direction, amount);
           }
         }}
+        onDuplicate={handleDuplicate}
         rotationActive={selectedId !== null}
       />
 
+      {/* Selected Block Info */}
       {selectedId !== null && (
         <div className="absolute bottom-0 left-56 right-64 flex justify-center z-20 pb-2">
           <ObjectInfoBar

@@ -4,6 +4,7 @@ import React from "react";
 import UndoController from "../Controllers/UndoController ";
 import DragController from "../Controllers/DragController";
 import RotationController from "../Controllers/RotationController ";
+import DuplicateController from "./DuplicateController";
 
 interface GlobalControllersProps {
   selectedId: number | null;
@@ -16,6 +17,7 @@ interface GlobalControllersProps {
     direction: "left" | "right",
     amount: number
   ) => void;
+  onDuplicate: (id: number) => void;
   rotationActive: boolean;
 }
 
@@ -26,6 +28,7 @@ const GlobalControllers: React.FC<GlobalControllersProps> = ({
   onMove,
   getPosition,
   onRotate,
+  onDuplicate,
   rotationActive,
 }) => {
   return (
@@ -39,6 +42,8 @@ const GlobalControllers: React.FC<GlobalControllersProps> = ({
       />
 
       <RotationController isActive={rotationActive} onRotate={onRotate} />
+
+      <DuplicateController selectedId={selectedId} onDuplicate={onDuplicate} />
     </>
   );
 };

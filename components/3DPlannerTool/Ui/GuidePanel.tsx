@@ -65,6 +65,15 @@ const sections = [
       </p>
     ),
   },
+  {
+    title: "📄 Duplicating",
+    content: (
+      <p>
+        Press <b>Ctrl + D</b> (or Cmd + D on Mac) to duplicate the selected
+        block.
+      </p>
+    ),
+  },
 ];
 
 const GuidePanel: React.FC = () => {

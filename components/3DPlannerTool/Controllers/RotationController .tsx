@@ -21,6 +21,9 @@ const RotationController: React.FC<RotationControllerProps> = ({
     const step = Math.PI / 36;
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if Ctrl or Cmd is pressed so other combos (like Ctrl+D) work
+      if (e.ctrlKey || e.metaKey) return;
+
       switch (e.key.toLowerCase()) {
         case "q":
           onRotate("y", "left", step);
