@@ -13,6 +13,8 @@ import Toolbox from "../Ui/Toolbox";
 import UndoController from "../Controllers/UndoController ";
 import DragController from "../Controllers/DragController";
 import RotationController from "../Controllers/RotationController ";
+import KeyboardBlocker from "../Components/KeyboardBlocker";
+import FocusTracker from "../Components/FocusTracker";
 
 const CanvasScene: React.FC = () => {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
@@ -20,6 +22,7 @@ const CanvasScene: React.FC = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const orbitRef = useRef<any>(null);
   const [orbitEnabled, setOrbitEnabled] = useState(true);
+  const [canvasActive, setCanvasActive] = React.useState(false);
 
   const undoableRef = useRef<UndoableRef>(null); // ref for Undoable
 
@@ -75,51 +78,54 @@ const CanvasScene: React.FC = () => {
 
       {/* Center Canvas */}
       <div className="flex-1 relative">
-        <Canvas
-          shadows
-          camera={{ position: [0, 5, 10], fov: 50 }}
-          onPointerMissed={handlePointerMissed}
-          onPointerUp={handlePointerUp}
-        >
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
-          <Grid args={[20, 20]} cellSize={1} cellThickness={0.5} />
-          <OrbitControls ref={orbitRef} enabled={orbitEnabled} />
-          <Undoable ref={undoableRef} blocks={blocks} setBlocks={setBlocks}>
-            {blocks.map((block) => (
-              <Block
-                key={block.id}
-                {...block}
-                isDragging={draggingId === block.id}
-                isSelected={selectedId === block.id}
-                setSelectedId={setSelectedId}
-                setOrbitEnabled={setOrbitEnabled}
-                setBlocks={setBlocks}
-                onDragStart={(id) => {
-                  setDraggingId(id);
-                  setSelectedId(id);
-                  setOrbitEnabled(false);
-                }}
-                onDragEnd={() => {
-                  setDraggingId(null);
+        <FocusTracker onFocusChange={setCanvasActive}>
+          <Canvas
+            shadows
+            camera={{ position: [0, 5, 10], fov: 50 }}
+            onPointerMissed={handlePointerMissed}
+            onPointerUp={handlePointerUp}
+          >
+            <KeyboardBlocker active={canvasActive} />
+            <ambientLight intensity={0.4} />
+            <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
+            <Grid args={[20, 20]} cellSize={1} cellThickness={0.5} />
+            <OrbitControls ref={orbitRef} enabled={orbitEnabled} />
+            <Undoable ref={undoableRef} blocks={blocks} setBlocks={setBlocks}>
+              {blocks.map((block) => (
+                <Block
+                  key={block.id}
+                  {...block}
+                  isDragging={draggingId === block.id}
+                  isSelected={selectedId === block.id}
+                  setSelectedId={setSelectedId}
+                  setOrbitEnabled={setOrbitEnabled}
+                  setBlocks={setBlocks}
+                  onDragStart={(id) => {
+                    setDraggingId(id);
+                    setSelectedId(id);
+                    setOrbitEnabled(false);
+                  }}
+                  onDragEnd={() => {
+                    setDraggingId(null);
 
-                  setTimeout(() => {
-                    setOrbitEnabled(true);
-                  }, 500);
-                }}
-                onDrag={handleDrag}
-                onRotate={handleRotate}
+                    setTimeout(() => {
+                      setOrbitEnabled(true);
+                    }, 500);
+                  }}
+                  onDrag={handleDrag}
+                  onRotate={handleRotate}
+                />
+              ))}
+            </Undoable>
+            <EffectComposer>
+              <Bloom
+                intensity={0.1}
+                luminanceThreshold={0.2}
+                luminanceSmoothing={0.9}
               />
-            ))}
-          </Undoable>
-          <EffectComposer>
-            <Bloom
-              intensity={0.1}
-              luminanceThreshold={0.2}
-              luminanceSmoothing={0.9}
-            />
-          </EffectComposer>
-        </Canvas>
+            </EffectComposer>
+          </Canvas>
+        </FocusTracker>
       </div>
 
       <RotationController

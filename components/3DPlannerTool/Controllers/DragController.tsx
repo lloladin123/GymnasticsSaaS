@@ -20,8 +20,6 @@ const DragController: React.FC<DragControllerProps> = ({
       const moveKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
       if (!moveKeys.includes(e.key)) return;
 
-      e.preventDefault();
-
       const delta: [number, number, number] = [0, 0, 0];
 
       switch (e.key) {
