@@ -1,58 +1,41 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Grid } from "@react-three/drei";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { Block as BlockType } from "../types";
-import Block from "../Components/Block";
-import Undoable, { UndoableRef } from "../behaviors/Undoable";
-import ObjectInfoBar from "../Ui/ObjectInfoBar";
-import GuidePanel from "../Ui/GuidePanel";
-import Toolbox from "../Ui/Toolbox";
+import React, { useState, useRef } from "react";
+import BlocksManager from "../Components/BlocksManager";
 import UndoController from "../Controllers/UndoController ";
 import DragController from "../Controllers/DragController";
 import RotationController from "../Controllers/RotationController ";
-import KeyboardBlocker from "../Components/KeyboardBlocker";
-import FocusTracker from "../Components/FocusTracker";
+import ObjectInfoBar from "../Ui/ObjectInfoBar";
+import GuidePanel from "../Ui/GuidePanel";
+import { Block as BlockType } from "../types";
 
 const CanvasScene: React.FC = () => {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
-  const [draggingId, setDraggingId] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const orbitRef = useRef<any>(null);
   const [orbitEnabled, setOrbitEnabled] = useState(true);
-  const [canvasActive, setCanvasActive] = React.useState(false);
+  const [canvasActive, setCanvasActive] = useState(false);
 
-  const undoableRef = useRef<UndoableRef>(null); // ref for Undoable
+  const undoableRef = useRef<any>(null);
 
-  const addBlock = () => {
-    const newBlock: BlockType = {
-      id: Date.now(),
-      type: "airtrack",
-      behaviors: ["selectable", "draggable", "rotatable", "deletable"],
-      position: [0, 0.1, 0],
-      rotation: [0, 0, 0],
-    };
-    setBlocks((prev) => [...prev, newBlock]);
+  // Drag and rotate handlers passed to BlocksManager
+  const onDragStart = (id: number) => {
+    setOrbitEnabled(false);
+    setSelectedId(id);
   };
 
-  const handleCanvasFocusChange = (isFocused: boolean) => {
-    setCanvasActive(isFocused);
-    if (!isFocused) {
-      setSelectedId(null);
-    }
+  const onDragEnd = () => {
+    setOrbitEnabled(true);
   };
 
-  const handleDrag = (id: number, newPos: [number, number, number]) => {
+  const onDrag = (id: number, pos: [number, number, number]) => {
     setBlocks((prev) =>
       prev.map((block) =>
-        block.id === id ? { ...block, position: newPos } : block
+        block.id === id ? { ...block, position: pos } : block
       )
     );
   };
 
-  const handleRotate = (
+  const onRotate = (
     id: number,
     axis: "x" | "y" | "z",
     direction: "left" | "right",
@@ -73,100 +56,51 @@ const CanvasScene: React.FC = () => {
     );
   };
 
-  const handlePointerMissed = () => setSelectedId(null);
-  const handlePointerUp = () => {
-    setDraggingId(null);
-    setOrbitEnabled(true);
+  const handleCanvasFocusChange = (isFocused: boolean) => {
+    setCanvasActive(isFocused);
+    if (!isFocused) {
+      setSelectedId(null);
+    }
   };
 
   return (
     <div className="flex flex-1 min-h-screen">
-      <Toolbox onAddBlock={addBlock} />
-
-      {/* Center Canvas */}
-      <div className="flex-1 relative">
-        <FocusTracker onFocusChange={handleCanvasFocusChange}>
-          <Canvas
-            shadows
-            camera={{ position: [0, 5, 10], fov: 50 }}
-            onPointerMissed={handlePointerMissed}
-            onPointerUp={handlePointerUp}
-          >
-            <KeyboardBlocker active={canvasActive} />
-            <ambientLight intensity={0.4} />
-            <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
-            <Grid args={[20, 20]} cellSize={1} cellThickness={0.5} />
-            <OrbitControls ref={orbitRef} enabled={orbitEnabled} />
-            <Undoable ref={undoableRef} blocks={blocks} setBlocks={setBlocks}>
-              {blocks.map((block) => (
-                <Block
-                  key={block.id}
-                  {...block}
-                  isDragging={draggingId === block.id}
-                  isSelected={selectedId === block.id}
-                  setSelectedId={setSelectedId}
-                  setOrbitEnabled={setOrbitEnabled}
-                  setBlocks={setBlocks}
-                  onDragStart={(id) => {
-                    setDraggingId(id);
-                    setSelectedId(id);
-                    setOrbitEnabled(false);
-                  }}
-                  onDragEnd={() => {
-                    setDraggingId(null);
-
-                    setTimeout(() => {
-                      setOrbitEnabled(true);
-                    }, 500);
-                  }}
-                  onDrag={handleDrag}
-                  onRotate={handleRotate}
-                />
-              ))}
-            </Undoable>
-            <EffectComposer>
-              <Bloom
-                intensity={0.1}
-                luminanceThreshold={0.2}
-                luminanceSmoothing={0.9}
-              />
-            </EffectComposer>
-          </Canvas>
-        </FocusTracker>
-      </div>
+      <BlocksManager
+        blocks={blocks}
+        setBlocks={setBlocks}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+        setOrbitEnabled={setOrbitEnabled}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        onDrag={onDrag}
+        onRotate={onRotate}
+        undoableRef={undoableRef} // pass ref here
+      />
 
       <RotationController
         isActive={selectedId !== null}
         onRotate={(axis, direction, amount) => {
           if (selectedId !== null) {
-            handleRotate(selectedId, axis, direction, amount);
+            onRotate(selectedId, axis, direction, amount);
           }
         }}
       />
 
-      {/* Undo/Redo controller handling keybindings */}
       <UndoController
         onUndo={() => undoableRef.current?.undo()}
         onRedo={() => undoableRef.current?.redo()}
       />
+
       <DragController
         selectedId={selectedId}
         onMove={(id, newPos) => {
-          setBlocks((blocks) =>
-            blocks.map((b) =>
-              b.id === id
-                ? {
-                    ...b,
-                    position: newPos,
-                  }
-                : b
-            )
-          );
+          onDrag(id, newPos);
         }}
         getPosition={(id) => blocks.find((b) => b.id === id)?.position}
       />
 
-      {/* Bottompanel */}
+      {/* Selected Block Info Panel */}
       {selectedId !== null && (
         <div className="absolute bottom-0 left-56 right-64 flex justify-center z-20 pb-2">
           <ObjectInfoBar
