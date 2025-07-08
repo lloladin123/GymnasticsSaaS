@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import BlocksManager from "../Components/BlocksManager";
+import Toolbox from "../Ui/Toolbox";
 import GlobalControllers from "../Controllers/GlobalControllers";
 import ObjectInfoBar from "../Ui/ObjectInfoBar";
 import GuidePanel from "../Ui/GuidePanel";
@@ -14,6 +15,18 @@ const CanvasScene: React.FC = () => {
   const [canvasActive, setCanvasActive] = useState(false);
 
   const undoableRef = useRef<any>(null);
+
+  // Add block here
+  const addBlock = () => {
+    const newBlock: BlockType = {
+      id: Date.now(),
+      type: "airtrack",
+      behaviors: ["selectable", "draggable", "rotatable", "deletable"],
+      position: [0, 0.1, 0],
+      rotation: [0, 0, 0],
+    };
+    setBlocks((prev) => [...prev, newBlock]);
+  };
 
   // Drag and rotate handlers passed to BlocksManager
   const onDragStart = (id: number) => {
@@ -56,18 +69,24 @@ const CanvasScene: React.FC = () => {
 
   return (
     <div className="flex flex-1 min-h-screen">
-      <BlocksManager
-        blocks={blocks}
-        setBlocks={setBlocks}
-        selectedId={selectedId}
-        setSelectedId={setSelectedId}
-        setOrbitEnabled={setOrbitEnabled}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDrag={onDrag}
-        onRotate={onRotate}
-        undoableRef={undoableRef}
-      />
+      {/* Toolbox on left */}
+      <Toolbox onAddBlock={addBlock} />
+
+      {/* BlocksManager takes full available remaining space */}
+      <div className="flex-1 relative">
+        <BlocksManager
+          blocks={blocks}
+          setBlocks={setBlocks}
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+          setOrbitEnabled={setOrbitEnabled}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onDrag={onDrag}
+          onRotate={onRotate}
+          undoableRef={undoableRef}
+        />
+      </div>
 
       <GlobalControllers
         selectedId={selectedId}
