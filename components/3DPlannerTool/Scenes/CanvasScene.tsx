@@ -2,9 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import BlocksManager from "../Components/BlocksManager";
-import UndoController from "../Controllers/UndoController ";
-import DragController from "../Controllers/DragController";
-import RotationController from "../Controllers/RotationController ";
+import GlobalControllers from "../Controllers/GlobalControllers";
 import ObjectInfoBar from "../Ui/ObjectInfoBar";
 import GuidePanel from "../Ui/GuidePanel";
 import { Block as BlockType } from "../types";
@@ -56,13 +54,6 @@ const CanvasScene: React.FC = () => {
     );
   };
 
-  const handleCanvasFocusChange = (isFocused: boolean) => {
-    setCanvasActive(isFocused);
-    if (!isFocused) {
-      setSelectedId(null);
-    }
-  };
-
   return (
     <div className="flex flex-1 min-h-screen">
       <BlocksManager
@@ -75,32 +66,23 @@ const CanvasScene: React.FC = () => {
         onDragEnd={onDragEnd}
         onDrag={onDrag}
         onRotate={onRotate}
-        undoableRef={undoableRef} // pass ref here
+        undoableRef={undoableRef}
       />
 
-      <RotationController
-        isActive={selectedId !== null}
+      <GlobalControllers
+        selectedId={selectedId}
+        onUndo={() => undoableRef.current?.undo()}
+        onRedo={() => undoableRef.current?.redo()}
+        onMove={onDrag}
+        getPosition={(id) => blocks.find((b) => b.id === id)?.position}
         onRotate={(axis, direction, amount) => {
           if (selectedId !== null) {
             onRotate(selectedId, axis, direction, amount);
           }
         }}
+        rotationActive={selectedId !== null}
       />
 
-      <UndoController
-        onUndo={() => undoableRef.current?.undo()}
-        onRedo={() => undoableRef.current?.redo()}
-      />
-
-      <DragController
-        selectedId={selectedId}
-        onMove={(id, newPos) => {
-          onDrag(id, newPos);
-        }}
-        getPosition={(id) => blocks.find((b) => b.id === id)?.position}
-      />
-
-      {/* Selected Block Info Panel */}
       {selectedId !== null && (
         <div className="absolute bottom-0 left-56 right-64 flex justify-center z-20 pb-2">
           <ObjectInfoBar
