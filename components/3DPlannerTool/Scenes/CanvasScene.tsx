@@ -37,6 +37,13 @@ const CanvasScene: React.FC = () => {
     setBlocks((prev) => [...prev, newBlock]);
   };
 
+  const handleCanvasFocusChange = (isFocused: boolean) => {
+    setCanvasActive(isFocused);
+    if (!isFocused) {
+      setSelectedId(null);
+    }
+  };
+
   const handleDrag = (id: number, newPos: [number, number, number]) => {
     setBlocks((prev) =>
       prev.map((block) =>
@@ -78,7 +85,7 @@ const CanvasScene: React.FC = () => {
 
       {/* Center Canvas */}
       <div className="flex-1 relative">
-        <FocusTracker onFocusChange={setCanvasActive}>
+        <FocusTracker onFocusChange={handleCanvasFocusChange}>
           <Canvas
             shadows
             camera={{ position: [0, 5, 10], fov: 50 }}
