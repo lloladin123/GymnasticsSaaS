@@ -16,17 +16,19 @@ const MeshRepresentation: React.FC<Props> = ({ type, isSelected }) => {
       return (
         <>
           <mesh castShadow>
-            <boxGeometry args={[4, 0.2, 1]} />
+            <boxGeometry args={[15, 0.3, 2]} />
             <meshStandardMaterial
               color="skyblue"
               emissive={isSelected ? "orange" : "black"}
               emissiveIntensity={1.5}
             />
           </mesh>
-          <mesh position={[0, 0.11, 0]}>
-            <boxGeometry args={[4, 0.01, 0.05]} />
+          <mesh position={[0, 0.16, 0]}>
+            {" "}
+            <boxGeometry args={[15, 0.01, 0.05]} />
             <meshStandardMaterial color="white" />
           </mesh>
+
           {isSelected && (
             <Text
               position={[0, 0.3, 0]}
