@@ -3,6 +3,7 @@
 import React, { useRef, useImperativeHandle, forwardRef } from "react";
 import { useThree } from "@react-three/fiber";
 import { Mesh, Raycaster, Vector2, Vector3, Plane } from "three";
+import { SNAP_VALUE } from "../config";
 
 interface DraggableProps {
   id: number;
@@ -53,9 +54,9 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
       raycaster.current.setFromCamera(ndc, camera);
       if (raycaster.current.ray.intersectPlane(plane.current, intersection)) {
         return [
-          Math.round(intersection.x),
+          Math.round(intersection.x / SNAP_VALUE) * SNAP_VALUE,
           0.1,
-          Math.round(intersection.z),
+          Math.round(intersection.z / SNAP_VALUE) * SNAP_VALUE,
         ] as [number, number, number];
       }
       return initialPosition;

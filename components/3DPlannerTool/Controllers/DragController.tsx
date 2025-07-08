@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { SNAP_VALUE } from "../config";
 
 interface DragControllerProps {
   selectedId: number | null;
@@ -28,23 +29,23 @@ const DragController: React.FC<DragControllerProps> = ({
 
       if (e.shiftKey) {
         // Move up/down on Y axis when Shift + Up/Down
-        if (e.key === "ArrowUp") delta = [0, 1, 0];
-        else if (e.key === "ArrowDown") delta = [0, -1, 0];
+        if (e.key === "ArrowUp") delta = [0, SNAP_VALUE, 0];
+        else if (e.key === "ArrowDown") delta = [0, -SNAP_VALUE, 0];
         else return; // Ignore left/right with shift
       } else {
         // Move on X/Z plane
         switch (e.key) {
           case "ArrowUp":
-            delta = [0, 0, -1];
+            delta = [0, 0, -SNAP_VALUE];
             break;
           case "ArrowDown":
-            delta = [0, 0, 1];
+            delta = [0, 0, SNAP_VALUE];
             break;
           case "ArrowLeft":
-            delta = [-1, 0, 0];
+            delta = [-SNAP_VALUE, 0, 0];
             break;
           case "ArrowRight":
-            delta = [1, 0, 0];
+            delta = [SNAP_VALUE, 0, 0];
             break;
         }
       }

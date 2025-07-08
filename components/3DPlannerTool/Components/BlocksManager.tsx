@@ -63,7 +63,7 @@ const BlocksManager: React.FC<BlocksManagerProps> = ({
     >
       <Canvas
         shadows
-        camera={{ position: [0, 5, 10], fov: 50 }}
+        camera={{ position: [0, 20, 25], fov: 50 }}
         onPointerMissed={() => setSelectedId(null)}
         onPointerUp={handleDragEnd}
         style={{ height: "100vh", width: "100%" }}
@@ -71,8 +71,8 @@ const BlocksManager: React.FC<BlocksManagerProps> = ({
         <KeyboardBlocker active />
         <ambientLight intensity={0.4} />
         <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
-        <Grid args={[20, 20]} cellSize={1} cellThickness={0.5} />
-        <OrbitControls enabled={true} />
+        <Grid args={[34, 16]} cellSize={1} cellThickness={0.5} />
+        <OrbitControls target0={[0, 8, 0]} enabled={true} />
 
         <Undoable ref={undoableRef} blocks={blocks} setBlocks={setBlocks}>
           {blocks.map((block) => (
