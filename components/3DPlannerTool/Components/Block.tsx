@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 import { Mesh } from "three";
 import Draggable from "../behaviors/Draggable";
 import Rotatable from "../behaviors/Rotatable";
-import MeshRepresentation from "./MeshRepresentation";
+import MeshRepresentation from "../Meshes/MeshRepresentation";
 import Deletable from "../behaviors/Deletable";
 import Selectable from "../behaviors/Selectable";
 
