@@ -18,7 +18,7 @@ const MeshRepresentation: React.FC<Props> = ({ type, isSelected }) => {
           <mesh castShadow>
             <boxGeometry args={[15, 0.3, 2]} />
             <meshStandardMaterial
-              color="skyblue"
+              color="black"
               emissive={isSelected ? "orange" : "black"}
               emissiveIntensity={1.5}
             />
