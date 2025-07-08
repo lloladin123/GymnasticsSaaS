@@ -34,6 +34,23 @@ const CanvasScene: React.FC = () => {
     setBlocks((prev) => [...prev, newBlock]);
   };
 
+  const addSkumplint = () => {
+    const newBlock: BlockType = {
+      id: Date.now(),
+      type: "skumplint",
+      behaviors: [
+        "selectable",
+        "draggable",
+        "rotatable",
+        "deletable",
+        "duplicatable",
+      ],
+      position: [0, 0.1, 0],
+      rotation: [0, 0, 0],
+    };
+    setBlocks((prev) => [...prev, newBlock]);
+  };
+
   // Drag handlers
   const onDragStart = (id: number) => {
     setOrbitEnabled(false);
@@ -92,7 +109,7 @@ const CanvasScene: React.FC = () => {
   return (
     <div className="flex flex-1 min-h-screen">
       {/* Toolbox */}
-      <Toolbox onAddBlock={addBlock} />
+      <Toolbox onAddBlock={addBlock} onAddSkumplint={addSkumplint} />
 
       {/* BlocksManager */}
       <div className="flex-1 relative">
