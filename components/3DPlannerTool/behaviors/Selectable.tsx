@@ -17,6 +17,7 @@ const Selectable: React.FC<SelectableProps> = ({
 }) => {
   const handleClick = (e: React.PointerEvent) => {
     console.log("[Selectable] selected ID:", id);
+    e.stopPropagation();
     setSelectedId(id);
   };
 
