@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
 import { duplicateBlockById } from "@/app/redux/slices/blocksSlice";
+import { setSelectedId } from "@/app/redux/slices/uiSlice";
 import { UndoableRef } from "../behaviors/Undoable";
 
 interface DuplicateControllerProps {
@@ -16,7 +17,7 @@ const DuplicateController: React.FC<DuplicateControllerProps> = ({
   const selectedId = useAppSelector((state) => state.ui.selectedId);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = async (e: KeyboardEvent) => {
       if (
         (e.ctrlKey || e.metaKey) &&
         e.key.toLowerCase() === "d" &&
@@ -24,10 +25,17 @@ const DuplicateController: React.FC<DuplicateControllerProps> = ({
       ) {
         e.preventDefault();
 
-        // Call skipNext only if undoableRef and method exist
+        // Skip next undo history push if needed
         undoableRef?.current?.skipNext?.();
 
-        dispatch(duplicateBlockById(selectedId));
+        // Dispatch duplication and get new block ID (assuming it returns it)
+        const actionResult = await dispatch(duplicateBlockById(selectedId));
+        // If your duplicateBlockById thunk returns the new block's ID as payload:
+        const newBlockId = (actionResult as any).payload;
+
+        if (newBlockId) {
+          dispatch(setSelectedId(newBlockId)); // Select the duplicated block
+        }
       }
     };
 
