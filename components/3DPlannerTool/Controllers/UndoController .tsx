@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 import { useAppDispatch } from "@/app/redux/hooks";
 import { undo, redo } from "@/app/redux/slices/undoSlice"; // adjust imports to your actual undo/redo actions
 
+// TO DOO Undoing undos two actions when duplicating.
+
 const UndoController: React.FC = () => {
   const dispatch = useAppDispatch();
 
