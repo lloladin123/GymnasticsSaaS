@@ -4,37 +4,28 @@ import React, { useRef, useImperativeHandle, forwardRef } from "react";
 import { useThree } from "@react-three/fiber";
 import { Mesh, Raycaster, Vector2, Vector3, Plane } from "three";
 import { SNAP_VALUE } from "../config";
+import { useAppDispatch } from "@/app/redux/hooks";
+import {
+  setSelectedId,
+  setDraggingId,
+  setOrbitEnabled,
+} from "@/app/redux/slices/uiSlice";
+import { updateBlockPosition } from "@/app/redux/slices/blocksSlice";
 
 interface DraggableProps {
   id: number;
   selectedId: number | null;
   initialPosition: [number, number, number];
   isDragging: boolean;
-  onDragStart: (id: number) => void;
-  onDragEnd: () => void;
-  onDrag: (id: number, newPos: [number, number, number]) => void;
-  setOrbitEnabled: (enabled: boolean) => void;
   children: React.ReactNode;
 }
 
 const Draggable = forwardRef<Mesh, DraggableProps>(
-  (
-    {
-      id,
-      selectedId,
-      initialPosition,
-      isDragging,
-      onDragStart,
-      onDragEnd,
-      onDrag,
-      setOrbitEnabled,
-      children,
-    },
-    forwardedRef
-  ) => {
+  ({ id, selectedId, initialPosition, isDragging, children }, forwardedRef) => {
     const meshRef = useRef<Mesh>(null);
     useImperativeHandle(forwardedRef, () => meshRef.current!, []);
 
+    const dispatch = useAppDispatch();
     const { gl, camera } = useThree();
     const raycaster = useRef(new Raycaster());
     const plane = useRef(new Plane(new Vector3(0, 1, 0), -0.1));
@@ -73,18 +64,21 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
 
         if (dist < dragThreshold) return;
 
-        onDragStart(id);
+        dispatch(setSelectedId(id));
+        dispatch(setDraggingId(id));
+        dispatch(setOrbitEnabled(false));
+
         dragging.current = true;
       }
 
       const newPos = getRaycastPosition(clientX, clientY);
-      onDrag(id, newPos);
+      dispatch(updateBlockPosition({ id, position: newPos }));
     };
 
     const handlePointerUp = () => {
       if (dragging.current) {
-        onDragEnd();
-        setOrbitEnabled(true);
+        dispatch(setDraggingId(null));
+        dispatch(setOrbitEnabled(true));
         dragging.current = false;
       }
 
@@ -99,7 +93,7 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
         position={initialPosition}
         onPointerDown={(e) => {
           e.stopPropagation();
-          setOrbitEnabled(false);
+          dispatch(setOrbitEnabled(false));
           pointerStart.current = { x: e.clientX, y: e.clientY };
           window.addEventListener("pointermove", handlePointerMove);
           window.addEventListener("pointerup", handlePointerUp);

@@ -1,59 +1,73 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
+import { updateBlockRotation } from "@/app/redux/slices/blocksSlice";
 
-interface RotationControllerProps {
-  isActive: boolean; // controls whether it listens to keys
-  onRotate: (
-    axis: "x" | "y" | "z",
-    direction: "left" | "right",
-    amount: number
-  ) => void;
-}
+const RotationController: React.FC<{ isActive: boolean }> = ({ isActive }) => {
+  const dispatch = useAppDispatch();
+  const blocks = useAppSelector((state) => state.blocks.blocks);
+  const selectedId = useAppSelector((state) => state.ui.selectedId);
 
-const RotationController: React.FC<RotationControllerProps> = ({
-  isActive,
-  onRotate,
-}) => {
   useEffect(() => {
     if (!isActive) return;
 
     const step = Math.PI / 36;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if Ctrl or Cmd is pressed so other combos (like Ctrl+D) work
       if (e.ctrlKey || e.metaKey) return;
+
+      if (selectedId === null) return;
+
+      const block = blocks.find((b) => b.id === selectedId);
+      if (!block) return;
+
+      const rotation = [...(block.rotation || [0, 0, 0])] as [
+        number,
+        number,
+        number,
+      ];
+
+      let updated = false;
 
       switch (e.key.toLowerCase()) {
         case "q":
-          onRotate("y", "left", step);
+          rotation[1] -= step;
+          updated = true;
           break;
         case "e":
-          onRotate("y", "right", step);
+          rotation[1] += step;
+          updated = true;
           break;
         case "a":
-          onRotate("z", "left", step);
+          rotation[2] -= step;
+          updated = true;
           break;
         case "d":
-          onRotate("z", "right", step);
+          rotation[2] += step;
+          updated = true;
           break;
         case "w":
-          onRotate("x", "left", step);
+          rotation[0] -= step;
+          updated = true;
           break;
         case "s":
-          onRotate("x", "right", step);
+          rotation[0] += step;
+          updated = true;
           break;
-        default:
-          return;
       }
-      e.preventDefault();
+
+      if (updated) {
+        e.preventDefault();
+        dispatch(updateBlockRotation({ id: selectedId, rotation }));
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isActive, onRotate]);
+  }, [isActive, selectedId, blocks, dispatch]);
 
-  return null; // no UI
+  return null;
 };
 
 export default RotationController;

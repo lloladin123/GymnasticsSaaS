@@ -1,71 +1,78 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Block from "./Block";
-import { Block as BlockType } from "../types";
 import FocusTracker from "./FocusTracker";
 import { Canvas } from "@react-three/fiber";
 import KeyboardBlocker from "./KeyboardBlocker";
 import { Grid, OrbitControls } from "@react-three/drei";
 import Undoable, { UndoableRef } from "../behaviors/Undoable";
+import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
+import { setSelectedId, setOrbitEnabled } from "@/app/redux/slices/uiSlice";
+import { setBlocks } from "@/app/redux/slices/blocksSlice";
+import { setPresent } from "@/app/redux/slices/undoSlice";
 
 interface BlocksManagerProps {
-  blocks: BlockType[];
-  setBlocks: React.Dispatch<React.SetStateAction<BlockType[]>>;
-  selectedId: number | null;
-  setSelectedId: (id: number | null) => void;
-  setOrbitEnabled: (enabled: boolean) => void;
-  orbitEnabled: boolean;
-  onDragStart: (id: number) => void;
-  onDragEnd: () => void;
-  onDrag: (id: number, pos: [number, number, number]) => void;
-  onRotate: (
-    id: number,
-    axis: "x" | "y" | "z",
-    direction: "left" | "right",
-    amount: number
-  ) => void;
-
   undoableRef: React.RefObject<UndoableRef>;
 }
 
-const BlocksManager: React.FC<BlocksManagerProps> = ({
-  blocks,
-  setBlocks,
-  selectedId,
-  setSelectedId,
-  setOrbitEnabled,
-  orbitEnabled,
-  onDragStart,
-  onDragEnd,
-  onDrag,
-  onRotate,
-  undoableRef,
-}) => {
-  const [draggingId, setDraggingId] = React.useState<number | null>(null);
+const BlocksManager: React.FC<BlocksManagerProps> = ({ undoableRef }) => {
+  const dispatch = useAppDispatch();
+
+  const blocks = useAppSelector((state) => state.blocks.blocks);
+  const undoPresent = useAppSelector((state) => state.undo.present);
+  const selectedId = useAppSelector((state) => state.ui.selectedId);
+  const orbitEnabled = useAppSelector((state) => state.ui.orbitEnabled);
+
+  const [draggingId, setDraggingId] = useState<number | null>(null);
+  const skipNextTrack = React.useRef(false);
+  const onUndoRedo = () => {
+    skipNextTrack.current = true;
+  };
+
+  // Sync undo.present snapshots to blocks slice state with skip flag
+  useEffect(() => {
+    if (undoPresent) {
+      skipNextTrack.current = true;
+      dispatch(setBlocks(undoPresent));
+    }
+  }, [undoPresent, dispatch]);
+
+  // Push blocks state to undo.present with debounce and skip logic
+  useEffect(() => {
+    if (skipNextTrack.current) {
+      skipNextTrack.current = false;
+      return; // skip dispatch to avoid clearing redo stack
+    }
+
+    const handler = setTimeout(() => {
+      dispatch(setPresent(blocks));
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [blocks, dispatch]);
 
   const handleDragStart = (id: number) => {
     setDraggingId(id);
-    onDragStart(id);
-    setOrbitEnabled(false);
+    dispatch(setSelectedId(id));
+    dispatch(setOrbitEnabled(false));
   };
 
   const handleDragEnd = () => {
     setDraggingId(null);
-    onDragEnd();
-    setOrbitEnabled(true);
+    dispatch(setOrbitEnabled(true));
   };
 
   return (
     <FocusTracker
       onFocusChange={(isFocused) => {
-        if (!isFocused) setSelectedId(null);
+        if (!isFocused) dispatch(setSelectedId(null));
       }}
     >
       <Canvas
         shadows
         camera={{ position: [0, 20, 25], fov: 50 }}
-        onPointerMissed={() => setSelectedId(null)}
+        onPointerMissed={() => dispatch(setSelectedId(null))}
         onPointerUp={handleDragEnd}
         style={{ height: "100vh", width: "100%" }}
       >
@@ -75,20 +82,14 @@ const BlocksManager: React.FC<BlocksManagerProps> = ({
         <Grid args={[34, 16]} cellSize={1} cellThickness={0.5} />
         <OrbitControls target0={[0, 8, 0]} enabled={orbitEnabled} />
 
-        <Undoable ref={undoableRef} blocks={blocks} setBlocks={setBlocks}>
+        <Undoable ref={undoableRef} blocks={blocks}>
           {blocks.map((block) => (
             <Block
               key={block.id}
-              {...block}
-              isSelected={selectedId === block.id}
-              isDragging={draggingId === block.id}
-              setSelectedId={setSelectedId}
-              setOrbitEnabled={setOrbitEnabled}
-              setBlocks={setBlocks}
-              onDragStart={() => handleDragStart(block.id)}
-              onDragEnd={handleDragEnd}
-              onDrag={onDrag}
-              onRotate={onRotate}
+              id={block.id}
+              type={block.type}
+              position={block.position}
+              behaviors={block.behaviors}
             />
           ))}
         </Undoable>

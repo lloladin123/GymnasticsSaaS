@@ -7,71 +7,54 @@ import Rotatable from "../behaviors/Rotatable";
 import MeshRepresentation from "../Meshes/MeshRepresentation";
 import Deletable from "../behaviors/Deletable";
 import Selectable from "../behaviors/Selectable";
+import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
+import { setSelectedId } from "@/app/redux/slices/uiSlice";
 
 interface BlockProps {
   id: number;
   type: string;
   position: [number, number, number];
-  rotation?: [number, number, number];
   behaviors?: string[];
-  isSelected: boolean;
-  isDragging: boolean;
-  onDragStart: (id: number) => void;
-  onDragEnd: () => void;
-  onDrag: (id: number, pos: [number, number, number]) => void;
-  onRotate: (
-    id: number,
-    axis: "x" | "y" | "z",
-    direction: "left" | "right",
-    amount: number
-  ) => void;
-  setSelectedId: (id: number | null) => void;
-  setOrbitEnabled: (enabled: boolean) => void;
-  setBlocks: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const Block: React.FC<BlockProps> = ({
   id,
   type,
   position,
-  rotation = [0, 0, 0],
   behaviors = [],
-  isSelected,
-  isDragging,
-  onDragStart,
-  onDragEnd,
-  onDrag,
-  onRotate,
-  setSelectedId,
-  setOrbitEnabled,
-  setBlocks,
 }) => {
   const ref = useRef<Mesh>(null);
+  const dispatch = useAppDispatch();
 
-  // ✅ Start with innermost: Selectable
+  // Selectors from Redux state
+  const selectedId = useAppSelector((state) => state.ui.selectedId);
+  const draggingId = useAppSelector((state) => state.ui.draggingId);
+  const rotation = useAppSelector((state) => {
+    const block = state.blocks.blocks.find((b) => b.id === id);
+    return (block?.rotation ?? [0, 0, 0]) as [number, number, number];
+  });
+
+  const isSelected = selectedId === id;
+  const isDragging = draggingId === id;
+
+  // Set selection in Redux
+  const handleSetSelectedId = (newId: number | null) => {
+    dispatch(setSelectedId(newId));
+  };
+
+  // Base content with selectable behavior
   let content = (
-    <Selectable
-      id={id}
-      selectedId={isSelected ? id : null}
-      setSelectedId={setSelectedId}
-    >
+    <Selectable id={id}>
       <MeshRepresentation type={type} isSelected={isSelected} />
     </Selectable>
   );
 
+  // Wrap with deletable if behavior exists
   if (behaviors.includes("deletable")) {
-    content = (
-      <Deletable
-        id={id}
-        selectedId={isSelected ? id : null}
-        setSelectedId={setSelectedId}
-        setBlocks={setBlocks}
-      >
-        {content}
-      </Deletable>
-    );
+    content = <Deletable id={id}>{content}</Deletable>;
   }
 
+  // Wrap with rotatable using Redux rotation state
   if (behaviors.includes("rotatable")) {
     content = (
       <Rotatable ref={ref} rotation={rotation}>
@@ -80,18 +63,15 @@ const Block: React.FC<BlockProps> = ({
     );
   }
 
+  // Wrap with draggable, passing necessary Redux-driven props
   if (behaviors.includes("draggable")) {
     content = (
       <Draggable
         ref={ref}
         id={id}
-        selectedId={isSelected ? id : null}
         initialPosition={position}
+        selectedId={selectedId}
         isDragging={isDragging}
-        onDragStart={onDragStart}
-        onDragEnd={onDragEnd}
-        onDrag={onDrag}
-        setOrbitEnabled={setOrbitEnabled}
       >
         {content}
       </Draggable>

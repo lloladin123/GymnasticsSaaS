@@ -1,34 +1,30 @@
 "use client";
 
-import { useEffect } from "react";
-import { Block as BlockType } from "../types";
+import React, { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
+import { deleteBlock } from "@/app/redux/slices/blocksSlice";
+import { setSelectedId } from "@/app/redux/slices/uiSlice";
 
 interface DeletableProps {
   id: number;
-  selectedId: number | null;
-  setSelectedId: (id: number | null) => void;
-  setBlocks: React.Dispatch<React.SetStateAction<BlockType[]>>;
   children: React.ReactNode;
 }
 
-const Deletable: React.FC<DeletableProps> = ({
-  id,
-  selectedId,
-  setSelectedId,
-  setBlocks,
-  children,
-}) => {
+const Deletable: React.FC<DeletableProps> = ({ id, children }) => {
+  const dispatch = useAppDispatch();
+  const selectedId = useAppSelector((state) => state.ui.selectedId);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.key === "Delete" || e.key === "Backspace") && selectedId === id) {
-        setBlocks((prev) => prev.filter((b) => b.id !== id));
-        setSelectedId(null);
+        dispatch(deleteBlock(id));
+        dispatch(setSelectedId(null));
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [id, selectedId, setBlocks, setSelectedId]);
+  }, [id, selectedId, dispatch]);
 
   return <>{children}</>;
 };

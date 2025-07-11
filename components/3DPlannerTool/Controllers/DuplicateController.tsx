@@ -1,16 +1,20 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
+import { duplicateBlockById } from "@/app/redux/slices/blocksSlice";
+import { UndoableRef } from "../behaviors/Undoable";
 
 interface DuplicateControllerProps {
-  selectedId: number | null;
-  onDuplicate: (id: number) => void;
+  undoableRef: React.RefObject<UndoableRef> | null;
 }
 
 const DuplicateController: React.FC<DuplicateControllerProps> = ({
-  selectedId,
-  onDuplicate,
+  undoableRef,
 }) => {
+  const dispatch = useAppDispatch();
+  const selectedId = useAppSelector((state) => state.ui.selectedId);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
@@ -19,13 +23,17 @@ const DuplicateController: React.FC<DuplicateControllerProps> = ({
         selectedId !== null
       ) {
         e.preventDefault();
-        onDuplicate(selectedId);
+
+        // Call skipNext only if undoableRef and method exist
+        undoableRef?.current?.skipNext?.();
+
+        dispatch(duplicateBlockById(selectedId));
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedId, onDuplicate]);
+  }, [selectedId, dispatch, undoableRef]);
 
   return null;
 };
