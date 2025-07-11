@@ -16,6 +16,7 @@ import {
 } from "@/app/redux/slices/blocksSlice";
 import { setSelectedId, setOrbitEnabled } from "@/app/redux/slices/uiSlice";
 import ObjectPanel from "../Ui/ObjectPanel";
+import { meshSizes } from "../Meshes/meshSizes";
 
 const CanvasScene: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -26,9 +27,12 @@ const CanvasScene: React.FC = () => {
   const undoableRef = useRef<any>(null);
 
   const addBlockHandler = (type: string) => {
+    const size = meshSizes[type] ?? [1, 1, 1]; // fallback size
+
     const newBlock = {
       id: Date.now(),
       type,
+      size,
       behaviors: [
         "selectable",
         "draggable",
@@ -39,6 +43,7 @@ const CanvasScene: React.FC = () => {
       position: [0, 0.1, 0] as [number, number, number],
       rotation: [0, 0, 0] as [number, number, number],
     };
+
     dispatch(addBlock(newBlock));
     dispatch(setSelectedId(newBlock.id));
   };
@@ -51,10 +56,7 @@ const CanvasScene: React.FC = () => {
     <div className="flex h-screen">
       {/* Toolbox */}
       <div className="w-64 border-r border-gray-300">
-        <Toolbox
-          onAddBlock={() => addBlockHandler("airtrack")}
-          onAddSkumplint={() => addBlockHandler("skumplint")}
-        />
+        <Toolbox onAddBlock={addBlockHandler} />
       </div>
 
       {/* Center container relative for absolute positioning */}
@@ -66,7 +68,7 @@ const CanvasScene: React.FC = () => {
         {selectedId !== null && (
           <>
             <div
-              className={`w-4/12 bg-white absolute top-4 right-4 z-50 rounded shadow-lg pointer-events-auto`}
+              className={`w-70 bg-white absolute top-4 right-4 z-50 rounded shadow-lg pointer-events-auto`}
             >
               <ObjectPanel></ObjectPanel>
             </div>

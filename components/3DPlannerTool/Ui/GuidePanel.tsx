@@ -78,6 +78,42 @@ const sections = [
       </p>
     ),
   },
+  {
+    title: "🎥 Camera Controls",
+    content: (
+      <>
+        <p>
+          Use your mouse to <b>orbit, pan, and zoom</b> around the scene.
+        </p>
+        <ul className="list-disc list-inside ml-4">
+          <li>
+            <b>Left-click + drag</b>: Rotate camera around the scene
+          </li>
+          <li>
+            <b>Right-click + drag</b> or <b>two-finger drag</b>: Pan camera
+          </li>
+          <li>
+            <b>Scroll wheel</b>: Zoom in and out
+          </li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    title: "📐 Resizing Blocks",
+    content: (
+      <>
+        <p>
+          When a block is selected, use the sliders in the panel on the right to
+          adjust its <b>Length</b>, <b>Width</b>, and <b>Height</b>.
+        </p>
+        <p>
+          You can also click the numbers next to sliders to enter precise
+          values.
+        </p>
+      </>
+    ),
+  },
 ];
 
 const GuidePanel: React.FC = () => {
