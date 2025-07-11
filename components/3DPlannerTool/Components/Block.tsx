@@ -33,28 +33,26 @@ const Block: React.FC<BlockProps> = ({
     const block = state.blocks.blocks.find((b) => b.id === id);
     return (block?.rotation ?? [0, 0, 0]) as [number, number, number];
   });
+  const size = useAppSelector((state) => {
+    const block = state.blocks.blocks.find((b) => b.id === id);
+    return (block?.size ?? [1, 1, 1]) as [number, number, number];
+  });
 
   const isSelected = selectedId === id;
   const isDragging = draggingId === id;
 
-  // Set selection in Redux
-  const handleSetSelectedId = (newId: number | null) => {
-    dispatch(setSelectedId(newId));
-  };
-
-  // Base content with selectable behavior
+  // Base content with selectable behavior and passing size to MeshRepresentation
   let content = (
     <Selectable id={id}>
-      <MeshRepresentation type={type} isSelected={isSelected} />
+      <MeshRepresentation type={type} isSelected={isSelected} size={size} />
     </Selectable>
   );
 
-  // Wrap with deletable if behavior exists
   if (behaviors.includes("deletable")) {
     content = <Deletable id={id}>{content}</Deletable>;
   }
 
-  // Wrap with rotatable using Redux rotation state
+  // DON'T TOUCH rotate, just keep as is
   if (behaviors.includes("rotatable")) {
     content = (
       <Rotatable ref={ref} rotation={rotation}>
@@ -63,7 +61,6 @@ const Block: React.FC<BlockProps> = ({
     );
   }
 
-  // Wrap with draggable, passing necessary Redux-driven props
   if (behaviors.includes("draggable")) {
     content = (
       <Draggable

@@ -63,6 +63,15 @@ const blocksSlice = createSlice({
         block.rotation = action.payload.rotation;
       }
     },
+    updateBlockSize(
+      state,
+      action: PayloadAction<{ id: number; size: [number, number, number] }>
+    ) {
+      const block = state.blocks.find((b) => b.id === action.payload.id);
+      if (block) {
+        block.size = action.payload.size;
+      }
+    },
     duplicateBlock(state, action: PayloadAction<Block>) {
       state.blocks.push(action.payload);
     },
@@ -80,6 +89,7 @@ export const {
   addBlock,
   updateBlockPosition,
   updateBlockRotation,
+  updateBlockSize,
   duplicateBlock,
   deleteBlock,
   setBlocks, // make sure to export it

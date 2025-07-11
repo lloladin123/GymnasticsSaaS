@@ -1,34 +1,40 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
+import { updateBlockSize } from "@/app/redux/slices/blocksSlice";
 
-interface ObjectPanelProps {
-  // future props here
-}
+const ObjectPanel: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const selectedId = useAppSelector((state) => state.ui.selectedId);
+  const block = useAppSelector((state) =>
+    state.blocks.blocks.find((b) => b.id === selectedId)
+  );
 
-const ObjectPanel: React.FC<ObjectPanelProps> = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
 
-  const [radius, setRadius] = useState(5);
-  const [steps, setSteps] = useState(10);
-  const [length, setLength] = useState(20);
-  const [width, setWidth] = useState(15);
-  const [height, setHeight] = useState(10);
+  if (!block) return <div>Select a block</div>;
 
-  const toggleOpen = () => setIsOpen((prev) => !prev);
-  const toggleLock = () => setIsLocked((prev) => !prev);
+  const setSize = (index: 0 | 1 | 2, value: number) => {
+    if (isLocked) return;
+    const newSize = [...(block.size ?? [1, 1, 1])] as [number, number, number];
+    newSize[index] = value;
+    dispatch(updateBlockSize({ id: block.id, size: newSize }));
+  };
 
   const EditableNumber = ({
     value,
     onChange,
     min,
     max,
+    step = 1,
   }: {
     value: number;
     onChange: (v: number) => void;
     min: number;
     max: number;
+    step?: number;
   }) => {
     const [editing, setEditing] = useState(false);
     const [tempValue, setTempValue] = useState(value);
@@ -41,7 +47,7 @@ const ObjectPanel: React.FC<ObjectPanelProps> = () => {
     };
 
     const finishEditing = () => {
-      let num = Number(tempValue);
+      let num = parseFloat(tempValue as any);
       if (isNaN(num)) num = value;
       if (num < min) num = min;
       if (num > max) num = max;
@@ -50,11 +56,8 @@ const ObjectPanel: React.FC<ObjectPanelProps> = () => {
     };
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter") {
-        finishEditing();
-      } else if (e.key === "Escape") {
-        setEditing(false);
-      }
+      if (e.key === "Enter") finishEditing();
+      else if (e.key === "Escape") setEditing(false);
     };
 
     if (editing) {
@@ -66,10 +69,10 @@ const ObjectPanel: React.FC<ObjectPanelProps> = () => {
           value={tempValue}
           min={min}
           max={max}
-          onChange={(e) => setTempValue(Number(e.target.value))}
+          step={step}
+          onChange={(e) => setTempValue(parseFloat(e.target.value))}
           onBlur={finishEditing}
           onKeyDown={onKeyDown}
-          step={1}
         />
       );
     }
@@ -91,12 +94,14 @@ const ObjectPanel: React.FC<ObjectPanelProps> = () => {
     onChange,
     min,
     max,
+    step = 1,
   }: {
     label: string;
     value: number;
     onChange: (v: number) => void;
     min: number;
     max: number;
+    step?: number;
   }) => (
     <div className="flex items-center space-x-4 mb-4">
       <label className="w-24 font-medium">{label}</label>
@@ -104,38 +109,40 @@ const ObjectPanel: React.FC<ObjectPanelProps> = () => {
         type="range"
         min={min}
         max={max}
+        step={step}
         value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        onInput={(e) => onChange(Number((e.target as HTMLInputElement).value))}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
         className="w-30"
       />
-      <EditableNumber value={value} onChange={onChange} min={min} max={max} />
+      <EditableNumber
+        value={value}
+        onChange={onChange}
+        min={min}
+        max={max}
+        step={step}
+      />
     </div>
   );
 
   return (
     <div className={`relative p-4 ${isOpen ? "h-80" : "h-20"}`}>
-      {/* Title bar with toggle and lock */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold text-lg">Object Controls</h3>
-
         <div className="flex items-center space-x-3">
-          {/* Lock toggle */}
           <label className="flex items-center cursor-pointer select-none">
             <input
               type="checkbox"
               checked={isLocked}
-              onChange={toggleLock}
+              onChange={() => setIsLocked((v) => !v)}
               className="hidden"
               aria-label="Lock Object"
             />
             <span>{isLocked ? "🔒" : "🔓"}</span>
           </label>
-
-          {/* Open/close toggle */}
           <button
             aria-label={isOpen ? "Collapse panel" : "Expand panel"}
-            onClick={toggleOpen}
+            onClick={() => setIsOpen((v) => !v)}
             className="focus:outline-none"
           >
             {isOpen ? "▲" : "▼"}
@@ -143,30 +150,33 @@ const ObjectPanel: React.FC<ObjectPanelProps> = () => {
         </div>
       </div>
 
-      {/* Content, toggled */}
+      {/* Content */}
       {isOpen && (
         <>
           <h2 className="font-black">--- Work in progress ---</h2>
           <SliderRow
             label="Length"
-            value={length}
-            onChange={setLength}
-            min={1}
+            value={block.size?.[0] ?? 1}
+            onChange={(v) => setSize(0, v)}
+            min={0.1}
             max={100}
-          />
-          <SliderRow
-            label="Width"
-            value={width}
-            onChange={setWidth}
-            min={1}
-            max={100}
+            step={0.1}
           />
           <SliderRow
             label="Height"
-            value={height}
-            onChange={setHeight}
-            min={1}
+            value={block.size?.[1] ?? 1}
+            onChange={(v) => setSize(1, v)}
+            min={0.1}
             max={100}
+            step={0.1}
+          />
+          <SliderRow
+            label="Width"
+            value={block.size?.[2] ?? 1}
+            onChange={(v) => setSize(2, v)}
+            min={0.1}
+            max={100}
+            step={0.1}
           />
         </>
       )}
