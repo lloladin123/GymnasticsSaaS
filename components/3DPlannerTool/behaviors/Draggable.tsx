@@ -64,7 +64,6 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
 
     const handlePointerMove = (e: PointerEvent) => {
       const { clientX, clientY } = e;
-
       if (!pointerStart.current) return;
 
       if (!dragging.current) {
@@ -75,7 +74,6 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
         if (dist < dragThreshold) return;
 
         onDragStart(id);
-        setOrbitEnabled(false);
         dragging.current = true;
       }
 

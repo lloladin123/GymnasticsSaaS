@@ -119,6 +119,7 @@ const CanvasScene: React.FC = () => {
           selectedId={selectedId}
           setSelectedId={setSelectedId}
           setOrbitEnabled={setOrbitEnabled}
+          orbitEnabled={orbitEnabled}
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
           onDrag={onDrag}

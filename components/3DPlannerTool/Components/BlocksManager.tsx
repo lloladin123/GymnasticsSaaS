@@ -15,7 +15,7 @@ interface BlocksManagerProps {
   selectedId: number | null;
   setSelectedId: (id: number | null) => void;
   setOrbitEnabled: (enabled: boolean) => void;
-
+  orbitEnabled: boolean;
   onDragStart: (id: number) => void;
   onDragEnd: () => void;
   onDrag: (id: number, pos: [number, number, number]) => void;
@@ -35,6 +35,7 @@ const BlocksManager: React.FC<BlocksManagerProps> = ({
   selectedId,
   setSelectedId,
   setOrbitEnabled,
+  orbitEnabled,
   onDragStart,
   onDragEnd,
   onDrag,
@@ -72,7 +73,7 @@ const BlocksManager: React.FC<BlocksManagerProps> = ({
         <ambientLight intensity={0.4} />
         <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
         <Grid args={[34, 16]} cellSize={1} cellThickness={0.5} />
-        <OrbitControls target0={[0, 8, 0]} enabled={true} />
+        <OrbitControls target0={[0, 8, 0]} enabled={orbitEnabled} />
 
         <Undoable ref={undoableRef} blocks={blocks} setBlocks={setBlocks}>
           {blocks.map((block) => (
