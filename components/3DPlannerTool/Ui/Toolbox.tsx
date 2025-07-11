@@ -9,7 +9,7 @@ interface ToolboxProps {
 
 const Toolbox: React.FC<ToolboxProps> = ({ onAddBlock, onAddSkumplint }) => {
   return (
-    <div className="w-56 bg-gray-100 p-4 shadow-md z-10 space-y-2">
+    <div className="w-full h-full bg-gray-100 p-4 shadow-md z-10 space-y-2">
       <h3 className="text-lg font-semibold mb-4">Toolbox</h3>
       <button
         onClick={onAddBlock}

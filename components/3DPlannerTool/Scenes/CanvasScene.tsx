@@ -15,6 +15,7 @@ import {
   duplicateBlockById,
 } from "@/app/redux/slices/blocksSlice";
 import { setSelectedId, setOrbitEnabled } from "@/app/redux/slices/uiSlice";
+import ObjectPanel from "../Ui/ObjectPanel";
 
 const CanvasScene: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -47,31 +48,49 @@ const CanvasScene: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-1 min-h-screen">
-      <Toolbox
-        onAddBlock={() => addBlockHandler("airtrack")}
-        onAddSkumplint={() => addBlockHandler("skumplint")}
-      />
-
-      <div className="flex-1 relative">
-        <BlocksManager undoableRef={undoableRef} />
+    <div className="flex h-screen">
+      {/* Toolbox */}
+      <div className="w-64 border-r border-gray-300">
+        <Toolbox
+          onAddBlock={() => addBlockHandler("airtrack")}
+          onAddSkumplint={() => addBlockHandler("skumplint")}
+        />
       </div>
 
-      {/* No props needed, all logic internal */}
+      {/* Center container relative for absolute positioning */}
+      <div className="relative flex-1">
+        {/* Canvas fills container */}
+        <BlocksManager undoableRef={undoableRef} />
+
+        {/* Info bar absolute positioned inside this relative container */}
+        {selectedId !== null && (
+          <>
+            <div
+              className={`w-4/12 bg-white absolute top-4 right-4 z-50 rounded shadow-lg pointer-events-auto`}
+            >
+              <ObjectPanel></ObjectPanel>
+            </div>
+            <div className="w-10/12 absolute bottom-4 left-1/2 transform -translate-x-1/2 z-50 rounded shadow-lg">
+              <ObjectInfoBar
+                rotation={
+                  blocks.find((b) => b.id === selectedId)?.rotation || [0, 0, 0]
+                }
+                position={
+                  blocks.find((b) => b.id === selectedId)?.position || [0, 0, 0]
+                }
+              />
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* GuidePanel */}
+      <div className="w-64 border-l border-gray-300">
+        <GuidePanel />
+      </div>
+
+      {/* Global controllers */}
       <GlobalControllers undoableRef={undoableRef} />
-
-      {selectedId !== null && (
-        <ObjectInfoBar
-          rotation={
-            blocks.find((b) => b.id === selectedId)?.rotation || [0, 0, 0]
-          }
-          position={
-            blocks.find((b) => b.id === selectedId)?.position || [0, 0, 0]
-          }
-        />
-      )}
-
-      <GuidePanel />
     </div>
   );
 };
