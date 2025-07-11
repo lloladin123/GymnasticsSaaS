@@ -28,6 +28,10 @@ const sections = [
         <li>
           <b>Arrow keys</b>: Move the selected block on the X/Z plane
         </li>
+        <li>
+          <b>Shift + Arrow Up/Down</b>: Move the selected block up/down on the Y
+          axis
+        </li>
       </ul>
     ),
   },
@@ -62,6 +66,15 @@ const sections = [
       <p>
         Use <b>Ctrl + Z</b> to undo your last action and <b>Ctrl + Shift + Z</b>{" "}
         to redo it.
+      </p>
+    ),
+  },
+  {
+    title: "📄 Duplicating",
+    content: (
+      <p>
+        Press <b>Ctrl + D</b> (or Cmd + D on Mac) to duplicate the selected
+        block.
       </p>
     ),
   },

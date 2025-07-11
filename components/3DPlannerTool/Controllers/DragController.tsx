@@ -1,61 +1,63 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { SNAP_VALUE } from "../config";
+import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
+import { updateBlockPosition } from "@/app/redux/slices/blocksSlice";
 
-interface DragControllerProps {
-  selectedId: number | null;
-  onMove: (id: number, delta: [number, number, number]) => void;
-  getPosition: (id: number) => [number, number, number] | undefined;
-}
+const DragController: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const selectedId = useAppSelector((state) => state.ui.selectedId);
+  const blocks = useAppSelector((state) => state.blocks.blocks);
 
-const DragController: React.FC<DragControllerProps> = ({
-  selectedId,
-  onMove,
-  getPosition,
-}) => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!selectedId) return;
+      if (selectedId === null) return;
 
       const moveKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
       if (!moveKeys.includes(e.key)) return;
 
-      e.preventDefault();
+      const block = blocks.find((b) => b.id === selectedId);
+      if (!block) return;
 
-      const delta: [number, number, number] = [0, 0, 0];
+      let delta: [number, number, number] = [0, 0, 0];
 
-      switch (e.key) {
-        case "ArrowUp":
-          delta[2] = -1;
-          break;
-        case "ArrowDown":
-          delta[2] = 1;
-          break;
-        case "ArrowLeft":
-          delta[0] = -1;
-          break;
-        case "ArrowRight":
-          delta[0] = 1;
-          break;
+      if (e.shiftKey) {
+        if (e.key === "ArrowUp") delta = [0, SNAP_VALUE, 0];
+        else if (e.key === "ArrowDown") delta = [0, -SNAP_VALUE, 0];
+        else return;
+      } else {
+        switch (e.key) {
+          case "ArrowUp":
+            delta = [0, 0, -SNAP_VALUE];
+            break;
+          case "ArrowDown":
+            delta = [0, 0, SNAP_VALUE];
+            break;
+          case "ArrowLeft":
+            delta = [-SNAP_VALUE, 0, 0];
+            break;
+          case "ArrowRight":
+            delta = [SNAP_VALUE, 0, 0];
+            break;
+        }
       }
 
-      const pos = getPosition(selectedId);
-      if (!pos) return;
-
       const newPos: [number, number, number] = [
-        pos[0] + delta[0],
-        pos[1],
-        pos[2] + delta[2],
+        block.position[0] + delta[0],
+        block.position[1] + delta[1],
+        block.position[2] + delta[2],
       ];
 
-      onMove(selectedId, newPos);
+      dispatch(updateBlockPosition({ id: selectedId, position: newPos }));
+      e.preventDefault();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedId, onMove, getPosition]);
+  }, [selectedId, blocks, dispatch]);
 
-  return null; // no UI
+  return null;
 };
 
 export default DragController;

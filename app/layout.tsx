@@ -8,6 +8,7 @@ import HeaderSideContent from "@/components/Header/HeaderSideContent";
 import "./Styles/components/buttons.scss";
 import "./Styles/components/forms.scss";
 import Link from "next/link";
+import ReduxProviderWrapper from "./ReduxProviderWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,19 +41,19 @@ export default function RootLayout({
             href="/"
             className="w-20 h-full flex items-center justify-center hover-scale-150 hover:opacity-80"
           >
-            <Logo></Logo>
+            <Logo />
           </Link>
           <div className="flex flex-1 items-center h-full">
             <div className="h-full w-full">
-              <NavBar></NavBar>
+              <NavBar />
             </div>
             <div className="order-1 hidden md:block">
-              <HeaderSideContent></HeaderSideContent>
+              <HeaderSideContent />
             </div>
           </div>
         </header>
-        {children}
-        <Footer></Footer>
+        <ReduxProviderWrapper>{children}</ReduxProviderWrapper>
+        <Footer />
       </body>
     </html>
   );

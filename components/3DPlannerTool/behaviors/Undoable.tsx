@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
   useEffect,
   useRef,
@@ -5,22 +7,26 @@ import React, {
   forwardRef,
 } from "react";
 import { Block } from "../types";
+import { useAppDispatch } from "@/app/redux/hooks";
+import { setBlocks } from "@/app/redux/slices/blocksSlice";
 
 export interface UndoableRef {
   undo: () => void;
   redo: () => void;
+  skipNext: () => void; // expose method to skip history push
 }
 
 interface UndoableProps {
   blocks: Block[];
-  setBlocks: React.Dispatch<React.SetStateAction<Block[]>>;
   maxHistory?: number;
   batchDelay?: number;
   children: React.ReactNode;
 }
 
 const Undoable = forwardRef<UndoableRef, UndoableProps>(
-  ({ blocks, setBlocks, children, maxHistory = 20, batchDelay = 300 }, ref) => {
+  ({ blocks, children, maxHistory = 20, batchDelay = 300 }, ref) => {
+    const dispatch = useAppDispatch();
+
     const historyRef = useRef<Block[][]>([]);
     const redoStackRef = useRef<Block[][]>([]);
     const prevSerialized = useRef<string>("");
@@ -63,7 +69,7 @@ const Undoable = forwardRef<UndoableRef, UndoableProps>(
           redoStackRef.current.push(current);
           const prev = historyRef.current[historyRef.current.length - 1];
           skipNextTrack.current = true;
-          setBlocks(prev.map((b) => ({ ...b })));
+          dispatch(setBlocks(prev.map((b) => ({ ...b }))));
         }
       },
       redo() {
@@ -71,8 +77,11 @@ const Undoable = forwardRef<UndoableRef, UndoableProps>(
           const redo = redoStackRef.current.pop()!;
           historyRef.current.push(redo);
           skipNextTrack.current = true;
-          setBlocks(redo.map((b) => ({ ...b })));
+          dispatch(setBlocks(redo.map((b) => ({ ...b }))));
         }
+      },
+      skipNext() {
+        skipNextTrack.current = true;
       },
     }));
 

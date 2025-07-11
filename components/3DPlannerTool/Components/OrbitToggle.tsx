@@ -1,14 +1,17 @@
-import { useFrame } from "@react-three/fiber";
-import React from "react";
+"use client";
 
-const OrbitToggle: React.FC<{ orbitRef: React.RefObject<any> }> = ({
-  orbitRef,
-}) => {
-  useFrame(() => {
+import { useEffect } from "react";
+
+const OrbitToggle: React.FC<{
+  orbitRef: React.RefObject<any>;
+  enabled: boolean;
+}> = ({ orbitRef, enabled }) => {
+  useEffect(() => {
     if (orbitRef.current) {
-      orbitRef.current.enabled = true;
+      orbitRef.current.enabled = enabled;
     }
-  });
+  }, [enabled]);
+
   return null;
 };
 
