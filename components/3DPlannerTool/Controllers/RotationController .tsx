@@ -16,11 +16,13 @@ const RotationController: React.FC<{ isActive: boolean }> = ({ isActive }) => {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey) return;
-
       if (selectedId === null) return;
 
       const block = blocks.find((b) => b.id === selectedId);
       if (!block) return;
+
+      // Skip rotation if locked
+      if (block.locked) return;
 
       const rotation = [...(block.rotation || [0, 0, 0])] as [
         number,
