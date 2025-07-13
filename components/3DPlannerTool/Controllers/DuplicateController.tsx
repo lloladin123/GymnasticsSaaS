@@ -15,33 +15,35 @@ const DuplicateController: React.FC<DuplicateControllerProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const selectedId = useAppSelector((state) => state.ui.selectedId);
+  const block = useAppSelector((state) =>
+    state.blocks.blocks.find((b) => b.id === selectedId)
+  );
 
   useEffect(() => {
     const handleKeyDown = async (e: KeyboardEvent) => {
       if (
         (e.ctrlKey || e.metaKey) &&
         e.key.toLowerCase() === "d" &&
-        selectedId !== null
+        selectedId !== null &&
+        block &&
+        !block.locked // Only allow duplicating if unlocked
       ) {
         e.preventDefault();
 
-        // Skip next undo history push if needed
         undoableRef?.current?.skipNext?.();
 
-        // Dispatch duplication and get new block ID (assuming it returns it)
         const actionResult = await dispatch(duplicateBlockById(selectedId));
-        // If your duplicateBlockById thunk returns the new block's ID as payload:
         const newBlockId = (actionResult as any).payload;
 
         if (newBlockId) {
-          dispatch(setSelectedId(newBlockId)); // Select the duplicated block
+          dispatch(setSelectedId(newBlockId));
         }
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedId, dispatch, undoableRef]);
+  }, [selectedId, block, dispatch, undoableRef]);
 
   return null;
 };

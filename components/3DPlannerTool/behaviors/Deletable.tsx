@@ -13,10 +13,18 @@ interface DeletableProps {
 const Deletable: React.FC<DeletableProps> = ({ id, children }) => {
   const dispatch = useAppDispatch();
   const selectedId = useAppSelector((state) => state.ui.selectedId);
+  const block = useAppSelector((state) =>
+    state.blocks.blocks.find((b) => b.id === id)
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.key === "Delete" || e.key === "Backspace") && selectedId === id) {
+      if (
+        (e.key === "Delete" || e.key === "Backspace") &&
+        selectedId === id &&
+        block &&
+        !block.locked // Only delete if not locked
+      ) {
         dispatch(deleteBlock(id));
         dispatch(setSelectedId(null));
       }
@@ -24,7 +32,7 @@ const Deletable: React.FC<DeletableProps> = ({ id, children }) => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [id, selectedId, dispatch]);
+  }, [id, selectedId, block, dispatch]);
 
   return <>{children}</>;
 };
