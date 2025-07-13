@@ -14,11 +14,13 @@ const DragController: React.FC = () => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedId === null) return;
 
-      const moveKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
-      if (!moveKeys.includes(e.key)) return;
-
       const block = blocks.find((b) => b.id === selectedId);
       if (!block) return;
+
+      if (block.locked) return; // Prevent moving if locked
+
+      const moveKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+      if (!moveKeys.includes(e.key)) return;
 
       let delta: [number, number, number] = [0, 0, 0];
 
