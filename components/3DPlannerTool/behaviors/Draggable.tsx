@@ -4,7 +4,7 @@ import React, { useRef, useImperativeHandle, forwardRef } from "react";
 import { useThree } from "@react-three/fiber";
 import { Mesh, Raycaster, Vector2, Vector3, Plane } from "three";
 import { SNAP_VALUE } from "../config";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import {
   setSelectedId,
   setDraggingId,
@@ -31,6 +31,12 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
     const plane = useRef(new Plane(new Vector3(0, 1, 0), -0.1));
     const intersection = new Vector3();
 
+    // Get locked state from Redux for this block
+    const isLocked = useAppSelector((state) => {
+      const block = state.blocks.blocks.find((b) => b.id === id);
+      return block?.locked ?? false;
+    });
+
     const dragging = useRef(false);
     const pointerStart = useRef<{ x: number; y: number } | null>(null);
     const dragThreshold = 3;
@@ -54,6 +60,8 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
     };
 
     const handlePointerMove = (e: PointerEvent) => {
+      if (isLocked) return; // Don't allow dragging if locked
+
       const { clientX, clientY } = e;
       if (!pointerStart.current) return;
 
@@ -92,6 +100,10 @@ const Draggable = forwardRef<Mesh, DraggableProps>(
         ref={meshRef}
         position={initialPosition}
         onPointerDown={(e) => {
+          if (isLocked) {
+            e.stopPropagation();
+            return; // Prevent drag start if locked
+          }
           e.stopPropagation();
           dispatch(setOrbitEnabled(false));
           pointerStart.current = { x: e.clientX, y: e.clientY };
