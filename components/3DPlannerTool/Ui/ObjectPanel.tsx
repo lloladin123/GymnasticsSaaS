@@ -2,7 +2,11 @@
 
 import React, { useState, useRef } from "react";
 import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
-import { updateBlockSize } from "@/app/redux/slices/blocksSlice";
+import {
+  updateBlockLock,
+  updateBlockSize,
+} from "@/app/redux/slices/blocksSlice";
+import { lockableBehaviors } from "../behaviors/behaviorsConfig";
 
 const ObjectPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -12,15 +16,21 @@ const ObjectPanel: React.FC = () => {
   );
 
   const [isOpen, setIsOpen] = useState(true);
-  const [isLocked, setIsLocked] = useState(false);
 
   if (!block) return <div>Select a block</div>;
 
+  const canResize =
+    block && !block.locked && block.behaviors?.includes("resizable");
+
   const setSize = (index: 0 | 1 | 2, value: number) => {
-    if (isLocked) return;
+    if (!canResize) return;
     const newSize = [...(block.size ?? [1, 1, 1])] as [number, number, number];
     newSize[index] = value;
     dispatch(updateBlockSize({ id: block.id, size: newSize }));
+  };
+
+  const toggleLock = () => {
+    dispatch(updateBlockLock({ id: block.id, locked: !block.locked }));
   };
 
   const EditableNumber = ({
@@ -29,18 +39,21 @@ const ObjectPanel: React.FC = () => {
     min,
     max,
     step = 1,
+    disabled = false,
   }: {
     value: number;
     onChange: (v: number) => void;
     min: number;
     max: number;
     step?: number;
+    disabled?: boolean;
   }) => {
     const [editing, setEditing] = useState(false);
     const [tempValue, setTempValue] = useState(value);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const startEditing = () => {
+      if (disabled) return;
       setTempValue(value);
       setEditing(true);
       setTimeout(() => inputRef.current?.focus(), 0);
@@ -70,6 +83,7 @@ const ObjectPanel: React.FC = () => {
           min={min}
           max={max}
           step={step}
+          disabled={disabled}
           onChange={(e) => setTempValue(parseFloat(e.target.value))}
           onBlur={finishEditing}
           onKeyDown={onKeyDown}
@@ -80,8 +94,10 @@ const ObjectPanel: React.FC = () => {
     return (
       <span
         onClick={startEditing}
-        className="w-12 text-right font-mono cursor-pointer select-none"
-        title="Click to edit"
+        className={`w-12 text-right font-mono cursor-pointer select-none ${
+          disabled ? "text-gray-400 cursor-not-allowed" : ""
+        }`}
+        title={disabled ? "Locked" : "Click to edit"}
       >
         {value}
       </span>
@@ -95,6 +111,7 @@ const ObjectPanel: React.FC = () => {
     min,
     max,
     step = 1,
+    disabled = false,
   }: {
     label: string;
     value: number;
@@ -102,6 +119,7 @@ const ObjectPanel: React.FC = () => {
     min: number;
     max: number;
     step?: number;
+    disabled?: boolean;
   }) => (
     <div className="flex items-center space-x-4 mb-4">
       <label className="w-24 font-medium">{label}</label>
@@ -113,6 +131,7 @@ const ObjectPanel: React.FC = () => {
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
         className="w-30"
+        disabled={disabled}
       />
       <EditableNumber
         value={value}
@@ -120,6 +139,7 @@ const ObjectPanel: React.FC = () => {
         min={min}
         max={max}
         step={step}
+        disabled={disabled}
       />
     </div>
   );
@@ -133,13 +153,21 @@ const ObjectPanel: React.FC = () => {
           <label className="flex items-center cursor-pointer select-none">
             <input
               type="checkbox"
-              checked={isLocked}
-              onChange={() => setIsLocked((v) => !v)}
+              checked={block.locked ?? false} // use block locked state from Redux
+              onChange={() =>
+                dispatch(
+                  updateBlockLock({
+                    id: block.id,
+                    locked: !(block.locked ?? false),
+                  })
+                )
+              }
               className="hidden"
               aria-label="Lock Object"
             />
-            <span>{isLocked ? "🔒" : "🔓"}</span>
+            <span>{block.locked ? "🔒" : "🔓"}</span>
           </label>
+
           <button
             aria-label={isOpen ? "Collapse panel" : "Expand panel"}
             onClick={() => setIsOpen((v) => !v)}
@@ -153,7 +181,6 @@ const ObjectPanel: React.FC = () => {
       {/* Content */}
       {isOpen && (
         <>
-          <h2 className="font-black">--- Work in progress ---</h2>
           <SliderRow
             label="Length"
             value={block.size?.[0] ?? 1}
@@ -161,6 +188,7 @@ const ObjectPanel: React.FC = () => {
             min={0.1}
             max={100}
             step={0.1}
+            disabled={!canResize}
           />
           <SliderRow
             label="Height"
@@ -169,6 +197,7 @@ const ObjectPanel: React.FC = () => {
             min={0.1}
             max={100}
             step={0.1}
+            disabled={!canResize}
           />
           <SliderRow
             label="Width"
@@ -177,6 +206,7 @@ const ObjectPanel: React.FC = () => {
             min={0.1}
             max={100}
             step={0.1}
+            disabled={!canResize}
           />
         </>
       )}

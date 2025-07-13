@@ -9,6 +9,7 @@ import Deletable from "../behaviors/Deletable";
 import Selectable from "../behaviors/Selectable";
 import { useAppSelector, useAppDispatch } from "@/app/redux/hooks";
 import { setSelectedId } from "@/app/redux/slices/uiSlice";
+import Lockable from "../behaviors/Lockable";
 
 interface BlockProps {
   id: number;
@@ -36,6 +37,10 @@ const Block: React.FC<BlockProps> = ({
   const size = useAppSelector((state) => {
     const block = state.blocks.blocks.find((b) => b.id === id);
     return (block?.size ?? [1, 1, 1]) as [number, number, number];
+  });
+  const locked = useAppSelector((state) => {
+    const block = state.blocks.blocks.find((b) => b.id === id);
+    return block?.locked ?? false;
   });
 
   const isSelected = selectedId === id;
@@ -74,6 +79,8 @@ const Block: React.FC<BlockProps> = ({
       </Draggable>
     );
   }
+
+  content = <Lockable locked={locked}>{content}</Lockable>;
 
   return content;
 };

@@ -82,6 +82,15 @@ const blocksSlice = createSlice({
     setBlocks(state, action: PayloadAction<Block[]>) {
       state.blocks = action.payload;
     },
+    updateBlockLock(
+      state,
+      action: PayloadAction<{ id: number; locked: boolean }>
+    ) {
+      const block = state.blocks.find((b) => b.id === action.payload.id);
+      if (block) {
+        block.locked = action.payload.locked;
+      }
+    },
   },
 });
 
@@ -92,7 +101,8 @@ export const {
   updateBlockSize,
   duplicateBlock,
   deleteBlock,
-  setBlocks, // make sure to export it
+  setBlocks,
+  updateBlockLock,
 } = blocksSlice.actions;
 
 export default blocksSlice.reducer;

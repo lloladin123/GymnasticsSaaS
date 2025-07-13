@@ -39,6 +39,7 @@ const CanvasScene: React.FC = () => {
         "rotatable",
         "deletable",
         "duplicatable",
+        "resizable",
       ],
       position: [0, 0.1, 0] as [number, number, number],
       rotation: [0, 0, 0] as [number, number, number],

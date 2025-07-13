@@ -5,4 +5,5 @@ export interface Block {
   position: [number, number, number];
   rotation: [number, number, number];
   size: [number, number, number];
+  locked?: boolean;
 }
