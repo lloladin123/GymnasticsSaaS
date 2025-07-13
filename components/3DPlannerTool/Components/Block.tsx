@@ -49,7 +49,12 @@ const Block: React.FC<BlockProps> = ({
   // Base content with selectable behavior and passing size to MeshRepresentation
   let content = (
     <Selectable id={id}>
-      <MeshRepresentation type={type} isSelected={isSelected} size={size} />
+      <MeshRepresentation
+        type={type}
+        id={id}
+        isSelected={isSelected}
+        size={size}
+      />
     </Selectable>
   );
 
